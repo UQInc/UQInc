@@ -76,7 +76,7 @@ pub async fn main() {
     // println!("{}",test_event.students_awarded);
     // test_event.students_awarded = 120;
     // println!("{}",test_event.students_awarded);
-      let _music_handle = std::thread::spawn(|| {
+    let _music_handle = std::thread::spawn(|| {
         music::music();
     });
     let _sound_handle = std::thread::spawn(|| {
