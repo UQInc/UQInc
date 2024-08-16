@@ -34,9 +34,6 @@ pub async fn main() {
     // let mut test_building = Building::build_building("mainRoom".to_string(), 10, 20, 1, 0);
     // test_building.btype = "building".to_string();
     // println!("{}",test_building.btype);
-
-#[macroquad::main("Camera")]
-pub async fn main() {
     let _music_handle = std::thread::spawn(|| {
         music::music();
     });
