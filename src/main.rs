@@ -1,7 +1,6 @@
 use macroquad;
 mod gui;
 use macroquad::prelude::*;
-
 struct Building {
     btype: String, // The type of building 
     width: i32,
@@ -29,11 +28,18 @@ impl Building{
         Building { btype, width, height, sps, perk_points}
     }
 }
+mod music;
 #[macroquad::main("Camera")]
 pub async fn main() {
     // let mut test_building = Building::build_building("mainRoom".to_string(), 10, 20, 1, 0);
     // test_building.btype = "building".to_string();
     // println!("{}",test_building.btype);
+
+#[macroquad::main("Camera")]
+pub async fn main() {
+    let _music_handle = std::thread::spawn(|| {
+        music::music();
+    });
     loop {
         gui::gui();
 
