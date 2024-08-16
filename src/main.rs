@@ -29,11 +29,21 @@ impl Building{
         Building { btype, width, height, sps, perk_points}
     }
 }
+impl Event{
+    fn build_event(students_awarded: i32, event_type: String, duration: i32, sps_modifier: i32)->Event{
+        Event {students_awarded, event_type, duration, sps_modifier}
+    }
+}
 #[macroquad::main("Camera")]
 pub async fn main() {
     // let mut test_building = Building::build_building("mainRoom".to_string(), 10, 20, 1, 0);
     // test_building.btype = "building".to_string();
     // println!("{}",test_building.btype);
+
+    // let mut test_event = Event::build_event(1, "Good".to_string(), 100, 1);
+    // println!("{}",test_event.students_awarded);
+    // test_event.students_awarded = 120;
+    // println!("{}",test_event.students_awarded);
     loop {
         gui::gui();
 
