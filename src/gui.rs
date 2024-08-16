@@ -1,22 +1,36 @@
-/* Gui implementation */
 use macroquad::prelude::*;
+
 pub fn gui() {
+    let screen_height = screen_height();
+    let screen_width = screen_width();
 
-    clear_background(LIGHTGRAY);
 
-        // Render some primitives in camera space
+    // Default game frame
+    // SHOULD BE CORRECT
+    let game_frame = Camera2D {
+        target: vec2(0.0, 0.0),
+        zoom: vec2(1.0, 1.0),
+        viewport: Some((0, 0, (screen_width * 0.7) as i32, screen_height as i32 * 2)),
+        ..Default::default()
+    };
 
-        set_camera(&Camera2D {
-            zoom: vec2(1., screen_width() / screen_height()),
-            ..Default::default()
-        });
-        draw_line(-0.4, 0.4, -0.8, 0.9, 0.05, BLUE);
-        draw_rectangle(-0.3, 0.3, 0.2, 0.2, GREEN);
-        draw_circle(0., 0., 0.1, YELLOW);
+    // Frame for buying upgrades, perks, etc.
+    // SHOULD BE CORRECT
+    let buy_frame = Camera2D {
+        target: vec2(0.0, 0.0),
+        zoom: vec2(1.0, 1.0),
+        viewport: Some(((screen_width * 0.7) as i32, 0, (screen_width * 0.3) as i32, screen_height as i32 * 2)),
+        ..Default::default()
+    };
 
-        // Back to screen space, render some text
+    // Draw the game frame
+    set_camera(&game_frame);
+    draw_rectangle(-1.0, 0.0, screen_width * 0.7, screen_height, GRAY);
 
-        set_default_camera();
-        draw_text("HELLO", 30.0, 200.0, 30.0, BLACK);
+    set_camera(&buy_frame);
+    draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, LIGHTGRAY);
 
+
+    // Reset to default camera
+    set_default_camera();
 }
