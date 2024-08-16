@@ -2,6 +2,7 @@ use macroquad;
 mod gui;
 use macroquad::prelude::*;
 
+
 struct Building {
     btype: String, // The type of building 
     width: i32,
