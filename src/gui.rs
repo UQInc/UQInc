@@ -25,10 +25,11 @@ pub fn gui() {
 
     // Draw the game frame
     set_camera(&game_frame);
-    draw_rectangle(-1.0, 0.0, screen_width * 0.7, screen_height, RED);
+    draw_rectangle(-1.0, 0.0, screen_width * 0.7, screen_height, GRAY);
 
     set_camera(&buy_frame);
-    draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, BLUE);
+    draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, LIGHTGRAY);
+
 
     // Reset to default camera
     set_default_camera();
