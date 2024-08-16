@@ -23,6 +23,13 @@ struct Event {
     spsModifier: i32 // Multiplier that effects overall sps rate 
 }
 
+
+impl Score {
+    fn calcSps(modifiers: Vec<i32>) {
+        
+    }
+}
+
 #[macroquad::main("Camera")]
 pub async fn main() {
     loop {
@@ -31,3 +38,4 @@ pub async fn main() {
         next_frame().await
     }
 }
+
