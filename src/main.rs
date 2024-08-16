@@ -13,7 +13,8 @@ struct Building {
 struct Score {
     students: i32, // Total number of students cummulated
     currStudents: i32, // Current number of avaliable students
-    totalSps: i32, // Total students per second value, what is being earnt
+    dps: i32, // Dollars per second value, what is being earnt
+    dollars: i32, // Currency
 }
 
 struct Event {
@@ -25,9 +26,23 @@ struct Event {
 
 
 impl Score {
-    fn calcSps(modifiers: Vec<i32>) {
-        
+    fn init() -> Self {
+        Score {
+            students: 0,
+            currStudents: 0,
+            dps: 1,
+            dollars: 0,
+        }
     }
+
+    fn calc_dps(&self, modifiers: Vec<i32>) -> i32 {
+        let mut new_sps: i32 = self.dps;
+        for i in modifiers.iter() {
+            new_sps *= i;
+        }
+        new_sps
+    }
+
 }
 
 #[macroquad::main("Camera")]
