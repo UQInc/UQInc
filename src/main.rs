@@ -34,6 +34,7 @@ impl Event{
         Event {students_awarded, event_type, duration, sps_modifier}
     }
 }
+mod music;
 #[macroquad::main("Camera")]
 pub async fn main() {
     // let mut test_building = Building::build_building("mainRoom".to_string(), 10, 20, 1, 0);
@@ -44,6 +45,9 @@ pub async fn main() {
     // println!("{}",test_event.students_awarded);
     // test_event.students_awarded = 120;
     // println!("{}",test_event.students_awarded);
+    let _music_handle = std::thread::spawn(|| {
+        music::music();
+    });
     loop {
         gui::gui();
 
