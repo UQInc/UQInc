@@ -1,7 +1,7 @@
 use macroquad;
 mod gui;
+use macroquad::audio::Sound;
 use macroquad::prelude::*;
-
 
 struct Building {
     btype: String, // The type of building 
@@ -67,14 +67,15 @@ pub async fn main() {
     // println!("{}",test_event.students_awarded);
     // test_event.students_awarded = 120;
     // println!("{}",test_event.students_awarded);
-    let _music_handle = std::thread::spawn(|| {
+      let _music_handle = std::thread::spawn(|| {
         music::music();
+    });
+    let _sound_handle = std::thread::spawn(|| {
+        music::sound_effect("src\\media\\sounds\\click.mp3", 1);
     });
     loop {
         gui::gui();
-
         next_frame().await
     }
-
 }
 
