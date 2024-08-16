@@ -1,5 +1,6 @@
 use macroquad;
 mod gui;
+mod music;
 use macroquad::audio::Sound;
 use macroquad::prelude::*;
 
@@ -56,7 +57,7 @@ impl Event{
         Event {students_awarded, event_type, duration, sps_modifier}
     }
 }
-mod music;
+
 
 fn window_conf() -> Conf {
     Conf {
