@@ -1,4 +1,6 @@
 use macroquad;
+mod gui;
+use macroquad::prelude::*;
 
 struct Building {
     btype: String,
@@ -6,8 +8,11 @@ struct Building {
     height: u32,
 }
 
-fn main() {
-    println!("Hello, world!");
+#[macroquad::main("Camera")]
+pub async fn main() {
+    loop {
+        gui::gui();
+
+        next_frame().await
+    }
 }
-
-
