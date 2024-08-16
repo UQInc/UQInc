@@ -17,7 +17,7 @@ pub fn music() {
     // Play the looping audio in the background
     stream_handle.play_raw(repeating_source.convert_samples()).unwrap();
 
-    // Keep the thread alie
+    // Keep the thread alive to prevent the audio from stopping
     loop {
         std::thread::sleep(Duration::from_secs(10));
     }
