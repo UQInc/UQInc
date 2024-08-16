@@ -59,7 +59,15 @@ impl Event{
 }
 
 
-#[macroquad::main("Camera")]
+fn window_conf() -> Conf {
+    Conf {
+        window_title: "UQ, Inc.".to_owned(),
+        fullscreen: true,
+        ..Default::default()
+    }
+}
+
+#[macroquad::main(window_conf)]
 pub async fn main() {
     // let mut test_building = Building::build_building("mainRoom".to_string(), 10, 20, 1, 0);
     // test_building.btype = "building".to_string();

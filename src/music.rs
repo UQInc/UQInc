@@ -23,12 +23,12 @@ pub fn music() {
     }
 }
 
-// Play sounds effect at given path for given lengt
-pub fn sound_effect(filePath: &str, _len: i32 ) {
+// Play sounds effect at given path for given length
+pub fn sound_effect(filePath: &str, len: u64) {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
 
     let file = File::open(filePath).unwrap();
     let source = Decoder::new(BufReader::new(file)).unwrap();
     stream_handle.play_raw(source.convert_samples()).unwrap();
-    std::thread::sleep(Duration::from_secs(5));
+    std::thread::sleep(Duration::from_secs(len));
 }
