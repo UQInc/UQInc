@@ -215,13 +215,17 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     //Scale the game map to fit a 1:1 aspect ratio and draw the game map
     let game_window_dimensions = ((screen_width * 0.7) as i32, screen_height as i32);
 
-    let map_size = min(game_window_dimensions.0, game_window_dimensions.1);
+    let texture = textures.get("Test1").unwrap();
+    let ratio = texture.width() / texture.height();
 
-    let map_x_pos = max(0, (game_window_dimensions.0 - map_size) / 2) as f32;
-    let map_y_pos = max(0, (game_window_dimensions.1 - map_size) / 2) as f32;
+    let map_size_x = min(game_window_dimensions.0, (game_window_dimensions.1 as f32 * ratio) as i32);
+    let map_size_y = map_size_x as f32 / ratio;
 
-    draw_texture_ex(textures.get("Test1").unwrap(), map_x_pos, map_y_pos, WHITE, DrawTextureParams {
-        dest_size: Some(Vec2::new(map_size as f32, map_size as f32)),
+    let map_x_pos = max(0, (game_window_dimensions.0 - map_size_x) / 2) as f32;
+    let map_y_pos = max(0, (game_window_dimensions.1 - map_size_y as i32) / 2) as f32;
+
+    draw_texture_ex(texture, map_x_pos, map_y_pos, WHITE, DrawTextureParams {
+        dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
         ..Default::default()
     });
 

@@ -259,7 +259,7 @@ fn start_game() -> GameState {
 async fn load_textures() -> HashMap<String, Texture2D> {
     let mut textures = HashMap::new();
 
-    textures.insert("Test1".to_string(), load_texture("media/images/fortnite_map.png").await.unwrap());
+    textures.insert("Test1".to_string(), load_texture("media/images/BACKGROUND.png").await.unwrap());
 
     textures
 }
