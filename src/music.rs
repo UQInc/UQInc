@@ -1,14 +1,20 @@
-use rodio::{Decoder, OutputStream, source::Source, Sink};
+use rodio::{Decoder, OutputStream, source::Source};
 use std::fs::File;
 use std::io::BufReader;
 use std::time::Duration;
+use std::path::{Path, PathBuf};
 
 // Play theme music
 pub fn music() {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
 
+    let mut switch = PathBuf::from("src");
+    switch.push("media");
+    switch.push("sounds");
+    switch.push("theme.mp3");
+
     // Get audio source
-    let file = File::open("src\\media\\sounds\\theme.mp3").unwrap();  // Replace with your audio file path
+    let file = File::open(switch).unwrap();  // Replace with your audio file path
     let source = Decoder::new(BufReader::new(file)).unwrap();
 
     // Create a looping audio source
@@ -24,7 +30,7 @@ pub fn music() {
 }
 
 // Play sounds effect at given path for given length
-pub fn sound_effect(filePath: &str, len: u64) {
+pub fn sound_effect(filePath: PathBuf, len: u64) {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
 
     let file = File::open(filePath).unwrap();

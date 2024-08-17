@@ -1,9 +1,13 @@
 use macroquad;
 mod gui;
 mod music;
-use macroquad::audio::Sound;
 use macroquad::prelude::*;
+use music::{music, sound_effect};
+use std::collections::{hash_map, HashMap};
+use std::thread::spawn;
 use std::time::{Duration, Instant};
+use std::path::{Path, PathBuf};
+use std::vec;
 
 struct Building {
     btype: String, // The type of building 
@@ -87,12 +91,21 @@ pub async fn main() {
     // println!("{}",test_event.students_awarded);
     // test_event.students_awarded = 120;
     // println!("{}",test_event.students_awarded);
-    let _music_handle = std::thread::spawn(|| {
-        music::music();
-    });
-    let _sound_handle = std::thread::spawn(|| {
-        music::sound_effect("src\\media\\sounds\\click.mp3", 1);
-    });
+
+    let sounds = setup_sounds();
+    // for (key, value) in sounds {
+    //     let _sound_handle = std::thread::spawn(move || {
+    //         music::sound_effect(value, 1)
+    //     });
+    //     _sound_handle.join().unwrap();
+    // }
+    
+    // let _sound_handle = std::thread::spawn(move || {
+    //     if let Some(protest) = sounds.get("protest").cloned() {
+    //         music::sound_effect(protest, 1)
+    //     }
+    // });
+
     start_game();
     loop {
         gui::gui();
@@ -116,4 +129,44 @@ pub async fn main() {
 fn start_game() -> Score {
     let mut score: Score = Score::init();
     score
+}
+
+fn setup_sounds() -> HashMap<String, PathBuf> {
+    let mut sounds: HashMap<String, PathBuf> = HashMap::new();
+
+    let mut protest = PathBuf::from("src");
+    protest.push("media");
+    protest.push("sounds");
+    protest.push("protest.mp3");
+    sounds.insert(String::from("protest"), protest);
+
+    let mut switch = PathBuf::from("src");
+    switch.push("media");
+    switch.push("sounds");
+    switch.push("switch.mp3");
+    sounds.insert(String::from("switch"), switch);
+
+    let mut yay = PathBuf::from("src");
+    yay.push("media");
+    yay.push("sounds");
+    yay.push("yay.mp3");
+    sounds.insert(String::from("yay"), yay);
+
+    let mut click = PathBuf::from("src");
+    click.push("media");
+    click.push("sounds");
+    click.push("click.mp3");
+    sounds.insert(String::from("click"), click);
+
+    let mut cash = PathBuf::from("src");
+    cash.push("media");
+    cash.push("sounds");
+    cash.push("cash.mp3");
+    sounds.insert(String::from("cash"), cash);
+    
+    // let _music_handle = std::thread::spawn(|| {
+    //     music::music();
+    // });
+
+    sounds
 }
