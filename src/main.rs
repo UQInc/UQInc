@@ -11,11 +11,10 @@ use std::vec;
 mod music;
 
 struct Building {
-    btype: String, // The type of building
-    width: i32,
-    height: i32,
+    name: String, // The type of building
     students: i32,    // Students per Second that this building generates
-    perk_points: i32, // Number of perk points awarded by purchasing this building
+    perk_points: i32,// Number of perk points awarded by purchasing this building
+    price: i32, // Price to purchase building
 }
 
 struct Score {
@@ -23,6 +22,7 @@ struct Score {
     dps: f32,           // Dollars per second value, what is being earned
     dollars: i32,       // Currency in the bank that can be spent
     student_rate: f32,  // The ratio of students/dollar (e.g., 1 student = $2/dps)
+    perk_points: i32, // Number of available perk points
 }
 
 struct Event {
@@ -54,15 +54,8 @@ impl Score {
             dps: 1.0,
             dollars: 0,
             student_rate: 1.0,
-        }
-    }
+            perk_points: 0,
 
-    fn build_score(curr_students: i32, dps: f32, dollars: i32) -> Self {
-        Score {
-            curr_students,
-            dps,
-            dollars,
-            student_rate: 1.0, // Default value or calculate based on other parameters
         }
     }
 
@@ -77,18 +70,16 @@ impl Score {
 
 impl Building {
     fn build_building(
-        btype: String,
-        width: i32,
-        height: i32,
+        name: String,
         students: i32,
         perk_points: i32,
+        price: i32,
     ) -> Building {
         Building {
-            btype,
-            width,
-            height,
+            name,
             students,
             perk_points,
+            price,
         }
     }
 }
@@ -155,18 +146,23 @@ pub async fn main() {
     let textures = load_textures().await;
 
     loop {
+<<<<<<< HEAD
+
+
+        gui::gui(&mut notification_manager);
+=======
         gui::gui(&mut notification_manager, &textures);
+>>>>>>> 58ddacf9a7c50aa5c3ac81e618165313f584baf4
 
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
             let (mouse_x, mouse_y) = mouse_position();
             if mouse_x < screen_width * 0.7 {
-                // Implement functions for the game.
+                // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
                 println!("Game clicked! {} {}", mouse_x, mouse_y);
                 game_state.score = clicked(game_state.score);
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
-                println!("Buy module clicked {} {}", mouse_x, mouse_y);
             }
         }
 
@@ -176,9 +172,9 @@ pub async fn main() {
     
 }
 
-fn clicked(score: Score) -> Score {
-    let new_score = Score::build_score(score.curr_students + 1, score.dps, score.dollars);
-    new_score
+fn clicked(mut score: Score) -> Score {
+    score.curr_students += 1;
+    score
 }
 
 fn start_game() -> GameState {
@@ -243,3 +239,4 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
 
     sounds
 }
+
