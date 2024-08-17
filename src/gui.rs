@@ -65,7 +65,6 @@ pub fn gui(notification_manager: &mut NotificationManager) {
     };
 
     let buy_frame_width = (screen_width * 0.7) / 2 as f32;
-    println!("{}", buy_frame_width);
 
     let stat_frame = Camera2D {
         target: vec2(0.0, 0.0),
