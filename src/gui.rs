@@ -167,8 +167,7 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     draw_rectangle(-1.0, 0.9, 2.0, 0.16, RED);
 
 
-    set_camera(&stat_frame);
-    draw_rectangle(0.0, 0.0, screen_width * 0.3, screen_height * 0.2, WHITE);
+    
   
     let widget_width = ((screen_width * 0.64) /2.) as f32;
 
@@ -176,8 +175,10 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         .label("Statistics")
         .titlebar(false)
         .ui(&mut *root_ui(), |ui| {
-            ui.label(Vec2::new(10., 10.), "Total Students: ");
-            ui.label(Vec2::new(10., 30.), "Currency $: ");
+            ui.label(Vec2::new(10., 10.), "Total Students:");
+            ui.label(Vec2::new(130., 10.), &game_state.score.curr_students.to_string());
+            ui.label(Vec2::new(250., 10.), "Currency $: ");
+            ui.label(Vec2::new(370., 10.), &game_state.score.dollars.to_string());
         });
     // Reset to default camera
     set_default_camera();
