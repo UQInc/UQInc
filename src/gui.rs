@@ -57,8 +57,8 @@ impl NotificationManager {
 pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Build";
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
-    let x_pos = (screen_width() * 0.1);
-    let y_pos = (screen_height() * 0.535);
+    let x_pos = screen_width() * 0.1;
+    let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
         x_pos,
@@ -77,8 +77,8 @@ pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
 pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Perks";
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
-    let x_pos = (screen_width() * 0.45);
-    let y_pos = (screen_height() * 0.535);
+    let x_pos = screen_width() * 0.45;
+    let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
         x_pos,
@@ -96,8 +96,8 @@ pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
 
 pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Stars";
-    let x_pos = (screen_width() * 0.8);
-    let y_pos = (screen_height() * 0.535);
+    let x_pos = screen_width() * 0.8;
+    let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
         x_pos,
@@ -228,6 +228,25 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
         ..Default::default()
     });
+
+    // Iterating through owned buildings.
+    for building in &game_state.owned_buildings {
+        let building_name = building.name;
+        if let Some(texture) = textures.get(building_name) {
+            draw_texture_ex(
+                texture,
+                map_x_pos,
+                map_y_pos,
+                WHITE,
+                DrawTextureParams {
+                    dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
+                    ..Default::default()
+                }
+            );
+        } else {
+            println!("Texture for building '{}' not found!", building_name);
+        }
+    }
 
     // Draw the buy frame
     set_camera(&buy_frame);

@@ -287,8 +287,6 @@ pub static CUMBRAESTEWART: Building = Building{
     price: 395000000,
 };
 
-
-
 pub static OCONNELL: Building = Building{
     name: "O'Connell Building",
     students: 250000,
