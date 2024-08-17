@@ -32,8 +32,8 @@ struct Event {
     students_awarded: i32, // Number of students this event gives (can be negative)
     event_type: String,    // Type/Name of event
     duration: Duration,    // How long the event lasts (seconds)
-    dps_modifier: i32,     // Multiplier that affects overall SPS rate
-    spc_modifier: i32,
+    dps_modifier: f32,     // Multiplier that affects overall SPS rate
+    spc_modifier: f32,
 }
 
 struct GameState {
@@ -78,8 +78,8 @@ impl Event {
         students_awarded: i32,
         event_type: String,
         duration: u64,
-        dps_modifier: i32,
-        spc_modifier: i32,
+        dps_modifier: f32,
+        spc_modifier: f32,
     ) -> Event {
         let duration = Duration::new(duration, 0);
         Event {
@@ -98,8 +98,8 @@ impl Default for Event {
             students_awarded: 0,
             event_type: "".to_string(),
             duration: Duration::from_secs(60),
-            dps_modifier: 1,
-            spc_modifier: 1,
+            dps_modifier: 1.,
+            spc_modifier: 1.,
         }
     }
 }
@@ -204,6 +204,8 @@ pub async fn main() {
     let textures = load_textures().await;
     let mut time_el = Instant::now();
     let time_req = Duration::from_secs(1);
+    let mut last_event_time = Instant::now();
+    let mut current_event: Option<Event> = None;
     loop {
         
         gui::gui(&mut notification_manager, &textures, &mut game_state);
@@ -235,9 +237,74 @@ pub async fn main() {
             game_state.score = update_money(game_state.score);
             time_el = Instant::now();
         };
+
+        // Check if ready for an event roll, if ready, roll for an event and add the new event.
+        if last_event_time.elapsed() >= Duration::from_secs(2) {
+            println!("EVENT TIME");
+            last_event_time = Instant::now();
+
+            let event = get_event_from_rand(rand::gen_range(0, 30), &game_state);
+
+            if event.is_some() {
+                println!("GOT EVENT");
+                current_event = event;
+            }
+        }
+    }
+}
+
+fn get_event_from_rand(num: i32, state: &GameState) -> Option<Event>{
+    if num == 0 {
+        // Inflation
+        let out = Event {
+            dps_modifier: 2.,
+            event_type: "CashProduction".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 1 {
+        // Good press
+        let out = Event {
+            students_awarded: (state.score.curr_students as f32 * 0.05) as i32,
+            event_type: "AddStudents".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 2 {
+        // Ranking increased
+        let out = Event {
+            spc_modifier: 2.,
+            event_type: "StudentsPerClick".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 3 {
+        // International sanctions
+        let out = Event {
+            dps_modifier: 0.5,
+            event_type: "CashProduction".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 4 {
+        // Bad Press
+        let out = Event {
+            students_awarded: (-state.score.curr_students as f32 * 0.05) as i32,
+            event_type: "AddStudents".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 5 {
+        // Pandemic
+        let out = Event {
+            spc_modifier: 0.5,
+            event_type: "StudentsPerClick".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
     }
 
-    
+    return None;
 }
 
 fn clicked(mut score: Score) -> Score {
