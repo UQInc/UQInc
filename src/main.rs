@@ -193,7 +193,7 @@ pub async fn main() {
 
         let screen_height = screen_height();
         let screen_width = screen_width();
-        let font_size = dynamic_font_size(100);
+        let font_size = dynamic_font_size(60.0);
 
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
@@ -305,12 +305,12 @@ fn update_money(mut score: Score) -> Score{
     score
 }
 
-fn dynamic_font_size(base_font_size: u16) -> u16 {
-    let reference_width: u16 = 1920;
-    let reference_height: u16 = 1080;
+fn dynamic_font_size(base_font_size: f32) -> u16 {
+    let reference_width = 1920.0;
+    let reference_height = 1080.0;
 
-    let screen_width = screen_width() as u16;
-    let screen_height = screen_height() as u16;
+    let screen_width = screen_width();
+    let screen_height = screen_height();
 
     // Calculate scaling factors for width and height
     let width_scale = screen_width / reference_width;
@@ -320,5 +320,5 @@ fn dynamic_font_size(base_font_size: u16) -> u16 {
     let scale_factor = width_scale.min(height_scale);
 
     let size = base_font_size * scale_factor;
-    size
+    size as u16
 }
