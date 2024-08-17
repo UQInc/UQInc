@@ -8,7 +8,7 @@ pub fn music() {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
 
     // Get audio source
-    let file = File::open("./src/media/sounds/theme.mp3").unwrap();
+    let file = File::open(".\\src\\media\\sounds\\theme.mp3").unwrap();
     let source = Decoder::new(BufReader::new(file)).unwrap();
 
     // Create a looping audio source
