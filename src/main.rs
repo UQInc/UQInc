@@ -3,6 +3,7 @@ mod gui;
 mod music;
 use macroquad::audio::Sound;
 use macroquad::prelude::*;
+use std::time::{Duration, Instant};
 
 struct Building {
     btype: String, // The type of building 
@@ -23,7 +24,14 @@ struct Event {
     students_awarded: i32, // Number of students this event gives (can be negative)
     event_type: String, // Type/Name of event
     duration: i32, // How long the even lasts (seconds)
-    sps_modifier: i32 // Multiplier that effects overall sps rate 
+    dps_modifier: i32 // Multiplier that effects overall sps rate 
+}
+
+struct GameState {
+    score: Score,
+    buildings: Vec<Building>,
+    events: Vec<Event>,
+    start_time: Instant,
 }
 
 //Implementation's here:
@@ -53,8 +61,8 @@ impl Building{
     }
 }
 impl Event{
-    fn build_event(students_awarded: i32, event_type: String, duration: i32, sps_modifier: i32)->Event{
-        Event {students_awarded, event_type, duration, sps_modifier}
+    fn build_event(students_awarded: i32, event_type: String, duration: i32, dps_modifier: i32)->Event{
+        Event {students_awarded, event_type, duration, dps_modifier}
     }
 }
 
@@ -69,6 +77,9 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 pub async fn main() {
+    // Use these variables for checking click.
+    let screen_height = screen_height();
+    let screen_width = screen_width();
     // let mut test_building = Building::build_building("mainRoom".to_string(), 10, 20, 1, 0);
     // test_building.btype = "building".to_string();
     // println!("{}",test_building.btype);
@@ -82,9 +93,27 @@ pub async fn main() {
     let _sound_handle = std::thread::spawn(|| {
         music::sound_effect("src\\media\\sounds\\click.mp3", 1);
     });
+    start_game();
     loop {
         gui::gui();
+        // Mouse button press function
+        if is_mouse_button_pressed(MouseButton::Left) {
+            let (mouse_x,mouse_y) = mouse_position();
+            if (mouse_x < screen_width * 0.7) {
+                // Implement functions for game.
+                println!("Game clicked! {} {}", mouse_x, mouse_y);
+            }
+            if (mouse_x > screen_width * 0.7) {
+                // Impmement function for buy module.
+                println!("Buy module clicked {} {}", mouse_x, mouse_y);
+            }
+       }
+        
         next_frame().await
     }
 }
 
+fn start_game() -> Score {
+    let mut score: Score = Score::init();
+    score
+}
