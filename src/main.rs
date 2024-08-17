@@ -146,13 +146,7 @@ pub async fn main() {
     let textures = load_textures().await;
 
     loop {
-<<<<<<< HEAD
-
-
-        gui::gui(&mut notification_manager);
-=======
         gui::gui(&mut notification_manager, &textures);
->>>>>>> 58ddacf9a7c50aa5c3ac81e618165313f584baf4
 
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
