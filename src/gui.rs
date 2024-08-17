@@ -54,19 +54,17 @@ impl NotificationManager {
     pub fn draw(&self) {}
 }
 
-pub fn build_textdraw(font: Option<&Font>) {
+pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Build";
-    let font_size = 100.0;
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
     let x_pos = (screen_width() * 0.1);
     let y_pos = (screen_height() * 0.535);
-    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
     draw_text_ex(
         text,
         x_pos,
         y_pos,
         TextParams {
-            font_size: font_size as u16,
+            font_size: font_size,
             font_scale: 0.7,        // Slight horizontal scale to make the text wider
             font_scale_aspect: 3.0, // Match the font scale to maintain proportions
             font: font,
@@ -76,19 +74,17 @@ pub fn build_textdraw(font: Option<&Font>) {
     );
 }
 
-pub fn perks_textdraw(font: Option<&Font>) {
+pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Perks";
-    let font_size = 100.0;
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
     let x_pos = (screen_width() * 0.45);
     let y_pos = (screen_height() * 0.535);
-    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
     draw_text_ex(
         text,
         x_pos,
         y_pos,
         TextParams {
-            font_size: font_size as u16,
+            font_size: font_size,
             font_scale: 0.7,        // Slight horizontal scale to make the text wider
             font_scale_aspect: 3.0, // Match the font scale to maintain proportions
             font: font,
@@ -98,19 +94,16 @@ pub fn perks_textdraw(font: Option<&Font>) {
     );
 }
 
-pub fn stars_textdraw(font: Option<&Font>) {
+pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Stars";
-    let font_size = 100.0;
-    let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
     let x_pos = (screen_width() * 0.8);
     let y_pos = (screen_height() * 0.535);
-    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
     draw_text_ex(
         text,
         x_pos,
         y_pos,
         TextParams {
-            font_size: font_size as u16,
+            font_size: font_size,
             font_scale: 0.7,        // Slight horizontal scale to make the text wider
             font_scale_aspect: 3.0, // Match the font scale to maintain proportions
             color: BLACK,
@@ -275,3 +268,5 @@ fn update_menu(mut menu: String, module: String) -> String{
     menu = module;
     menu
 }
+
+
