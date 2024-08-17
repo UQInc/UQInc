@@ -9,8 +9,7 @@ use std::path::{Path, PathBuf};
 pub fn music() {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
 
-    let mut switch = PathBuf::from("src");
-    switch.push("media");
+    let mut switch = PathBuf::from("media");
     switch.push("sounds");
     switch.push("theme.mp3");
 

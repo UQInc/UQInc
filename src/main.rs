@@ -108,6 +108,10 @@ fn window_conf() -> Conf {
 #[macroquad::main(window_conf)]
 pub async fn main() {
     //Vector containing all buildings
+    let sounds = setup_sounds();
+    // Use these variables for checking click.
+    
+    
     let mut buildings: Vec<&'static Building> = Vec::new();
     buildings.push(&FORGANSMITH);
     buildings.push(&GODDARD);
@@ -158,7 +162,6 @@ pub async fn main() {
 
     // Use these variables for checking click.
 
-    let sounds = setup_sounds();
     // for (key, value) in sounds {
     //     let _sound_handle = std::thread::spawn(move || {
     //         music::sound_effect(value, 1)
@@ -191,6 +194,7 @@ pub async fn main() {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
                 println!("Game clicked! {} {}", mouse_x, mouse_y);
                 game_state.score = clicked(game_state.score);
+                sound_effects(String::from("click"), &sounds);
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
             }
@@ -211,6 +215,15 @@ fn clicked(mut score: Score) -> Score {
     score.curr_students += 1;
     score
 }
+fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
+    if sound == "click" {
+        if let Some(path) = sounds.get("click").cloned() {
+            std::thread::spawn(move || {
+                music::sound_effect(path, 1);
+            });
+        }
+    }
+}
 
 fn start_game() -> GameState {
     let score: Score = Score::init();
@@ -230,7 +243,7 @@ fn start_game() -> GameState {
 async fn load_textures() -> HashMap<String, Texture2D> {
     let mut textures = HashMap::new();
 
-    textures.insert("Test1".to_string(), load_texture("src/media/images/fortnite_map.png").await.unwrap());
+    textures.insert("Test1".to_string(), load_texture("media/images/fortnite_map.png").await.unwrap());
 
     textures
 }
@@ -238,32 +251,27 @@ async fn load_textures() -> HashMap<String, Texture2D> {
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
 
-    let mut protest = PathBuf::from("src");
-    protest.push("media");
+    let mut protest = PathBuf::from("media");
     protest.push("sounds");
     protest.push("protest.mp3");
     sounds.insert(String::from("protest"), protest);
 
-    let mut switch = PathBuf::from("src");
-    switch.push("media");
+    let mut switch = PathBuf::from("media");
     switch.push("sounds");
     switch.push("switch.mp3");
     sounds.insert(String::from("switch"), switch);
 
-    let mut yay = PathBuf::from("src");
-    yay.push("media");
+    let mut yay = PathBuf::from("media");
     yay.push("sounds");
     yay.push("yay.mp3");
     sounds.insert(String::from("yay"), yay);
 
-    let mut click = PathBuf::from("src");
-    click.push("media");
+    let mut click = PathBuf::from("media");
     click.push("sounds");
     click.push("click.mp3");
     sounds.insert(String::from("click"), click);
 
-    let mut cash = PathBuf::from("src");
-    cash.push("media");
+    let mut cash = PathBuf::from("media");
     cash.push("sounds");
     cash.push("cash.mp3");
     sounds.insert(String::from("cash"), cash);
