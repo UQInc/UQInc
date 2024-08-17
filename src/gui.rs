@@ -1,17 +1,43 @@
 use macroquad::prelude::*;
 
-struct Student {
-    current_students: i64,
-    currency: i64,
-    dollars_ps: i64,
-}
-
 // Score implementations
-pub fn score () {
+pub fn score() {}
 
+pub struct Notification {
+    text: String,
+    timer: f32, // How long the notification should be displayed
 }
 
-pub fn gui() {
+pub struct NotificationManager {
+    notifications: Vec<Notification>,
+}
+
+impl NotificationManager {
+    pub fn new() -> Self {
+        Self {
+            notifications: Vec::new(),
+        }
+    }
+
+    pub fn add_notification(&mut self, text: String, duration: f32) {
+        self.notifications.push(Notification {
+            text,
+            timer: duration,
+        });
+    }
+
+    pub fn update(&mut self, delta_time: f32) {
+        // Update timers and remove expired notifications
+        self.notifications.retain_mut(|notification| {
+            notification.timer -= delta_time;
+            notification.timer > 0.0
+        });
+    }
+
+    pub fn draw(&self) {}
+}
+
+pub fn gui(notification_manager: &mut NotificationManager) {
     let screen_height = screen_height();
     let screen_width = screen_width();
 
@@ -30,7 +56,11 @@ pub fn gui() {
         target: vec2(0.0, 0.0),
         zoom: vec2(1.0, 1.0),
         viewport: Some((
-            (screen_width * 0.7) as i32, 0, (screen_width * 0.3) as i32, screen_height as i32 * 2)),
+            (screen_width * 0.7) as i32,
+            0,
+            (screen_width * 0.3) as i32,
+            screen_height as i32 * 2,
+        )),
         ..Default::default()
     };
 
@@ -41,12 +71,12 @@ pub fn gui() {
         target: vec2(0.0, 0.0),
         zoom: vec2(1.0, 1.0),
         viewport: Some((
-            (buy_frame_width - 800.0) as i32, 
-            (screen_height * 0.85) as i32, 
-            (screen_width * 0.7) as i32, 
-            (screen_height * 0.3) as i32
+            (buy_frame_width - 800.0) as i32,
+            (screen_height * 0.85) as i32,
+            (screen_width * 0.7) as i32,
+            (screen_height * 0.3) as i32,
         )),
-        
+
         ..Default::default()
     };
 
@@ -64,4 +94,6 @@ pub fn gui() {
     // Reset to default camera
     set_default_camera();
 
+    notification_manager.update(get_frame_time());
+    notification_manager.draw();
 }
