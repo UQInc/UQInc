@@ -42,6 +42,7 @@ struct GameState {
     start_time: Instant,      // When the game was launched
     stats: Statistics,
     menu_type: String,        // Gameplay stats
+    owned_buildings: Vec<Building>,
 }
 
 struct Statistics {
@@ -162,6 +163,9 @@ pub async fn main() {
     buildings.push(&LIVERIS);
     buildings.push(&ADVENG);
 
+
+    let mut owned_buildings: Vec<&'static Building> = Vec::new();
+
     // Use these variables for checking click.
 
     // for (key, value) in sounds {
@@ -246,6 +250,7 @@ fn start_game() -> GameState {
     let start_time = Instant::now();
     let stats: Statistics = Statistics::init();
     let menu_type: String = "build".to_string();
+    let owned_buildings: Vec<Building> = Vec::new();
     GameState {
         score,
         buildings,
@@ -253,6 +258,7 @@ fn start_game() -> GameState {
         start_time,
         stats,
         menu_type,
+        owned_buildings,
     }
 }
 
@@ -260,7 +266,6 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     let mut textures = HashMap::new();
 
     textures.insert("Test1".to_string(), load_texture("media/images/BACKGROUND.png").await.unwrap());
-
     textures
 }
 

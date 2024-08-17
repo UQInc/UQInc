@@ -229,6 +229,25 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         ..Default::default()
     });
 
+    // Iterating through owned buildings.
+    for building in &game_state.owned_buildings {
+        let building_name = building.name;
+        if let Some(texture) = textures.get(building_name) {
+            draw_texture_ex(
+                texture,
+                map_x_pos,
+                map_y_pos,
+                WHITE,
+                DrawTextureParams {
+                    dest_size: Some(Vec2::new(map_size as f32, map_size as f32)),
+                    ..Default::default()
+                }
+            );
+        } else {
+            println!("Texture for building '{}' not found!", building_name);
+        }
+    }
+
     // Draw the buy frame
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, BLACK);
