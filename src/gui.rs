@@ -211,6 +211,7 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     //     ..Default::default()
     // };
 
+    
     //Scale the game map to fit a 1:1 aspect ratio and draw the game map
     let game_window_dimensions = ((screen_width * 0.7) as i32, screen_height as i32);
 
