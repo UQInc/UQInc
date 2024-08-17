@@ -4,6 +4,7 @@ use macroquad::ui::{
     widgets::{self, Group},
     Drag, Ui,
 };
+use std::collections::HashMap;
 
 // Score implementations
 pub fn score() {}
@@ -42,7 +43,7 @@ impl NotificationManager {
     pub fn draw(&self) {}
 }
 
-pub fn gui(notification_manager: &mut NotificationManager) {
+pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>) {
     let screen_height = screen_height();
     let screen_width = screen_width();
     // Define the dimensions and positions of the rectangles
@@ -123,7 +124,7 @@ pub fn gui(notification_manager: &mut NotificationManager) {
         target: vec2(0.0, 0.0),
         zoom: vec2(1.0, 1.0),
         viewport: Some((
-            (buy_frame_width * -0.5) as i32,
+            (buy_frame_width - 800.0) as i32,
             (screen_height * 0.85) as i32,
             (screen_width * 0.7) as i32,
             (screen_height * 0.3) as i32,
@@ -139,6 +140,7 @@ pub fn gui(notification_manager: &mut NotificationManager) {
     // Draw the buy frame
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, LIGHTGRAY);
+
     // Draw smaller rectangles inside the buy frame
     draw_rectangle(-1.0, 0.0, 2.0, 0.1, GREEN); // Top rectangle, holds Build | Perks | Stats
     draw_rectangle(-1.0, 0.0, 0.66, 0.09, BLUE); // Stats
@@ -156,6 +158,8 @@ pub fn gui(notification_manager: &mut NotificationManager) {
 
     // Reset to default camera
     set_default_camera();
+
+    draw_texture(textures.get("Test1").unwrap(), 0., 0., WHITE);
 
     notification_manager.update(get_frame_time());
     notification_manager.draw();

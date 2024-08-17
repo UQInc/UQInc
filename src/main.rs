@@ -3,6 +3,7 @@ mod gui;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
 use std::collections::{hash_map, HashMap};
+use std::hash::Hash;
 use std::path::{Path, PathBuf};
 use std::thread::spawn;
 use std::time::{Duration, Instant};
@@ -142,11 +143,16 @@ pub async fn main() {
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
+    let textures = load_textures().await;
 
     loop {
+<<<<<<< HEAD
 
 
         gui::gui(&mut notification_manager);
+=======
+        gui::gui(&mut notification_manager, &textures);
+>>>>>>> 58ddacf9a7c50aa5c3ac81e618165313f584baf4
 
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
@@ -162,6 +168,8 @@ pub async fn main() {
 
         next_frame().await
     }
+
+    
 }
 
 fn clicked(mut score: Score) -> Score {
@@ -182,6 +190,14 @@ fn start_game() -> GameState {
         start_time,
         stats,
     }
+}
+
+async fn load_textures() -> HashMap<String, Texture2D> {
+    let mut textures = HashMap::new();
+
+    textures.insert("Test1".to_string(), load_texture("src/media/images/fortnite_map.png").await.unwrap());
+
+    textures
 }
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
