@@ -113,7 +113,20 @@ pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
     );
 }
 
-
+fn buy_building(game_state: &mut GameState){
+    println!("Test");
+    
+    if !game_state.buildings.is_empty() {
+        // Remove the building from index 0 and append it directly to owned_buildings
+        let building = game_state.buildings.remove(0);
+        game_state.owned_buildings.push(building);
+    }
+    
+    // for building in &game_state.buildings {
+    //     let building_name = building.name;
+    //     println!("{}",building_name);
+    // }
+}
 pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState, font: Option<&Font>) {
     
     let screen_height = screen_height();
@@ -130,7 +143,8 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         Rect::new(screen_width - buy_frame_width, screen_height * 0.61, buy_frame_width, screen_height * 0.16),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.78, buy_frame_width, screen_height * 0.16),
     ];
-
+    //Positioning variables for currency widget
+    
     // Handle click events
     if is_mouse_button_pressed(MouseButton::Left) {
         let mouse_position = mouse_position();
@@ -156,6 +170,7 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
                     },
                     3 => {
                         println!("CLICKED 3");
+                        buy_building(game_state);
                     },
                     4 => {
                         println!("CLICKED 4");
@@ -229,9 +244,22 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         ..Default::default()
     });
 
+    let widget_width = min(500, game_window_dimensions.0) as f32;
+    let window_position_x = (game_window_dimensions.0 as f32 - widget_width) / 2.;
+    let students_pos = 10.;
+    let currency_pos = if widget_width / 2. < 150. {students_pos} else {widget_width / 2.};
+    let currency_height = if currency_pos == 10. {34} else {10} as f32;
+    let widget_height = if currency_pos == 10. {65} else {50} as f32;
+    // root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
+    //     ui.label(Vec2::new(10., 10.), "Total Students:");
+    //     ui.label(Vec2::new(130., 10.), &(game_state.score.curr_students as i32).to_string());
+    //     ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
+    //     ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
+    // });
     // Iterating through owned buildings.
     for building in &game_state.owned_buildings {
         let building_name = building.name;
+        // println!("{}",building_name);
         if let Some(texture) = textures.get(building_name) {
             draw_texture_ex(
                 texture,
@@ -265,21 +293,8 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     draw_rectangle(-1.0, 0.78, 2.0, 0.16, LIGHTGRAY);
   
     //Positioning variables for currency widget
-    let widget_width = min(500, game_window_dimensions.0) as f32;
-    let window_position_x = (game_window_dimensions.0 as f32 - widget_width) / 2.;
-    let students_pos = 10.;
-    let currency_pos = if widget_width / 2. < 150. {students_pos} else {widget_width / 2.};
-    let currency_height = if currency_pos == 10. {34} else {10} as f32;
-    let widget_height = if currency_pos == 10. {65} else {50} as f32;
-
-
-    //Draw currency widget
-    root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
-        ui.label(Vec2::new(10., 10.), "Total Students:");
-        ui.label(Vec2::new(130., 10.), &(game_state.score.curr_students as i32).to_string());
-        ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
-        ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
-    });
+    
+    
 
     //If screen width has changed, move the window to new position
     root_ui().move_window(1, Vec2::new(window_position_x, 0.));
@@ -288,4 +303,13 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     set_default_camera();
     notification_manager.update(get_frame_time());
     notification_manager.draw();
+    
+
+    //Draw currency widget
+    root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
+        ui.label(Vec2::new(10., 10.), "Total Students:");
+        ui.label(Vec2::new(130., 10.), &(game_state.score.curr_students as i32).to_string());
+        ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
+        ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
+    });
 }
