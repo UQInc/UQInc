@@ -7,22 +7,113 @@ pub static FORGANSMITH: Building = Building{
     price: 10,
 };
 
-pub static HARTLEY_TEAK: Building = Building{
-    name: "Hartley Teak",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
-pub static BIO_SCIENCE_LIBRARY: Building = Building{
-    name: "Biological Sciences Library",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
 pub static GODDARD: Building = Building{
     name: "Goddard Building",
+    students: 75,
+    perk_points: 0,
+    price: 150,
+};
+
+pub static PARNELL: Building = Building{
+    name: "Parnell Building",
+    students: 200,
+    perk_points: 0,
+    price: 500,
+};
+
+pub static RICHARDS: Building = Building{
+    name: "Richards Building",
+    students: 450,
+    perk_points: 0,
+    price: 800,
+};
+
+pub static STEELEBUILDING: Building = Building{
+    name: "Steele Building",
+    students: 700,
+    perk_points: 0,
+    price: 2000,
+};
+
+pub static EZMART: Building = Building{
+    name: "EZ Mart",
+    students: 1000,
+    perk_points: 0,
+    price: 4000,
+};
+
+pub static CENTRALLIBRARY: Building = Building{
+    name: "Central Library",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static PRENTICE: Building = Building{
+    name: "Prentice Building",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static PRIESTLY: Building = Building{
+    name: "Priestly Building",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static LEARNINGINNOVATION: Building = Building{
+    name: "Learning Innovation Building",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static JOHNHINES: Building = Building{
+    name: "John Hines Building",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static UNIONFOODCOURT: Building = Building{
+    name: "UQ Union and Food Court",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static MCELWAIN: Building = Building{
+    name: "McElwain Building",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static CHAMBERLAIN: Building = Building{
+    name: "Chamberlain Building",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static ARTMUSEUM: Building = Building{
+    name: "Art Museum",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static OTTO: Building = Building{
+    name: "Otto Hirschfeld Building",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static MOLECULARBIOSCIENCE: Building = Building{
+    name: "Molecular BioScience Building",
     students: 0,
     perk_points: 0,
     price: 0,
@@ -35,8 +126,15 @@ pub static JDSTORY: Building = Building{
     price: 0,
 };
 
-pub static ARTMUSEUM: Building = Building{
-    name: "Art Museum",
+pub static HARTLEY_TEAK: Building = Building{
+    name: "Hartley Teak",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static BIO_SCIENCE_LIBRARY: Building = Building{
+    name: "Biological Sciences Library",
     students: 0,
     perk_points: 0,
     price: 0,
@@ -58,13 +156,6 @@ pub static WATERANDENVIRO: Building = Building{
 
 pub static CHEM: Building = Building{
     name: "Chemistry Building",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
-pub static LIVERIS: Building = Building{
-    name: "Andrew N. Liveris Building",
     students: 0,
     perk_points: 0,
     price: 0,
@@ -119,20 +210,6 @@ pub static GPSOUTH: Building = Building{
     price: 0,
 };
 
-pub static CENTRALLIBRARY: Building = Building{
-    name: "Central Library",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
-pub static ADVENG: Building = Building{
-    name: "Advanced Engineering",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
 pub static GPNORTH: Building = Building{
     name: "General Purpose North",
     students: 0,
@@ -163,20 +240,6 @@ pub static BUILDING41: Building = Building{
 
 pub static CUMBRAESTEWART: Building = Building{
     name: "Cumbrae-Stewart Building",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
-pub static CHAMBERLAIN: Building = Building{
-    name: "Chamberlain Building",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
-pub static MCELWAIN: Building = Building{
-    name: "McElwain Building",
     students: 0,
     perk_points: 0,
     price: 0,
@@ -224,22 +287,8 @@ pub static SCHONELLTHEATRE: Building = Building{
     price: 0,
 };
 
-pub static UNIONFOODCOURT: Building = Building{
-    name: "UQ Union and Food Court",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
 pub static BRIDGE: Building = Building{
     name: "Eleanor Schonell Bridge",
-    students: 0,
-    perk_points: 0,
-    price: 0,
-};
-
-pub static MOLECULARBIOSCIENCE: Building = Building{
-    name: "Molecular BioScience Building",
     students: 0,
     perk_points: 0,
     price: 0,
@@ -254,6 +303,20 @@ pub static PSYCHOLOGY: Building = Building{
 
 pub static KATHLEENLAMBOURNE: Building = Building{
     name: "Kathleen Lambourne Building",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static ADVENG: Building = Building{
+    name: "Advanced Engineering",
+    students: 0,
+    perk_points: 0,
+    price: 0,
+};
+
+pub static LIVERIS: Building = Building{
+    name: "Andrew N. Liveris Building",
     students: 0,
     perk_points: 0,
     price: 0,

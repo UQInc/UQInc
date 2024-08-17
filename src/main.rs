@@ -107,22 +107,35 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 pub async fn main() {
+    //Vector containing all buildings
     let sounds = setup_sounds();
     // Use these variables for checking click.
     
     
     let mut buildings: Vec<&'static Building> = Vec::new();
     buildings.push(&FORGANSMITH);
+    buildings.push(&GODDARD);
+    buildings.push(&PARNELL);
+    buildings.push(&RICHARDS);
+    buildings.push(&STEELEBUILDING);
+    buildings.push(&EZMART);
+    buildings.push(&CENTRALLIBRARY);
+    buildings.push(&PRENTICE);
+    buildings.push(&PRIESTLY);
+    buildings.push(&LEARNINGINNOVATION);
+    buildings.push(&JOHNHINES);
+    buildings.push(&UNIONFOODCOURT);
+    buildings.push(&MCELWAIN);
+    buildings.push(&CHAMBERLAIN);
+    buildings.push(&ARTMUSEUM);
+    buildings.push(&OTTO);
+    buildings.push(&MOLECULARBIOSCIENCE);
+    buildings.push(&JDSTORY);
     buildings.push(&HARTLEY_TEAK);
     buildings.push(&BIO_SCIENCE_LIBRARY);
-    buildings.push(&BIO_SCIENCE_LIBRARY);
-    buildings.push(&GODDARD);
-    buildings.push(&JDSTORY);
-    buildings.push(&ARTMUSEUM);
     buildings.push(&BRAININSTITUTE);
     buildings.push(&WATERANDENVIRO);
     buildings.push(&CHEM);
-    buildings.push(&LIVERIS);
     buildings.push(&MANSERGHSHAW);
     buildings.push(&HAWKEN);
     buildings.push(&JAMESFOOT);
@@ -130,26 +143,23 @@ pub async fn main() {
     buildings.push(&BIOENG);
     buildings.push(&IMAGINGCENTRE);
     buildings.push(&GPSOUTH);
-    buildings.push(&CENTRALLIBRARY);
-    buildings.push(&ADVENG);
     buildings.push(&GPNORTH);
     buildings.push(&UQBUSINESS);
     buildings.push(&ZELMANCOWEN);
     buildings.push(&BUILDING41);
     buildings.push(&CUMBRAESTEWART);
-    buildings.push(&CHAMBERLAIN);
-    buildings.push(&MCELWAIN);
     buildings.push(&FUNNYNUMBER);
     buildings.push(&OCONNELL);
     buildings.push(&GORDONGREENWOOD);
     buildings.push(&UQCENTRE);
     buildings.push(&BUILDING33);
     buildings.push(&SCHONELLTHEATRE);
-    buildings.push(&UNIONFOODCOURT);
     buildings.push(&BRIDGE);
-    buildings.push(&MOLECULARBIOSCIENCE);
     buildings.push(&PSYCHOLOGY);
     buildings.push(&KATHLEENLAMBOURNE);
+    buildings.push(&LIVERIS);
+    buildings.push(&ADVENG);
+
     // Use these variables for checking click.
 
     // for (key, value) in sounds {
@@ -164,6 +174,10 @@ pub async fn main() {
     //         music::sound_effect(protest, 1)
     //     }
     // });
+
+    let font = load_ttf_font("media/fonts/NewAmsterdam-Regular.ttf")
+    .await
+    .unwrap();
 
     // Initializes GameState struct
     let mut game_state = start_game();
@@ -189,6 +203,11 @@ pub async fn main() {
                 // Implement function for buy module.
             }
         }
+
+        gui::build_textdraw(Some(&font));
+        gui::perks_textdraw(Some(&font));
+        gui::stars_textdraw(Some(&font));
+
 
         next_frame().await;
         let duration = time_el.elapsed();
@@ -238,6 +257,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     textures
 }
 
+
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
 
@@ -280,3 +300,4 @@ fn update_money(mut score: Score) -> Score{
     
     score
 }
+
