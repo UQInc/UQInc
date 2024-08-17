@@ -153,13 +153,19 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     draw_rectangle(-1.0, 0.72, 2.0, 0.16, RED);
     draw_rectangle(-1.0, 0.9, 2.0, 0.16, RED);
 
-    set_camera(&stat_frame);
-    draw_rectangle(0.0, 0.0, screen_width * 0.3, screen_height * 0.2, WHITE);
+    let widget_width = ((screen_width * 0.64) /2.) as f32;
 
+    widgets::Window::new(hash!(), vec2(widget_width, 0.), vec2(550., 50.))
+        .label("Statistics")
+        .titlebar(false)
+        .ui(&mut *root_ui(), |ui| {
+            ui.label(Vec2::new(10., 10.), "Total Students: ");
+            ui.label(Vec2::new(10., 30.), "Currency $: ");
+        });
     // Reset to default camera
     set_default_camera();
 
-    draw_texture(textures.get("Test1").unwrap(), 0., 0., WHITE);
+    //draw_texture(textures.get("Test1").unwrap(), 0., 0., WHITE);
 
     notification_manager.update(get_frame_time());
     notification_manager.draw();
