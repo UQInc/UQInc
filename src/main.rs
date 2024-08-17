@@ -206,6 +206,7 @@ pub async fn main() {
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
+
     let textures = load_textures().await;
     let mut time_el = Instant::now();
     let time_req = Duration::from_secs(1);
@@ -381,6 +382,56 @@ fn start_game() -> GameState {
 }
 
 async fn load_textures() -> HashMap<String, Texture2D> {
+    let buildings = [
+        ("Test1", "media/images/BACKGROUND.png"),
+        ("Forgan Smith", "media/images/FORGANSMITH.png"),
+        ("Goddard Building", "media/images/GODDARD.png"),
+        ("Parnell Building", "media/images/PARNELL.png"),
+        ("Richards Building", "media/images/RICHARDS.png"),
+        ("Steele Building", "media/images/STEELEBUILDING.png"),
+        ("EZ Mart", "media/images/EZMART.png"),
+        ("Central Library", "media/images/CENTRALLIBRARY.png"),
+        // MISSING
+        ("Prentice Building", "media/images/RICHARDS.png"),
+        ("Learning Innovation Building", "media/images/LEARNINGINNOVATION.png"),
+        ("John Hines Building", "media/images/JOHNHINES.png"),
+        ("UQ Union and Food Court", "media/images/UNIONFOODCOURT.png"),
+        ("McElwain Building", "media/images/MCELWAIN.png"),
+        ("Chamberlain Building", "media/images/CHAMBERLAIN.png"),
+        ("Art Museum", "media/images/ARTMUSEUM.png"),
+        // Missing
+        ("Otto Hirschfeld Building", "media/images/RICHARDS.png"),
+        ("Molecular BioScience Building", "media/images/MOLECULARBIOSCIENCE.png"),
+        ("JD Story Administration Building", "media/images/JDSTORY.png"),
+        ("Hartley Teak", "media/images/HARTLEY_TEAK.png"),
+        ("Biological Science Library", "media/images/BIO_SCIENCE_LIBRARY.png"),
+        ("Brain Institution", "media/images/BRAININSTITUTE.png"),
+        ("Center for Water and Environmental Biotechnology", "media/images/WATERANDENVIRO.png"),
+        ("Chemistry Building", "media/images/CHEM.png"),
+        ("Mansergh Shaw Building", "media/images/MANSERGHSHAW.png"),
+        ("Hawken Engineering", "media/images/HAWKEN.png"),
+        ("Don Nicklin Building", "media/images/DONNICKLIN.png"),
+        ("Bioengineering Institute", "media/images/BIOENG.png"),
+        // CANT FIND
+        ("Advanced Imaging Centre", "media/images/RICHARDS.png"),
+        ("General Purpose South", "media/images/GPSOUTH.png"),
+        ("General Purpose North", "media/images/GPNORTH.png"),
+        ("UQ Business School", "media/images/UQBUSINESS.png"),
+        ("Zelman Cowen Building", "media/images/ZELMANCOWEN.png"),
+        ("Building 41", "media/images/41.png"),
+        ("23, 38, 31A", "media/images/33.png"),
+        ("Cumbrae-Stewart Building", "media/images/CUMBRAESTEWART.png"),
+        ("O'Connell Building", "media/images/OCONNELL.png"),
+        ("Gordon Greenwood Building", "media/images/GORDONGREENWOOD.png"),
+        ("UQ Centre", "media/images/UQCENTRE.png"),
+        ("Building 33", "media/images/33.png"),
+        ("Schonell Theatre", "media/images/SCHONELLTHEATRE.png"),
+        ("Psychology Building", "media/images/PSYCHOLOGY.png"),
+        ("Kathleen Lambourne Building", "media/images/KATHLEENLAMBOURNE.png"),
+        ("Advanced Engineering", "media/images/ADVENG.png"),
+        ("Andrew N. Liveris Building", "media/images/LIVERIS.png"),
+    ];
+
     let mut textures = HashMap::new();
     textures.insert("Test1".to_string(), load_texture("media/images/background.png").await.unwrap());
     // Loading textures of all buildings
@@ -453,8 +504,14 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     // NOT BEEN ADDED
     textures.insert("Andrew N. Liveris Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
 
+    for (name, path) in &buildings {
+        textures.insert(name.to_string(), load_texture(path).await.unwrap());
+    }
+
+
     textures
 }
+
 
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
