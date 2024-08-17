@@ -1,4 +1,5 @@
-use rodio::{Decoder, OutputStream, source::Source};
+
+use rodio::{source::Source, Decoder, OutputStream, Sink};
 use std::fs::File;
 use std::io::BufReader;
 use std::time::Duration;
@@ -21,7 +22,9 @@ pub fn music() {
     let repeating_source = source.repeat_infinite();
 
     // Play the looping audio in the background
-    stream_handle.play_raw(repeating_source.convert_samples()).unwrap();
+    stream_handle
+        .play_raw(repeating_source.convert_samples())
+        .unwrap();
 
     // Keep the thread alive to prevent the audio from stopping
     loop {
