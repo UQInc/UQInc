@@ -202,7 +202,6 @@ pub async fn main() {
             let (mouse_x, mouse_y) = mouse_position();
             if mouse_x < screen_width * 0.7 {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
-                println!("Game clicked! {} {}", mouse_x, mouse_y);
                 game_state.score = clicked(game_state.score);
                 sound_effects(String::from("click"), &sounds);
             } else if mouse_x > screen_width * 0.7 {
