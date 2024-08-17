@@ -1,3 +1,4 @@
+use buildings::*;
 use macroquad;
 mod gui;
 mod music;
@@ -106,6 +107,46 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 pub async fn main() {
+    let mut buildings: Vec<&'static Building> = Vec::new();
+    buildings.push(&FORGANSMITH);
+    buildings.push(&HARTLEY_TEAK);
+    buildings.push(&BIO_SCIENCE_LIBRARY);
+    buildings.push(&BIO_SCIENCE_LIBRARY);
+    buildings.push(&GODDARD);
+    buildings.push(&JDSTORY);
+    buildings.push(&ARTMUSEUM);
+    buildings.push(&BRAININSTITUTE);
+    buildings.push(&WATERANDENVIRO);
+    buildings.push(&CHEM);
+    buildings.push(&LIVERIS);
+    buildings.push(&MANSERGHSHAW);
+    buildings.push(&HAWKEN);
+    buildings.push(&JAMESFOOT);
+    buildings.push(&DONNICKLIN);
+    buildings.push(&BIOENG);
+    buildings.push(&IMAGINGCENTRE);
+    buildings.push(&GPSOUTH);
+    buildings.push(&CENTRALLIBRARY);
+    buildings.push(&ADVENG);
+    buildings.push(&GPNORTH);
+    buildings.push(&UQBUSINESS);
+    buildings.push(&ZELMANCOWEN);
+    buildings.push(&BUILDING41);
+    buildings.push(&CUMBRAESTEWART);
+    buildings.push(&CHAMBERLAIN);
+    buildings.push(&MCELWAIN);
+    buildings.push(&FUNNYNUMBER);
+    buildings.push(&OCONNELL);
+    buildings.push(&GORDONGREENWOOD);
+    buildings.push(&UQCENTRE);
+    buildings.push(&BUILDING33);
+    buildings.push(&SCHONELLTHEATRE);
+    buildings.push(&UNIONFOODCOURT);
+    buildings.push(&BRIDGE);
+    buildings.push(&MOLECULARBIOSCIENCE);
+    buildings.push(&PSYCHOLOGY);
+    buildings.push(&KATHLEENLAMBOURNE);
+
     // Use these variables for checking click.
     let screen_height = screen_height();
     let screen_width = screen_width();
