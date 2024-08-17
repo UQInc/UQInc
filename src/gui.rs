@@ -1,11 +1,43 @@
 use macroquad::prelude::*;
 
 // Score implementations
-pub fn score () {
+pub fn score() {}
 
+pub struct Notification {
+    text: String,
+    timer: f32, // How long the notification should be displayed
 }
 
-pub fn gui() {
+pub struct NotificationManager {
+    notifications: Vec<Notification>,
+}
+
+impl NotificationManager {
+    pub fn new() -> Self {
+        Self {
+            notifications: Vec::new(),
+        }
+    }
+
+    pub fn add_notification(&mut self, text: String, duration: f32) {
+        self.notifications.push(Notification {
+            text,
+            timer: duration,
+        });
+    }
+
+    pub fn update(&mut self, delta_time: f32) {
+        // Update timers and remove expired notifications
+        self.notifications.retain_mut(|notification| {
+            notification.timer -= delta_time;
+            notification.timer > 0.0
+        });
+    }
+
+    pub fn draw(&self) {}
+}
+
+pub fn gui(notification_manager: &mut NotificationManager) {
     let screen_height = screen_height();
     let screen_width = screen_width();
 
@@ -43,4 +75,6 @@ pub fn gui() {
     // Reset to default camera
     set_default_camera();
 
+    notification_manager.update(get_frame_time());
+    notification_manager.draw();
 }

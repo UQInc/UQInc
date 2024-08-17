@@ -60,6 +60,7 @@ impl Score {
         }
     }
 
+
     fn calc_dps(&self, modifiers: Vec<f32>) -> f32 {
         let mut new_dps: f32 = self.dps;
         for i in modifiers.iter() {
@@ -87,6 +88,7 @@ impl Building {
     }
 }
 
+
 impl Event {
     fn build_event(
         students_awarded: i32,
@@ -104,6 +106,7 @@ impl Event {
     }
 }
 
+
 impl Statistics {
     fn init() -> Self {
         Statistics {
@@ -113,6 +116,7 @@ impl Statistics {
         }
     }
 }
+
 
 fn window_conf() -> Conf {
     Conf {
@@ -137,9 +141,11 @@ pub async fn main() {
 
     // Initializes GameState struct
     let mut game_state = start_game();
+    let mut notification_manager = gui::NotificationManager::new();
+
 
     loop {
-        gui::gui(); // Pass score to gui function
+        gui::gui(&mut notification_manager);
 
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
