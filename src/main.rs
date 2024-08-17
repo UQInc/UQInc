@@ -1,5 +1,7 @@
 use macroquad;
 mod gui;
+mod music;
+mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
 use std::collections::{hash_map, HashMap};
@@ -8,10 +10,9 @@ use std::path::{Path, PathBuf};
 use std::thread::spawn;
 use std::time::{Duration, Instant};
 use std::vec;
-mod music;
 
 struct Building {
-    name: String, // The type of building
+    name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
     perk_points: i32,// Number of perk points awarded by purchasing this building
     price: i32, // Price to purchase building
@@ -68,22 +69,6 @@ impl Score {
     }
 }
 
-impl Building {
-    fn build_building(
-        name: String,
-        students: i32,
-        perk_points: i32,
-        price: i32,
-    ) -> Building {
-        Building {
-            name,
-            students,
-            perk_points,
-            price,
-        }
-    }
-}
-
 impl Event {
     fn build_event(
         students_awarded: i32,
@@ -121,6 +106,7 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 pub async fn main() {
+    
     // Use these variables for checking click.
     let screen_height = screen_height();
     let screen_width = screen_width();
@@ -138,15 +124,15 @@ pub async fn main() {
     //     }
     // });
 
-    start_game();
-
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
     let textures = load_textures().await;
-
+    let mut time_el = Instant::now();
+    let time_req = Duration::from_secs(1);
     loop {
-        gui::gui(&mut notification_manager, &textures);
+        
+        gui::gui(&mut notification_manager, &textures, &game_state);
 
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
@@ -160,7 +146,12 @@ pub async fn main() {
             }
         }
 
-        next_frame().await
+        next_frame().await;
+        let duration = time_el.elapsed();
+        if (duration >= time_req){
+            game_state.score = update_money(game_state.score);
+            time_el = Instant::now();
+        };
     }
 
     
@@ -234,3 +225,10 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
     sounds
 }
 
+fn update_money(mut score: Score) -> Score{
+    if(score.curr_students>0){
+        score.dollars += score.curr_students as i32;
+    }
+    
+    score
+}
