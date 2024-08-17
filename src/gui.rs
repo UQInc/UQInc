@@ -7,6 +7,7 @@ use macroquad::ui::{
 use std::cmp::{max, min};
 use std::collections::HashMap;
 use std::default;
+use std::thread::sleep;
 
 use crate::GameState;
 
@@ -48,6 +49,7 @@ impl NotificationManager {
 }
 
 pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &GameState) {
+    
     let screen_height = screen_height();
     let screen_width = screen_width();
     // Define the dimensions and positions of the rectangles
