@@ -1,17 +1,12 @@
-
 use macroquad;
 mod gui;
-mod music;
-
 use macroquad::prelude::*;
 use music::{music, sound_effect};
 use std::collections::{hash_map, HashMap};
+use std::path::{Path, PathBuf};
 use std::thread::spawn;
 use std::time::{Duration, Instant};
-use std::path::{Path, PathBuf};
 use std::vec;
-
-mod gui;
 mod music;
 
 struct Building {
@@ -70,7 +65,6 @@ impl Score {
         }
     }
 
-
     fn calc_dps(&self, modifiers: Vec<f32>) -> f32 {
         let mut new_dps: f32 = self.dps;
         for i in modifiers.iter() {
@@ -98,7 +92,6 @@ impl Building {
     }
 }
 
-
 impl Event {
     fn build_event(
         students_awarded: i32,
@@ -116,7 +109,6 @@ impl Event {
     }
 }
 
-
 impl Statistics {
     fn init() -> Self {
         Statistics {
@@ -126,7 +118,6 @@ impl Statistics {
         }
     }
 }
-
 
 fn window_conf() -> Conf {
     Conf {
@@ -148,7 +139,7 @@ pub async fn main() {
     //     });
     //     _sound_handle.join().unwrap();
     // }
-    
+
     // let _sound_handle = std::thread::spawn(move || {
     //     if let Some(protest) = sounds.get("protest").cloned() {
     //         music::sound_effect(protest, 1)
@@ -156,12 +147,6 @@ pub async fn main() {
     // });
 
     start_game();
-    let _music_handle = std::thread::spawn(|| {
-        music::music();
-    });
-    let _sound_handle = std::thread::spawn(|| {
-        music::sound_effect("src\\media\\sounds\\click.mp3", 1);
-    });
 
     // Initializes GameState struct
     let mut game_state = start_game();
@@ -239,10 +224,10 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
     cash.push("sounds");
     cash.push("cash.mp3");
     sounds.insert(String::from("cash"), cash);
-    
-    // let _music_handle = std::thread::spawn(|| {
-    //     music::music();
-    // });
+
+    let _music_handle = std::thread::spawn(|| {
+        music::music();
+    });
 
     sounds
 }
