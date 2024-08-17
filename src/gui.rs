@@ -119,7 +119,7 @@ pub fn stars_textdraw() {
 
 
 pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &GameState) {
-    
+    let mut menu_type: String = "build".to_string();
     let screen_height = screen_height();
     let screen_width = screen_width();
     let buy_frame_width = (screen_width * 0.7) / 2 as f32;
@@ -145,12 +145,18 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
                 match index {
                     0 => {
                         println!("CLICKED 0");
+                        menu_type = update_menu(menu_type, "build".to_string());
+                        println!("{}",menu_type);
                     },
                     1 => {
                         println!("CLICKED 1");
+                        menu_type = update_menu(menu_type, "perks".to_string());
+                        println!("{}",menu_type);
                     },
                     2 => {
                         println!("CLICKED 2");
+                        menu_type = update_menu(menu_type, "stats".to_string());
+                        println!("{}",menu_type);
                     },
                     3 => {
                         println!("CLICKED 3");
@@ -266,4 +272,8 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
 
     notification_manager.update(get_frame_time());
     notification_manager.draw();
+}
+fn update_menu(mut menu: String, module: String) -> String{
+    menu = module;
+    menu
 }
