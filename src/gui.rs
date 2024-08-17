@@ -65,13 +65,12 @@ pub fn gui(notification_manager: &mut NotificationManager) {
     };
 
     let buy_frame_width = (screen_width * 0.7) / 2 as f32;
-    println!("{}", buy_frame_width);
 
     let stat_frame = Camera2D {
         target: vec2(0.0, 0.0),
         zoom: vec2(1.0, 1.0),
         viewport: Some((
-            (buy_frame_width - 800.0) as i32,
+            (buy_frame_width * -0.5) as i32,
             (screen_height * 0.85) as i32,
             (screen_width * 0.7) as i32,
             (screen_height * 0.3) as i32,
@@ -87,7 +86,19 @@ pub fn gui(notification_manager: &mut NotificationManager) {
     // Draw the buy frame
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, LIGHTGRAY);
+    // Draw smaller rectangles inside the buy frame
+    draw_rectangle(-1.0, 0.0, 2.0, 0.2, GREEN);
+    draw_rectangle(-1.0, 0.21, 2.0, 0.2, RED);
+    draw_rectangle(-1.0, 0.42, 2.0, 0.2, RED);
+    draw_rectangle(-1.0, 0.63, 2.0, 0.2, RED);
+    draw_rectangle(-1.0, 0.84, 2.0, 0.2, RED);
 
+
+
+    // Add text within the rectangles
+    draw_text("Upgrade 1", -screen_width * 0.15 + 20.0, -screen_height * 0.5 + 40.0, 20.0, WHITE);
+    draw_text("Upgrade 2", -screen_width * 0.15 + 20.0, -screen_height * 0.5 + 100.0, 20.0, WHITE);
+    draw_text("Upgrade 3", -screen_width * 0.15 + 20.0, -screen_height * 0.5 + 160.0, 20.0, WHITE);
     set_camera(&stat_frame);
     draw_rectangle(0.0, 0.0, screen_width * 0.3, screen_height * 0.2, WHITE);
 
