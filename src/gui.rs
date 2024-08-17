@@ -4,7 +4,9 @@ use macroquad::ui::{
     widgets::{self, Group},
     Drag, Ui,
 };
+use std::cmp::{max, min};
 use std::collections::HashMap;
+use std::default;
 
 use crate::GameState;
 
@@ -97,14 +99,14 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
             }
         }
     }
-    // Default game frame
-    // viewport, x = 0, y = 0, width, height.
-    let game_frame = Camera2D {
-        target: vec2(0.0, 0.0),
-        zoom: vec2(1.0, 1.0),
-        viewport: Some((0, 0, (screen_width * 0.7) as i32, screen_height as i32 * 2)),
-        ..Default::default()
-    };
+    // // Default game frame
+    // // viewport, x = 0, y = 0, width, height.
+    // let game_frame = Camera2D {
+    //     target: vec2(0.0, 0.0),
+    //     zoom: vec2(1.0, 1.0),
+    //     viewport: Some((0, 0, (screen_width * 0.7) as i32, screen_height as i32 * 2)),
+    //     ..Default::default()
+    // };
 
     // Frame for buying upgrades, perks, etc.
     // viewport, x = 540, y = 0, width, height.
@@ -135,9 +137,18 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         ..Default::default()
     };
 
-    // Draw the game frame
-    set_camera(&game_frame);
-    draw_rectangle(-1.0, 0.0, screen_width * 0.7, screen_height, GRAY);
+    //Scale the game map to fit a 1:1 aspect ratio and draw the game map
+    let game_window_dimensions = ((screen_width * 0.7) as i32, screen_height as i32);
+
+    let map_size = min(game_window_dimensions.0, game_window_dimensions.1);
+
+    let map_x_pos = max(0, (game_window_dimensions.0 - map_size) / 2) as f32;
+    let map_y_pos = max(0, (game_window_dimensions.1 - map_size) / 2) as f32;
+
+    draw_texture_ex(textures.get("Test1").unwrap(), map_x_pos, map_y_pos, WHITE, DrawTextureParams {
+        dest_size: Some(Vec2::new(map_size as f32, map_size as f32)),
+        ..Default::default()
+    });
 
     // Draw the buy frame
     set_camera(&buy_frame);
@@ -155,6 +166,10 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     draw_rectangle(-1.0, 0.72, 2.0, 0.16, RED);
     draw_rectangle(-1.0, 0.9, 2.0, 0.16, RED);
 
+
+    set_camera(&stat_frame);
+    draw_rectangle(0.0, 0.0, screen_width * 0.3, screen_height * 0.2, WHITE);
+  
     let widget_width = ((screen_width * 0.64) /2.) as f32;
 
     widgets::Window::new(hash!(), vec2(widget_width, 0.), vec2(550., 50.))
@@ -167,7 +182,6 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     // Reset to default camera
     set_default_camera();
 
-    //draw_texture(textures.get("Test1").unwrap(), 0., 0., WHITE);
 
     notification_manager.update(get_frame_time());
     notification_manager.draw();
