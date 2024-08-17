@@ -275,9 +275,9 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     //Draw currency widget
     root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
         ui.label(Vec2::new(10., 10.), "Total Students:");
-        ui.label(Vec2::new(130., 10.), &game_state.score.curr_students.to_string());
+        ui.label(Vec2::new(130., 10.), &(game_state.score.curr_students as i32).to_string());
         ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
-        ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &game_state.score.dollars.to_string());
+        ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
     });
 
     //If screen width has changed, move the window to new position

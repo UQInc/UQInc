@@ -8,9 +8,9 @@ use music::{music, sound_effect};
 use std::collections::{hash_map, HashMap};
 use std::hash::Hash;
 use std::path::{Path, PathBuf};
-use std::thread::spawn;
-use std::time::{Duration, Instant};
-use std::vec;
+use std::thread::{current, spawn};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
+use std::{default, vec};
 
 struct Building {
     name: &'static str, // The type of building
@@ -21,9 +21,9 @@ struct Building {
 }
 
 struct Score {
-    curr_students: i32, // Current number of available students
+    curr_students: f64, // Current number of available students
     dps: f32,           // Dollars per second value, what is being earned
-    dollars: i32,       // Currency in the bank that can be spent
+    dollars: f64,       // Currency in the bank that can be spent
     student_rate: f32,  // The ratio of students/dollar (e.g., 1 student = $2/dps)
     perk_points: i32, // Number of available perk points
 }
@@ -32,7 +32,8 @@ struct Event {
     students_awarded: i32, // Number of students this event gives (can be negative)
     event_type: String,    // Type/Name of event
     duration: Duration,    // How long the event lasts (seconds)
-    dps_modifier: i32,     // Multiplier that affects overall SPS rate
+    dps_modifier: f32,     // Multiplier that affects overall SPS rate
+    spc_modifier: f32,
 }
 
 struct GameState {
@@ -55,9 +56,9 @@ struct Statistics {
 impl Score {
     fn init() -> Self {
         Score {
-            curr_students: 0,
+            curr_students: 0.,
             dps: 1.0,
-            dollars: 0,
+            dollars: 0.,
             student_rate: 1.0,
             perk_points: 0,
 
@@ -78,7 +79,8 @@ impl Event {
         students_awarded: i32,
         event_type: String,
         duration: u64,
-        dps_modifier: i32,
+        dps_modifier: f32,
+        spc_modifier: f32,
     ) -> Event {
         let duration = Duration::new(duration, 0);
         Event {
@@ -86,6 +88,19 @@ impl Event {
             event_type,
             duration,
             dps_modifier,
+            spc_modifier,
+        }
+    }
+}
+
+impl Default for Event {
+    fn default() -> Self {
+        Self {
+            students_awarded: 0,
+            event_type: "".to_string(),
+            duration: Duration::from_secs(60),
+            dps_modifier: 1.,
+            spc_modifier: 1.,
         }
     }
 }
@@ -185,14 +200,18 @@ pub async fn main() {
     .await
     .unwrap();
 
-
-
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
     let textures = load_textures().await;
     let mut time_el = Instant::now();
     let time_req = Duration::from_secs(1);
+    let mut last_event_time = Instant::now();
+    let mut current_event: Option<Event> = get_event_from_rand(0, &game_state);
+
+    // Seed random based on system time
+    rand::srand(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
+
     loop {
         
         gui::gui(&mut notification_manager, &textures, &mut game_state);
@@ -206,7 +225,7 @@ pub async fn main() {
             let (mouse_x, mouse_y) = mouse_position();
             if mouse_x < screen_width * 0.7 {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
-                game_state.score = clicked(game_state.score);
+                game_state.score = clicked(game_state.score, current_event.as_ref());
                 sound_effects(String::from("click"), &sounds);
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
@@ -220,19 +239,102 @@ pub async fn main() {
 
         next_frame().await;
         let duration = time_el.elapsed();
-        if duration >= time_req {
-            game_state.score = update_money(game_state.score);
+        if (duration >= time_req){
+            game_state.score = update_money(game_state.score, current_event.as_ref());
             time_el = Instant::now();
         };
+
+        // Check if ready for an event roll, if ready, roll for an event and add the new event.
+        if last_event_time.elapsed() >= Duration::from_secs(60) {
+            println!("Rolling for event");
+
+            last_event_time = Instant::now();
+
+            let event = get_event_from_rand(rand::gen_range(0, 30), &game_state);
+
+            if event.is_some() {
+                println!("Event Added");
+                current_event = event;
+
+                if current_event.as_ref().unwrap().event_type == "AddStudents" {
+                    game_state.score.curr_students += current_event.as_ref().unwrap().students_awarded as f64;
+                }
+            }
+        }
+
+        if current_event.as_ref().is_some() {
+            if last_event_time.elapsed() >= current_event.as_ref().unwrap().duration {
+                current_event = None;
+                println!("Removing Event");
+            }
+        }
+    }
+}
+
+fn get_event_from_rand(num: i32, state: &GameState) -> Option<Event>{
+    if num == 0 {
+        // Inflation
+        let out = Event {
+            dps_modifier: 2.,
+            event_type: "CashProduction".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 1 {
+        // Good press
+        let out = Event {
+            students_awarded: (state.score.curr_students as f32 * 0.05) as i32,
+            event_type: "AddStudents".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 2 {
+        // Ranking increased
+        let out = Event {
+            spc_modifier: 2.,
+            event_type: "StudentsPerClick".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 3 {
+        // International sanctions
+        let out = Event {
+            dps_modifier: 0.5,
+            event_type: "CashProduction".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 4 {
+        // Bad Press
+        let out = Event {
+            students_awarded: (-state.score.curr_students as f32 * 0.05) as i32,
+            event_type: "AddStudents".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
+    } else if num == 5 {
+        // Pandemic
+        let out = Event {
+            spc_modifier: 0.5,
+            event_type: "StudentsPerClick".to_string(),
+            ..Default::default()
+        };
+        return Option::from(out);
     }
 
-    
+    return None;
 }
 
-fn clicked(mut score: Score) -> Score {
-    score.curr_students += 1;
+fn clicked(mut score: Score, event: Option<&Event>) -> Score {
+    // Get the current event multiplier
+    let mut mult = 1.;
+    if event.is_some() {
+        mult = event.unwrap().spc_modifier;
+    }
+    score.curr_students += (1. * mult) as f64;
     score
 }
+
 fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
     if sound == "click" {
         if let Some(path) = sounds.get("click").cloned() {
@@ -374,9 +476,15 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
     sounds
 }
 
-fn update_money(mut score: Score) -> Score{
-    if score.curr_students>0 {
-        score.dollars += score.curr_students as i32;
+fn update_money(mut score: Score, event: Option<&Event>) -> Score{
+    // Get the current event multiplier
+    let mut mult = 1.;
+    if event.is_some() {
+        mult = event.unwrap().dps_modifier as f64;
+    }
+
+    if score.curr_students > 0. {
+        score.dollars += score.curr_students * mult;
     }
     
     score
