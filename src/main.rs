@@ -1,3 +1,4 @@
+use buildings::*;
 use macroquad;
 mod gui;
 mod music;
@@ -15,7 +16,8 @@ struct Building {
     name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
     perk_points: i32,// Number of perk points awarded by purchasing this building
-    price: i32, // Price to purchase building
+    description: &'static str,
+    price: i64, // Price to purchase building
 }
 
 struct Score {
@@ -106,11 +108,61 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 pub async fn main() {
-    
-    // Use these variables for checking click.
-    let screen_height = screen_height();
-    let screen_width = screen_width();
+    //Vector containing all buildings
     let sounds = setup_sounds();
+    // Use these variables for checking click.
+    
+    
+    let mut buildings: Vec<&'static Building> = Vec::new();
+    buildings.push(&FORGANSMITH);
+    buildings.push(&GODDARD);
+    buildings.push(&PARNELL);
+    buildings.push(&RICHARDS);
+    buildings.push(&STEELEBUILDING);
+    buildings.push(&EZMART);
+    buildings.push(&CENTRALLIBRARY);
+    buildings.push(&PRENTICE);
+    buildings.push(&PRIESTLY);
+    buildings.push(&LEARNINGINNOVATION);
+    buildings.push(&JOHNHINES);
+    buildings.push(&UNIONFOODCOURT);
+    buildings.push(&MCELWAIN);
+    buildings.push(&CHAMBERLAIN);
+    buildings.push(&ARTMUSEUM);
+    buildings.push(&OTTO);
+    buildings.push(&MOLECULARBIOSCIENCE);
+    buildings.push(&JDSTORY);
+    buildings.push(&HARTLEY_TEAK);
+    buildings.push(&BIO_SCIENCE_LIBRARY);
+    buildings.push(&BRAININSTITUTE);
+    buildings.push(&WATERANDENVIRO);
+    buildings.push(&CHEM);
+    buildings.push(&MANSERGHSHAW);
+    buildings.push(&HAWKEN);
+    buildings.push(&JAMESFOOT);
+    buildings.push(&DONNICKLIN);
+    buildings.push(&BIOENG);
+    buildings.push(&IMAGINGCENTRE);
+    buildings.push(&GPSOUTH);
+    buildings.push(&GPNORTH);
+    buildings.push(&UQBUSINESS);
+    buildings.push(&ZELMANCOWEN);
+    buildings.push(&BUILDING41);
+    buildings.push(&CUMBRAESTEWART);
+    buildings.push(&FUNNYNUMBER);
+    buildings.push(&OCONNELL);
+    buildings.push(&GORDONGREENWOOD);
+    buildings.push(&UQCENTRE);
+    buildings.push(&BUILDING33);
+    buildings.push(&SCHONELLTHEATRE);
+    buildings.push(&BRIDGE);
+    buildings.push(&PSYCHOLOGY);
+    buildings.push(&KATHLEENLAMBOURNE);
+    buildings.push(&LIVERIS);
+    buildings.push(&ADVENG);
+
+    // Use these variables for checking click.
+
     // for (key, value) in sounds {
     //     let _sound_handle = std::thread::spawn(move || {
     //         music::sound_effect(value, 1)
@@ -124,6 +176,12 @@ pub async fn main() {
     //     }
     // });
 
+    let font = load_ttf_font("media/fonts/NewAmsterdam-Regular.ttf")
+    .await
+    .unwrap();
+
+
+
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
@@ -134,6 +192,10 @@ pub async fn main() {
         
         gui::gui(&mut notification_manager, &textures, &game_state);
 
+        let screen_height = screen_height();
+        let screen_width = screen_width();
+        let font_size = dynamic_font_size(60.0);
+
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
             let (mouse_x, mouse_y) = mouse_position();
@@ -141,10 +203,16 @@ pub async fn main() {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
                 println!("Game clicked! {} {}", mouse_x, mouse_y);
                 game_state.score = clicked(game_state.score);
+                sound_effects(String::from("click"), &sounds);
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
             }
         }
+
+        gui::build_textdraw(Some(&font), font_size);
+        gui::perks_textdraw(Some(&font), font_size);
+        gui::stats_textdraw(Some(&font), font_size);
+
 
         next_frame().await;
         let duration = time_el.elapsed();
@@ -160,6 +228,15 @@ pub async fn main() {
 fn clicked(mut score: Score) -> Score {
     score.curr_students += 1;
     score
+}
+fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
+    if sound == "click" {
+        if let Some(path) = sounds.get("click").cloned() {
+            std::thread::spawn(move || {
+                music::sound_effect(path, 1);
+            });
+        }
+    }
 }
 
 fn start_game() -> GameState {
@@ -180,40 +257,37 @@ fn start_game() -> GameState {
 async fn load_textures() -> HashMap<String, Texture2D> {
     let mut textures = HashMap::new();
 
-    textures.insert("Test1".to_string(), load_texture("src/media/images/fortnite_map.png").await.unwrap());
+    textures.insert("Test1".to_string(), load_texture("media/images/fortnite_map.png").await.unwrap());
 
     textures
 }
 
+// test pull
+
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
 
-    let mut protest = PathBuf::from("src");
-    protest.push("media");
+    let mut protest = PathBuf::from("media");
     protest.push("sounds");
     protest.push("protest.mp3");
     sounds.insert(String::from("protest"), protest);
 
-    let mut switch = PathBuf::from("src");
-    switch.push("media");
+    let mut switch = PathBuf::from("media");
     switch.push("sounds");
     switch.push("switch.mp3");
     sounds.insert(String::from("switch"), switch);
 
-    let mut yay = PathBuf::from("src");
-    yay.push("media");
+    let mut yay = PathBuf::from("media");
     yay.push("sounds");
     yay.push("yay.mp3");
     sounds.insert(String::from("yay"), yay);
 
-    let mut click = PathBuf::from("src");
-    click.push("media");
+    let mut click = PathBuf::from("media");
     click.push("sounds");
     click.push("click.mp3");
     sounds.insert(String::from("click"), click);
 
-    let mut cash = PathBuf::from("src");
-    cash.push("media");
+    let mut cash = PathBuf::from("media");
     cash.push("sounds");
     cash.push("cash.mp3");
     sounds.insert(String::from("cash"), cash);
@@ -231,4 +305,22 @@ fn update_money(mut score: Score) -> Score{
     }
     
     score
+}
+
+fn dynamic_font_size(base_font_size: f32) -> u16 {
+    let reference_width = 1920.0;
+    let reference_height = 1080.0;
+
+    let screen_width = screen_width();
+    let screen_height = screen_height();
+
+    // Calculate scaling factors for width and height
+    let width_scale = screen_width / reference_width;
+    let height_scale = screen_height / reference_height;
+
+    // Use the smaller scale to maintain aspect ratio
+    let scale_factor = width_scale.min(height_scale);
+
+    let size = base_font_size * scale_factor;
+    size as u16
 }
