@@ -50,9 +50,9 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     let screen_width = screen_width();
     // Define the dimensions and positions of the rectangles
     let rects = [
-        Rect::new(0.0, 0.0, screen_width * 0.66, screen_height * 0.09),  // Stats
-        Rect::new(screen_width * 0.33, 0.0, screen_width * 0.66, screen_height * 0.09),  // Build
-        Rect::new(screen_width * 0.67, 0.0, screen_width * 0.66, screen_height * 0.09),  // Perks
+        Rect::new(0.5 * screen_width, 0.0, 0.66 * screen_width, 0.09 * screen_height),  // Stats
+        Rect::new((-0.33  + 1.0) * screen_width * 0.5, 0.0, 0.66 * screen_width, 0.09 * screen_height), // Build
+        Rect::new((0.34 + 1.0) * screen_width * 0.5, 0.0, 0.66 * screen_width, 0.09 * screen_height), // Perks
         Rect::new(0.0, screen_height * 0.18, screen_width * 2.0, screen_height * 0.16),  // Other red rectangles
         Rect::new(0.0, screen_height * 0.36, screen_width * 2.0, screen_height * 0.16),
         Rect::new(0.0, screen_height * 0.54, screen_width * 2.0, screen_height * 0.16),
