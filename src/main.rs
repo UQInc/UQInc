@@ -138,15 +138,13 @@ pub async fn main() {
     //     }
     // });
 
-    start_game();
-
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
     let textures = load_textures().await;
 
     loop {
-        gui::gui(&mut notification_manager, &textures);
+        gui::gui(&mut notification_manager, &textures, &game_state);
 
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {

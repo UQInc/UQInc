@@ -6,6 +6,8 @@ use macroquad::ui::{
 };
 use std::collections::HashMap;
 
+use crate::GameState;
+
 // Score implementations
 pub fn score() {}
 
@@ -43,7 +45,7 @@ impl NotificationManager {
     pub fn draw(&self) {}
 }
 
-pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>) {
+pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &GameState) {
     let screen_height = screen_height();
     let screen_width = screen_width();
     // Define the dimensions and positions of the rectangles
