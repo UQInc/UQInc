@@ -69,22 +69,6 @@ impl Score {
     }
 }
 
-impl Building {
-    const fn build_building(
-        name: String,
-        students: i32,
-        perk_points: i32,
-        price: i32,
-    ) -> Building {
-        Building {
-            name,
-            students,
-            perk_points,
-            price,
-        }
-    }
-}
-
 impl Event {
     fn build_event(
         students_awarded: i32,
