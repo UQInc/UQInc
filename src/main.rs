@@ -16,8 +16,8 @@ struct Building {
     name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
     perk_points: i32,// Number of perk points awarded by purchasing this building
-    price: i32, // Price to purchase building
     description: &'static str,
+    price: i64, // Price to purchase building
 }
 
 struct Score {
@@ -180,6 +180,8 @@ pub async fn main() {
     .await
     .unwrap();
 
+
+
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
@@ -192,6 +194,8 @@ pub async fn main() {
 
         let screen_height = screen_height();
         let screen_width = screen_width();
+        let font_size = dynamic_font_size(60.0);
+
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
             let (mouse_x, mouse_y) = mouse_position();
@@ -205,9 +209,9 @@ pub async fn main() {
             }
         }
 
-        gui::build_textdraw(Some(&font));
-        gui::perks_textdraw(Some(&font));
-        gui::stars_textdraw(Some(&font));
+        gui::build_textdraw(Some(&font), font_size);
+        gui::perks_textdraw(Some(&font), font_size);
+        gui::stats_textdraw(Some(&font), font_size);
 
 
         next_frame().await;
@@ -258,6 +262,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     textures
 }
 
+// test pull
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
@@ -302,3 +307,20 @@ fn update_money(mut score: Score) -> Score{
     score
 }
 
+fn dynamic_font_size(base_font_size: f32) -> u16 {
+    let reference_width = 1920.0;
+    let reference_height = 1080.0;
+
+    let screen_width = screen_width();
+    let screen_height = screen_height();
+
+    // Calculate scaling factors for width and height
+    let width_scale = screen_width / reference_width;
+    let height_scale = screen_height / reference_height;
+
+    // Use the smaller scale to maintain aspect ratio
+    let scale_factor = width_scale.min(height_scale);
+
+    let size = base_font_size * scale_factor;
+    size as u16
+}
