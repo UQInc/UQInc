@@ -45,13 +45,17 @@ struct Statistics {
 impl Score {
     fn init() -> Self {
         Score {
-            currStudents: 0,
-            dps: 1.0,
+            students: 0,
+            curr_students: 0,
+            dps: 1,
             dollars: 0,
             student_rate: 1.0
         }
     }
 
+    fn build_score(students: i32, curr_students: i32, dps: i32, dollars: i32)->Score{
+        Score { students, curr_students, dps, dollars}
+    }
     fn calc_dps(&self, modifiers: Vec<f32>) -> f32 {
         let mut new_sps: f32 = self.dps;
         for i in modifiers.iter() {
@@ -96,6 +100,9 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 pub async fn main() {
+    // Use these variables for checking click.
+    let screen_height = screen_height();
+    let screen_width = screen_width();
     // let mut test_building = Building::build_building("mainRoom".to_string(), 10, 20, 1, 0);
     // test_building.btype = "building".to_string();
     // println!("{}",test_building.btype);
@@ -103,20 +110,44 @@ pub async fn main() {
     // println!("{}",test_event.students_awarded);
     // test_event.students_awarded = 120;
     // println!("{}",test_event.students_awarded);
-      let _music_handle = std::thread::spawn(|| {
+    let _music_handle = std::thread::spawn(|| {
         music::music();
     });
     let _sound_handle = std::thread::spawn(|| {
         music::sound_effect("src\\media\\sounds\\click.mp3", 1);
     });
-    start_game();
+    //Initialises Score struct
+    let mut score = start_game();
+    println!("{}",score.curr_students);
     loop {
+        
         gui::gui();
+        // Mouse button press function
+        if is_mouse_button_pressed(MouseButton::Left) {
+            let (mouse_x,mouse_y) = mouse_position();
+            if (mouse_x < screen_width * 0.7) {
+                // Implement functions for game.
+                println!("Game clicked! {} {}", mouse_x, mouse_y);
+                // println!("{}",score.curr_students);
+                score = clicked(score);
+                // println!("{}",score.curr_students);
+                
+            }
+            if (mouse_x > screen_width * 0.7) {
+                // Impmement function for buy module.
+                println!("Buy module clicked {} {}", mouse_x, mouse_y);
+            }
+       }
+        
         next_frame().await
     }
 }
 
-fn start_game() -> GameState {
+fn clicked(score: Score) -> Score{
+    let new_score = Score::build_score(score.students+1, score.curr_students+1, score.dps, score.dollars);
+    return new_score
+}
+fn start_game() -> Score {
     let mut score: Score = Score::init();
     let mut buildings: Vec<Building> = Vec::new();
     let mut events: Vec<Event> = Vec::new();
