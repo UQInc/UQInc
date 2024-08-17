@@ -11,7 +11,11 @@ use std::path::{Path, PathBuf};
 use std::thread::{current, spawn};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use std::{default, vec};
-
+use macroquad::ui::{
+    hash, root_ui,
+    widgets::{self, Group},
+    Drag, Ui, Skin
+};
 struct Building {
     name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
@@ -129,7 +133,6 @@ pub async fn main() {
     let sounds = setup_sounds();
     // Use these variables for checking click.
     
-    
     let mut buildings: Vec<&'static Building> = Vec::new();
     buildings.push(&FORGANSMITH);
     buildings.push(&GODDARD);
@@ -211,10 +214,23 @@ pub async fn main() {
 
     // Seed random based on system time
     rand::srand(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
+    let label_style = root_ui()
+        .style_builder()
+        .font(include_bytes!("NewAmsterdam-Regular.ttf"))
+        .unwrap()
+        .font_size(20)
+        .build();
+    let currency_skin = 
+        Skin {
+            label_style,
+            ..root_ui().default_skin()
+        };
 
+    // Draw currency widget with custom font
+    root_ui().push_skin(&currency_skin);
     loop {
         
-        gui::gui(&mut notification_manager, &textures, &mut game_state);
+        gui::gui(&mut notification_manager, &textures, &mut game_state, Some(&font));
 
         let screen_height = screen_height();
         let screen_width = screen_width();
@@ -366,7 +382,7 @@ fn start_game() -> GameState {
 
 async fn load_textures() -> HashMap<String, Texture2D> {
     let mut textures = HashMap::new();
-    textures.insert("Test1".to_string(), load_texture("media/images/BACKGROUND.png").await.unwrap());
+    textures.insert("Test1".to_string(), load_texture("media/images/background.png").await.unwrap());
     // Loading textures of all buildings
     textures.insert("Forgan Smith".to_string(), load_texture("media/images/FORGANSMITH.png").await.unwrap());
     textures.insert("Goddard Building".to_string(), load_texture("media/images/FORGANSMITH.png").await.unwrap());

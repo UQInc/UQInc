@@ -3,7 +3,7 @@ use macroquad::ui::widgets::Window;
 use macroquad::ui::{
     hash, root_ui,
     widgets::{self, Group},
-    Drag, Ui,
+    Drag, Ui, Skin
 };
 use std::cmp::{max, min};
 use std::collections::HashMap;
@@ -114,7 +114,7 @@ pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
 }
 
 
-pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState) {
+pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState, font: Option<&Font>) {
     
     let screen_height = screen_height();
     let screen_width = screen_width();
@@ -271,6 +271,8 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     let currency_pos = if widget_width / 2. < 150. {students_pos} else {widget_width / 2.};
     let currency_height = if currency_pos == 10. {34} else {10} as f32;
     let widget_height = if currency_pos == 10. {65} else {50} as f32;
+
+
 
     //Draw currency widget
     root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
