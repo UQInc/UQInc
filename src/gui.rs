@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+use macroquad::ui::widgets::Window;
 use macroquad::ui::{
     hash, root_ui,
     widgets::{self, Group},
@@ -7,6 +8,7 @@ use macroquad::ui::{
 use std::cmp::{max, min};
 use std::collections::HashMap;
 use std::default;
+use std::thread::sleep;
 
 use crate::GameState;
 
@@ -47,19 +49,85 @@ impl NotificationManager {
     pub fn draw(&self) {}
 }
 
+pub fn build_textdraw() {
+    let text = "Build";
+    let font_size = 40.0;
+    let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
+    let x_pos = (screen_width() * 0.1);
+    let y_pos = (screen_height() * 0.535);
+    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
+    draw_text_ex(
+        text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size as u16,
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            color: BLACK,
+            ..Default::default()
+        },
+    );
+}
+
+pub fn perks_textdraw() {
+    let text = "Perks";
+    let font_size = 40.0;
+    let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
+    let x_pos = (screen_width() * 0.45);
+    let y_pos = (screen_height() * 0.535);
+    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
+    draw_text_ex(
+        text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size as u16,
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            color: BLACK,
+            ..Default::default()
+        },
+    );
+}
+
+pub fn stars_textdraw() {
+    let text = "Stars";
+    let font_size = 40.0;
+    let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
+    let x_pos = (screen_width() * 0.8);
+    let y_pos = (screen_height() * 0.535);
+    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
+    draw_text_ex(
+        text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size as u16,
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            color: BLACK,
+            ..Default::default()
+        },
+    );
+}
+
+
 pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &GameState) {
+    
     let screen_height = screen_height();
     let screen_width = screen_width();
+    let buy_frame_width = (screen_width * 0.7) / 2 as f32;
     // Define the dimensions and positions of the rectangles
     let rects = [
-        Rect::new(0.5 * screen_width, 0.0, 0.66 * screen_width, 0.09 * screen_height),  // Stats
-        Rect::new((-0.33  + 1.0) * screen_width * 0.5, 0.0, 0.66 * screen_width, 0.09 * screen_height), // Build
-        Rect::new((0.34 + 1.0) * screen_width * 0.5, 0.0, 0.66 * screen_width, 0.09 * screen_height), // Perks
-        Rect::new(0.0, screen_height * 0.18, screen_width * 2.0, screen_height * 0.16),  // Other red rectangles
-        Rect::new(0.0, screen_height * 0.36, screen_width * 2.0, screen_height * 0.16),
-        Rect::new(0.0, screen_height * 0.54, screen_width * 2.0, screen_height * 0.16),
-        Rect::new(0.0, screen_height * 0.72, screen_width * 2.0, screen_height * 0.16),
-        Rect::new(0.0, screen_height * 0.9, screen_width * 2.0, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, 0.0, 0.33 * buy_frame_width, 0.09 * screen_height),  // Stats
+        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 1.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Build
+        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 2.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Perks
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.18, buy_frame_width, screen_height * 0.16),  // Other red rectangles
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.36, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.54, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.72, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.9, buy_frame_width, screen_height * 0.16),
     ];
 
     // Handle click events
@@ -122,7 +190,7 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         ..Default::default()
     };
 
-    let buy_frame_width = (screen_width * 0.7) / 2 as f32;
+
 
     let stat_frame = Camera2D {
         target: vec2(0.0, 0.0),
@@ -155,34 +223,43 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, LIGHTGRAY);
 
     // Draw smaller rectangles inside the buy frame
-    draw_rectangle(-1.0, 0.0, 2.0, 0.1, GREEN); // Top rectangle, holds Build | Perks | Stats
+    draw_rectangle(-1.0, 0.0, 2.0, 0.1, BLACK); // Top rectangle, holds Build | Perks | Stats
     draw_rectangle(-1.0, 0.0, 0.66, 0.09, BLUE); // Stats
-    draw_rectangle(-0.33, 0.0, 0.66, 0.09, BLACK); // Build
-    draw_rectangle(0.34, 0.0, 0.66, 0.09, YELLOW); // Perks
+    draw_rectangle(-0.33, 0.0, 0.66, 0.09, GREEN); // Build
+    draw_rectangle(0.34, 0.0, 0.66, 0.09, ORANGE); // Perks
 
     draw_rectangle(-1.0, 0.18, 2.0, 0.16, RED);
     draw_rectangle(-1.0, 0.36, 2.0, 0.16, RED);
     draw_rectangle(-1.0, 0.54, 2.0, 0.16, RED);
     draw_rectangle(-1.0, 0.72, 2.0, 0.16, RED);
     draw_rectangle(-1.0, 0.9, 2.0, 0.16, RED);
-
-
-    
   
-    let widget_width = ((screen_width * 0.64) /2.) as f32;
+    //Positioning variables for currency widget
+    let widget_width = min(500, game_window_dimensions.0) as f32;
+    let window_position_x = (game_window_dimensions.0 as f32 - widget_width) / 2.;
+    let students_pos = 10.;
+    let currency_pos = if widget_width / 2. < 150. {students_pos} else {widget_width / 2.};
+    let currency_height = if currency_pos == 10. {34} else {10} as f32;
+    let widget_height = if currency_pos == 10. {65} else {50} as f32;
 
-    widgets::Window::new(hash!(), vec2(widget_width, 0.), vec2(550., 50.))
-        .label("Statistics")
-        .titlebar(false)
-        .ui(&mut *root_ui(), |ui| {
-            ui.label(Vec2::new(10., 10.), "Total Students:");
-            ui.label(Vec2::new(130., 10.), &game_state.score.curr_students.to_string());
-            ui.label(Vec2::new(250., 10.), "Currency $: ");
-            ui.label(Vec2::new(370., 10.), &game_state.score.dollars.to_string());
-        });
+    println!("{}", currency_pos);
+
+    //Draw currency widget
+    root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
+        ui.label(Vec2::new(10., 10.), "Total Students:");
+        ui.label(Vec2::new(130., 10.), &game_state.score.curr_students.to_string());
+        ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
+        ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &game_state.score.dollars.to_string());
+    });
+
+    //If screen width has changed, move the window to new position
+    root_ui().move_window(1, Vec2::new(window_position_x, 0.));
+
     // Reset to default camera
     set_default_camera();
-
+    build_textdraw();
+    perks_textdraw();
+    stars_textdraw();
 
     notification_manager.update(get_frame_time());
     notification_manager.draw();

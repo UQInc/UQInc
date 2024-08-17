@@ -146,10 +146,8 @@ pub async fn main() {
     buildings.push(&MOLECULARBIOSCIENCE);
     buildings.push(&PSYCHOLOGY);
     buildings.push(&KATHLEENLAMBOURNE);
-
     // Use these variables for checking click.
-    let screen_height = screen_height();
-    let screen_width = screen_width();
+
     let sounds = setup_sounds();
     // for (key, value) in sounds {
     //     let _sound_handle = std::thread::spawn(move || {
@@ -168,10 +166,14 @@ pub async fn main() {
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
     let textures = load_textures().await;
-
+    let mut time_el = Instant::now();
+    let time_req = Duration::from_secs(1);
     loop {
+        
         gui::gui(&mut notification_manager, &textures, &game_state);
 
+        let screen_height = screen_height();
+        let screen_width = screen_width();
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
             let (mouse_x, mouse_y) = mouse_position();
@@ -184,7 +186,12 @@ pub async fn main() {
             }
         }
 
-        next_frame().await
+        next_frame().await;
+        let duration = time_el.elapsed();
+        if (duration >= time_req){
+            game_state.score = update_money(game_state.score);
+            time_el = Instant::now();
+        };
     }
 
     
@@ -258,3 +265,10 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
     sounds
 }
 
+fn update_money(mut score: Score) -> Score{
+    if(score.curr_students>0){
+        score.dollars += score.curr_students as i32;
+    }
+    
+    score
+}
