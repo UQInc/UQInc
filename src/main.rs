@@ -10,7 +10,7 @@ use std::hash::Hash;
 use std::path::{Path, PathBuf};
 use std::thread::spawn;
 use std::time::{Duration, Instant};
-use std::vec;
+use std::{default, vec};
 
 struct Building {
     name: &'static str, // The type of building
@@ -33,6 +33,7 @@ struct Event {
     event_type: String,    // Type/Name of event
     duration: Duration,    // How long the event lasts (seconds)
     dps_modifier: i32,     // Multiplier that affects overall SPS rate
+    spc_modifier: i32,
 }
 
 struct GameState {
@@ -78,6 +79,7 @@ impl Event {
         event_type: String,
         duration: u64,
         dps_modifier: i32,
+        spc_modifier: i32,
     ) -> Event {
         let duration = Duration::new(duration, 0);
         Event {
@@ -85,6 +87,19 @@ impl Event {
             event_type,
             duration,
             dps_modifier,
+            spc_modifier,
+        }
+    }
+}
+
+impl Default for Event {
+    fn default() -> Self {
+        Self {
+            students_awarded: 0,
+            event_type: "".to_string(),
+            duration: Duration::from_secs(60),
+            dps_modifier: 1,
+            spc_modifier: 1,
         }
     }
 }
