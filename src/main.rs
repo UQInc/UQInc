@@ -3,6 +3,7 @@ mod gui;
 mod music;
 use macroquad::audio::Sound;
 use macroquad::prelude::*;
+use std::time::{Duration, Instant};
 
 struct Building {
     btype: String, // The type of building 
@@ -23,7 +24,14 @@ struct Event {
     students_awarded: i32, // Number of students this event gives (can be negative)
     event_type: String, // Type/Name of event
     duration: i32, // How long the even lasts (seconds)
-    sps_modifier: i32 // Multiplier that effects overall sps rate 
+    dps_modifier: i32 // Multiplier that effects overall sps rate 
+}
+
+struct GameState {
+    score: Score,
+    buildings: Vec<Building>,
+    events: Vec<Event>,
+    start_time: Instant,
 }
 
 //Implementation's here:
@@ -53,8 +61,8 @@ impl Building{
     }
 }
 impl Event{
-    fn build_event(students_awarded: i32, event_type: String, duration: i32, sps_modifier: i32)->Event{
-        Event {students_awarded, event_type, duration, sps_modifier}
+    fn build_event(students_awarded: i32, event_type: String, duration: i32, dps_modifier: i32)->Event{
+        Event {students_awarded, event_type, duration, dps_modifier}
     }
 }
 
@@ -82,9 +90,14 @@ pub async fn main() {
     let _sound_handle = std::thread::spawn(|| {
         music::sound_effect("src\\media\\sounds\\click.mp3", 1);
     });
+    start_game();
     loop {
         gui::gui();
         next_frame().await
     }
 }
 
+fn start_game() -> Score {
+    let mut score: Score = Score::init();
+    score
+}
