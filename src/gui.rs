@@ -121,11 +121,11 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         Rect::new(screen_width - buy_frame_width, 0.0, 0.33 * buy_frame_width, 0.09 * screen_height),  // Stats
         Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 1.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Build
         Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 2.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Perks
-        Rect::new(0.0, screen_height * 0.18, screen_width * 2.0, screen_height * 0.16),  // Other red rectangles
-        Rect::new(0.0, screen_height * 0.36, screen_width * 2.0, screen_height * 0.16),
-        Rect::new(0.0, screen_height * 0.54, screen_width * 2.0, screen_height * 0.16),
-        Rect::new(0.0, screen_height * 0.72, screen_width * 2.0, screen_height * 0.16),
-        Rect::new(0.0, screen_height * 0.9, screen_width * 2.0, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.18, buy_frame_width, screen_height * 0.16),  // Other red rectangles
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.36, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.54, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.72, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.9, buy_frame_width, screen_height * 0.16),
     ];
 
     // Handle click events
