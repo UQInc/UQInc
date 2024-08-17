@@ -61,8 +61,8 @@ pub fn build_textdraw() {
         y_pos,
         TextParams {
             font_size: font_size as u16,
-            font_scale: 1.2,        // Slight horizontal scale to make the text wider
-            font_scale_aspect: 1.2, // Match the font scale to maintain proportions
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
             color: BLACK,
             ..Default::default()
         },
@@ -82,8 +82,8 @@ pub fn perks_textdraw() {
         y_pos,
         TextParams {
             font_size: font_size as u16,
-            font_scale: 1.2,        // Slight horizontal scale to make the text wider
-            font_scale_aspect: 1.2, // Match the font scale to maintain proportions
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
             color: BLACK,
             ..Default::default()
         },
@@ -103,13 +103,14 @@ pub fn stars_textdraw() {
         y_pos,
         TextParams {
             font_size: font_size as u16,
-            font_scale: 1.2,        // Slight horizontal scale to make the text wider
-            font_scale_aspect: 1.2, // Match the font scale to maintain proportions
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
             color: BLACK,
             ..Default::default()
         },
     );
 }
+
 
 pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &GameState) {
     
