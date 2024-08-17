@@ -16,7 +16,8 @@ struct Building {
     name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
     perk_points: i32,// Number of perk points awarded by purchasing this building
-    price: i32, // Price to purchase building
+    description: &'static str,
+    price: i64, // Price to purchase building
 }
 
 struct Score {
@@ -261,6 +262,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     textures
 }
 
+// test pull
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
