@@ -49,7 +49,7 @@ impl NotificationManager {
     pub fn draw(&self) {}
 }
 
-pub fn build_textdraw() {
+pub fn build_textdraw(font: Option<&Font>) {
     let text = "Build";
     let font_size = 40.0;
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
@@ -64,13 +64,14 @@ pub fn build_textdraw() {
             font_size: font_size as u16,
             font_scale: 0.7,        // Slight horizontal scale to make the text wider
             font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            font: font,
             color: BLACK,
             ..Default::default()
         },
     );
 }
 
-pub fn perks_textdraw() {
+pub fn perks_textdraw(font: Option<&Font>) {
     let text = "Perks";
     let font_size = 40.0;
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
@@ -85,13 +86,14 @@ pub fn perks_textdraw() {
             font_size: font_size as u16,
             font_scale: 0.7,        // Slight horizontal scale to make the text wider
             font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            font: font,
             color: BLACK,
             ..Default::default()
         },
     );
 }
 
-pub fn stars_textdraw() {
+pub fn stars_textdraw(font: Option<&Font>) {
     let text = "Stars";
     let font_size = 40.0;
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
@@ -107,6 +109,7 @@ pub fn stars_textdraw() {
             font_scale: 0.7,        // Slight horizontal scale to make the text wider
             font_scale_aspect: 3.0, // Match the font scale to maintain proportions
             color: BLACK,
+            font: font,
             ..Default::default()
         },
     );
@@ -114,7 +117,7 @@ pub fn stars_textdraw() {
 
 
 pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &GameState) {
-    
+     
     let screen_height = screen_height();
     let screen_width = screen_width();
     let buy_frame_width = (screen_width * 0.7) / 2 as f32;
@@ -138,13 +141,13 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
             if rect.contains(mouse_position.into()) {
                 // Trigger the corresponding event based on index
                 match index {
-                    0 => {
+                    0 => { // Build Button
                         println!("CLICKED 0");
                     },
-                    1 => {
+                    1 => { // Perks Button
                         println!("CLICKED 1");
                     },
-                    2 => {
+                    2 => { // Stats
                         println!("CLICKED 2");
                     },
                     3 => {
@@ -190,20 +193,18 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         ..Default::default()
     };
 
+    // let stat_frame = Camera2D {
+    //     target: vec2(0.0, 0.0),
+    //     zoom: vec2(1.0, 1.0),
+    //     viewport: Some((
+    //         (buy_frame_width - 800.0) as i32,
+    //         (screen_height * 0.85) as i32,
+    //         (screen_width * 0.7) as i32,
+    //         (screen_height * 0.3) as i32,
+    //     )),
 
-
-    let stat_frame = Camera2D {
-        target: vec2(0.0, 0.0),
-        zoom: vec2(1.0, 1.0),
-        viewport: Some((
-            (buy_frame_width - 800.0) as i32,
-            (screen_height * 0.85) as i32,
-            (screen_width * 0.7) as i32,
-            (screen_height * 0.3) as i32,
-        )),
-
-        ..Default::default()
-    };
+    //     ..Default::default()
+    // };
 
     //Scale the game map to fit a 1:1 aspect ratio and draw the game map
     let game_window_dimensions = ((screen_width * 0.7) as i32, screen_height as i32);
@@ -257,10 +258,7 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
 
     // Reset to default camera
     set_default_camera();
-    build_textdraw();
-    perks_textdraw();
-    stars_textdraw();
-
     notification_manager.update(get_frame_time());
     notification_manager.draw();
 }
+

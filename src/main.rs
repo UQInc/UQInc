@@ -162,6 +162,10 @@ pub async fn main() {
     //     }
     // });
 
+    let font = load_ttf_font("media/fonts/NewAmsterdam-Regular.ttf")
+    .await
+    .unwrap();
+
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
@@ -185,6 +189,11 @@ pub async fn main() {
                 // Implement function for buy module.
             }
         }
+
+        gui::build_textdraw(Some(&font));
+        gui::perks_textdraw(Some(&font));
+        gui::stars_textdraw(Some(&font));
+
 
         next_frame().await;
         let duration = time_el.elapsed();
@@ -224,6 +233,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
 
     textures
 }
+
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
@@ -267,3 +277,4 @@ fn update_money(mut score: Score) -> Score{
     
     score
 }
+
