@@ -109,8 +109,7 @@ fn window_conf() -> Conf {
 pub async fn main() {
     let sounds = setup_sounds();
     // Use these variables for checking click.
-    let screen_height = screen_height();
-    let screen_width = screen_width();
+    
     
     let mut buildings: Vec<&'static Building> = Vec::new();
     buildings.push(&FORGANSMITH);
