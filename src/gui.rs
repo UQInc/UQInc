@@ -1,7 +1,9 @@
 use macroquad::prelude::*;
 
 // Score implementations
-pub fn score() {}
+pub fn score () {
+
+}
 
 pub fn gui() {
     let screen_height = screen_height();
@@ -40,4 +42,5 @@ pub fn gui() {
 
     // Reset to default camera
     set_default_camera();
+
 }

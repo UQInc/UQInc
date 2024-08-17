@@ -77,6 +77,9 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 pub async fn main() {
+    // Use these variables for checking click.
+    let screen_height = screen_height();
+    let screen_width = screen_width();
     // let mut test_building = Building::build_building("mainRoom".to_string(), 10, 20, 1, 0);
     // test_building.btype = "building".to_string();
     // println!("{}",test_building.btype);
@@ -93,6 +96,19 @@ pub async fn main() {
     start_game();
     loop {
         gui::gui();
+        // Mouse button press function
+        if is_mouse_button_pressed(MouseButton::Left) {
+            let (mouse_x,mouse_y) = mouse_position();
+            if (mouse_x < screen_width * 0.7) {
+                // Implement functions for game.
+                println!("Game clicked! {} {}", mouse_x, mouse_y);
+            }
+            if (mouse_x > screen_width * 0.7) {
+                // Impmement function for buy module.
+                println!("Buy module clicked {} {}", mouse_x, mouse_y);
+            }
+       }
+        
         next_frame().await
     }
 }
