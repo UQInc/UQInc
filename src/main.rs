@@ -1,3 +1,4 @@
+use buildings::*;
 use macroquad;
 mod gui;
 mod music;
@@ -111,6 +112,47 @@ pub async fn main() {
     let screen_height = screen_height();
     let screen_width = screen_width();
     
+    let mut buildings: Vec<&'static Building> = Vec::new();
+    buildings.push(&FORGANSMITH);
+    buildings.push(&HARTLEY_TEAK);
+    buildings.push(&BIO_SCIENCE_LIBRARY);
+    buildings.push(&BIO_SCIENCE_LIBRARY);
+    buildings.push(&GODDARD);
+    buildings.push(&JDSTORY);
+    buildings.push(&ARTMUSEUM);
+    buildings.push(&BRAININSTITUTE);
+    buildings.push(&WATERANDENVIRO);
+    buildings.push(&CHEM);
+    buildings.push(&LIVERIS);
+    buildings.push(&MANSERGHSHAW);
+    buildings.push(&HAWKEN);
+    buildings.push(&JAMESFOOT);
+    buildings.push(&DONNICKLIN);
+    buildings.push(&BIOENG);
+    buildings.push(&IMAGINGCENTRE);
+    buildings.push(&GPSOUTH);
+    buildings.push(&CENTRALLIBRARY);
+    buildings.push(&ADVENG);
+    buildings.push(&GPNORTH);
+    buildings.push(&UQBUSINESS);
+    buildings.push(&ZELMANCOWEN);
+    buildings.push(&BUILDING41);
+    buildings.push(&CUMBRAESTEWART);
+    buildings.push(&CHAMBERLAIN);
+    buildings.push(&MCELWAIN);
+    buildings.push(&FUNNYNUMBER);
+    buildings.push(&OCONNELL);
+    buildings.push(&GORDONGREENWOOD);
+    buildings.push(&UQCENTRE);
+    buildings.push(&BUILDING33);
+    buildings.push(&SCHONELLTHEATRE);
+    buildings.push(&UNIONFOODCOURT);
+    buildings.push(&BRIDGE);
+    buildings.push(&MOLECULARBIOSCIENCE);
+    buildings.push(&PSYCHOLOGY);
+    buildings.push(&KATHLEENLAMBOURNE);
+    // Use these variables for checking click.
+
     // for (key, value) in sounds {
     //     let _sound_handle = std::thread::spawn(move || {
     //         music::sound_effect(value, 1)
@@ -134,6 +176,8 @@ pub async fn main() {
         
         gui::gui(&mut notification_manager, &textures, &game_state);
 
+        let screen_height = screen_height();
+        let screen_width = screen_width();
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
             let (mouse_x, mouse_y) = mouse_position();
@@ -190,7 +234,7 @@ fn start_game() -> GameState {
 async fn load_textures() -> HashMap<String, Texture2D> {
     let mut textures = HashMap::new();
 
-    textures.insert("Test1".to_string(), load_texture("src/media/images/fortnite_map.png").await.unwrap());
+    textures.insert("Test1".to_string(), load_texture("media/images/fortnite_map.png").await.unwrap());
 
     textures
 }
@@ -198,32 +242,27 @@ async fn load_textures() -> HashMap<String, Texture2D> {
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
 
-    let mut protest = PathBuf::from("src");
-    protest.push("media");
+    let mut protest = PathBuf::from("media");
     protest.push("sounds");
     protest.push("protest.mp3");
     sounds.insert(String::from("protest"), protest);
 
-    let mut switch = PathBuf::from("src");
-    switch.push("media");
+    let mut switch = PathBuf::from("media");
     switch.push("sounds");
     switch.push("switch.mp3");
     sounds.insert(String::from("switch"), switch);
 
-    let mut yay = PathBuf::from("src");
-    yay.push("media");
+    let mut yay = PathBuf::from("media");
     yay.push("sounds");
     yay.push("yay.mp3");
     sounds.insert(String::from("yay"), yay);
 
-    let mut click = PathBuf::from("src");
-    click.push("media");
+    let mut click = PathBuf::from("media");
     click.push("sounds");
     click.push("click.mp3");
     sounds.insert(String::from("click"), click);
 
-    let mut cash = PathBuf::from("src");
-    cash.push("media");
+    let mut cash = PathBuf::from("media");
     cash.push("sounds");
     cash.push("cash.mp3");
     sounds.insert(String::from("cash"), cash);
