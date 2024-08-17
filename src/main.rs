@@ -6,25 +6,25 @@ use macroquad::prelude::*;
 use std::time::{Duration, Instant};
 
 struct Building {
-    btype: String, // The type of building 
+    btype: String, // The type of building
     width: i32,
     height: i32,
-    sps: i32, // Students per Second that this building generates
+    sps: i32,         // Students per Second that this building generates
     perk_points: i32, // Number of perk points awarded by purchasing this building
 }
 
 struct Score {
-    students: i32, // Total number of students cummulated
+    students: i32,     // Total number of students cummulated
     currStudents: i32, // Current number of avaliable students
-    dps: i32, // Dollars per second value, what is being earnt
-    dollars: i32, // Currency
+    dps: i32,          // Dollars per second value, what is being earnt
+    dollars: i32,      // Currency
 }
 
 struct Event {
     students_awarded: i32, // Number of students this event gives (can be negative)
-    event_type: String, // Type/Name of event
-    duration: i32, // How long the even lasts (seconds)
-    dps_modifier: i32 // Multiplier that effects overall sps rate 
+    event_type: String,    // Type/Name of event
+    duration: i32,         // How long the even lasts (seconds)
+    dps_modifier: i32,     // Multiplier that effects overall sps rate
 }
 
 struct GameState {
@@ -52,20 +52,40 @@ impl Score {
         }
         new_sps
     }
-
 }
 
-impl Building{
-    fn build_building(btype: String, width: i32, height: i32, sps: i32, perk_points: i32)->Building{
-        Building { btype, width, height, sps, perk_points}
+impl Building {
+    fn build_building(
+        btype: String,
+        width: i32,
+        height: i32,
+        sps: i32,
+        perk_points: i32,
+    ) -> Building {
+        Building {
+            btype,
+            width,
+            height,
+            sps,
+            perk_points,
+        }
     }
 }
-impl Event{
-    fn build_event(students_awarded: i32, event_type: String, duration: i32, dps_modifier: i32)->Event{
-        Event {students_awarded, event_type, duration, dps_modifier}
+impl Event {
+    fn build_event(
+        students_awarded: i32,
+        event_type: String,
+        duration: i32,
+        dps_modifier: i32,
+    ) -> Event {
+        Event {
+            students_awarded,
+            event_type,
+            duration,
+            dps_modifier,
+        }
     }
 }
-
 
 fn window_conf() -> Conf {
     Conf {
@@ -93,12 +113,13 @@ pub async fn main() {
     let _sound_handle = std::thread::spawn(|| {
         music::sound_effect("src\\media\\sounds\\click.mp3", 1);
     });
+    let mut notification_manager = gui::NotificationManager::new();
     start_game();
     loop {
-        gui::gui();
+        gui::gui(&mut notification_manager);
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
-            let (mouse_x,mouse_y) = mouse_position();
+            let (mouse_x, mouse_y) = mouse_position();
             if (mouse_x < screen_width * 0.7) {
                 // Implement functions for game.
                 println!("Game clicked! {} {}", mouse_x, mouse_y);
@@ -107,8 +128,8 @@ pub async fn main() {
                 // Impmement function for buy module.
                 println!("Buy module clicked {} {}", mouse_x, mouse_y);
             }
-       }
-        
+        }
+
         next_frame().await
     }
 }
