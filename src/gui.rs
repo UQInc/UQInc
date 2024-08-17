@@ -1,4 +1,9 @@
 use macroquad::prelude::*;
+use macroquad::ui::{
+    hash, root_ui,
+    widgets::{self, Group},
+    Drag, Ui,
+};
 
 // Score implementations
 pub fn score() {}
@@ -40,7 +45,55 @@ impl NotificationManager {
 pub fn gui(notification_manager: &mut NotificationManager) {
     let screen_height = screen_height();
     let screen_width = screen_width();
+    // Define the dimensions and positions of the rectangles
+    let rects = [
+        Rect::new(0.0, 0.0, screen_width * 0.66, screen_height * 0.09),  // Stats
+        Rect::new(screen_width * 0.33, 0.0, screen_width * 0.66, screen_height * 0.09),  // Build
+        Rect::new(screen_width * 0.67, 0.0, screen_width * 0.66, screen_height * 0.09),  // Perks
+        Rect::new(0.0, screen_height * 0.18, screen_width * 2.0, screen_height * 0.16),  // Other red rectangles
+        Rect::new(0.0, screen_height * 0.36, screen_width * 2.0, screen_height * 0.16),
+        Rect::new(0.0, screen_height * 0.54, screen_width * 2.0, screen_height * 0.16),
+        Rect::new(0.0, screen_height * 0.72, screen_width * 2.0, screen_height * 0.16),
+        Rect::new(0.0, screen_height * 0.9, screen_width * 2.0, screen_height * 0.16),
+    ];
 
+    // Handle click events
+    if is_mouse_button_pressed(MouseButton::Left) {
+        let mouse_position = mouse_position();
+        
+        for (index, rect) in rects.iter().enumerate() {
+            if rect.contains(mouse_position.into()) {
+                // Trigger the corresponding event based on index
+                match index {
+                    0 => {
+                        println!("CLICKED 0");
+                    },
+                    1 => {
+                        println!("CLICKED 1");
+                    },
+                    2 => {
+                        println!("CLICKED 2");
+                    },
+                    3 => {
+                        println!("CLICKED 3");
+                    },
+                    4 => {
+                        println!("CLICKED 4");
+                    },
+                    5 => {
+                        println!("CLICKED 5");
+                    },
+                    6 => {
+                        println!("CLICKED 6");
+                    },
+                    7 => {
+                        println!("CLICKED 7");
+                    },
+                    _ => {}
+                }
+            }
+        }
+    }
     // Default game frame
     // viewport, x = 0, y = 0, width, height.
     let game_frame = Camera2D {
@@ -87,18 +140,17 @@ pub fn gui(notification_manager: &mut NotificationManager) {
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, LIGHTGRAY);
     // Draw smaller rectangles inside the buy frame
-    draw_rectangle(-1.0, 0.0, 2.0, 0.2, GREEN);
-    draw_rectangle(-1.0, 0.21, 2.0, 0.2, RED);
-    draw_rectangle(-1.0, 0.42, 2.0, 0.2, RED);
-    draw_rectangle(-1.0, 0.63, 2.0, 0.2, RED);
-    draw_rectangle(-1.0, 0.84, 2.0, 0.2, RED);
+    draw_rectangle(-1.0, 0.0, 2.0, 0.1, GREEN); // Top rectangle, holds Build | Perks | Stats
+    draw_rectangle(-1.0, 0.0, 0.66, 0.09, BLUE); // Stats
+    draw_rectangle(-0.33, 0.0, 0.66, 0.09, BLACK); // Build
+    draw_rectangle(0.34, 0.0, 0.66, 0.09, YELLOW); // Perks
 
+    draw_rectangle(-1.0, 0.18, 2.0, 0.16, RED);
+    draw_rectangle(-1.0, 0.36, 2.0, 0.16, RED);
+    draw_rectangle(-1.0, 0.54, 2.0, 0.16, RED);
+    draw_rectangle(-1.0, 0.72, 2.0, 0.16, RED);
+    draw_rectangle(-1.0, 0.9, 2.0, 0.16, RED);
 
-
-    // Add text within the rectangles
-    draw_text("Upgrade 1", -screen_width * 0.15 + 20.0, -screen_height * 0.5 + 40.0, 20.0, WHITE);
-    draw_text("Upgrade 2", -screen_width * 0.15 + 20.0, -screen_height * 0.5 + 100.0, 20.0, WHITE);
-    draw_text("Upgrade 3", -screen_width * 0.15 + 20.0, -screen_height * 0.5 + 160.0, 20.0, WHITE);
     set_camera(&stat_frame);
     draw_rectangle(0.0, 0.0, screen_width * 0.3, screen_height * 0.2, WHITE);
 
