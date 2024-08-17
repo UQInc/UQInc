@@ -16,8 +16,8 @@ struct Building {
     name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
     perk_points: i32,// Number of perk points awarded by purchasing this building
-    description: &'static str,
     price: i64, // Price to purchase building
+    description: &'static str,
 }
 
 struct Score {
@@ -40,7 +40,9 @@ struct GameState {
     buildings: Vec<Building>, // Active/purchased buildings
     events: Vec<Event>,       // Active events
     start_time: Instant,      // When the game was launched
-    stats: Statistics,        // Gameplay stats
+    stats: Statistics,
+    menu_type: String,        // Gameplay stats
+    owned_buildings: Vec<Building>,
 }
 
 struct Statistics {
@@ -161,6 +163,9 @@ pub async fn main() {
     buildings.push(&LIVERIS);
     buildings.push(&ADVENG);
 
+
+    let mut owned_buildings: Vec<&'static Building> = Vec::new();
+
     // Use these variables for checking click.
 
     // for (key, value) in sounds {
@@ -190,7 +195,7 @@ pub async fn main() {
     let time_req = Duration::from_secs(1);
     loop {
         
-        gui::gui(&mut notification_manager, &textures, &game_state);
+        gui::gui(&mut notification_manager, &textures, &mut game_state);
 
         let screen_height = screen_height();
         let screen_width = screen_width();
@@ -201,7 +206,6 @@ pub async fn main() {
             let (mouse_x, mouse_y) = mouse_position();
             if mouse_x < screen_width * 0.7 {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
-                println!("Game clicked! {} {}", mouse_x, mouse_y);
                 game_state.score = clicked(game_state.score);
                 sound_effects(String::from("click"), &sounds);
             } else if mouse_x > screen_width * 0.7 {
@@ -216,7 +220,7 @@ pub async fn main() {
 
         next_frame().await;
         let duration = time_el.elapsed();
-        if (duration >= time_req){
+        if duration >= time_req {
             game_state.score = update_money(game_state.score);
             time_el = Instant::now();
         };
@@ -245,24 +249,26 @@ fn start_game() -> GameState {
     let events: Vec<Event> = Vec::new();
     let start_time = Instant::now();
     let stats: Statistics = Statistics::init();
+    let menu_type: String = "build".to_string();
+    let owned_buildings: Vec<Building> = Vec::new();
     GameState {
         score,
         buildings,
         events,
         start_time,
         stats,
+        menu_type,
+        owned_buildings,
     }
 }
 
 async fn load_textures() -> HashMap<String, Texture2D> {
     let mut textures = HashMap::new();
 
-    textures.insert("Test1".to_string(), load_texture("media/images/fortnite_map.png").await.unwrap());
-
+    textures.insert("Test1".to_string(), load_texture("media/images/BACKGROUND.png").await.unwrap());
     textures
 }
 
-// test pull
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
@@ -300,7 +306,7 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
 }
 
 fn update_money(mut score: Score) -> Score{
-    if(score.curr_students>0){
+    if score.curr_students>0 {
         score.dollars += score.curr_students as i32;
     }
     

@@ -57,8 +57,8 @@ impl NotificationManager {
 pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Build";
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
-    let x_pos = (screen_width() * 0.1);
-    let y_pos = (screen_height() * 0.535);
+    let x_pos = screen_width() * 0.1;
+    let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
         x_pos,
@@ -77,8 +77,8 @@ pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
 pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Perks";
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
-    let x_pos = (screen_width() * 0.45);
-    let y_pos = (screen_height() * 0.535);
+    let x_pos = screen_width() * 0.45;
+    let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
         x_pos,
@@ -96,8 +96,8 @@ pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
 
 pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Stars";
-    let x_pos = (screen_width() * 0.8);
-    let y_pos = (screen_height() * 0.535);
+    let x_pos = screen_width() * 0.8;
+    let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
         x_pos,
@@ -114,8 +114,8 @@ pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
 }
 
 
-pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &GameState) {
-    let mut menu_type: String = "build".to_string();
+pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState) {
+    
     let screen_height = screen_height();
     let screen_width = screen_width();
     let buy_frame_width = (screen_width * 0.7) / 2 as f32;
@@ -141,18 +141,18 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
                 match index {
                     0 => { // Build Button
                         println!("CLICKED 0");
-                        menu_type = update_menu(menu_type, "build".to_string());
-                        println!("{}",menu_type);
+                        game_state.menu_type = "build".to_string();
+                        println!("{}",game_state.menu_type);
                     },
                     1 => { // Perks Button
                         println!("CLICKED 1");
-                        menu_type = update_menu(menu_type, "perks".to_string());
-                        println!("{}",menu_type);
+                        game_state.menu_type = "perks".to_string();
+                        println!("{}",game_state.menu_type);
                     },
                     2 => { // Stats
                         println!("CLICKED 2");
-                        menu_type = update_menu(menu_type, "stats".to_string());
-                        println!("{}",menu_type);
+                        game_state.menu_type = "stats".to_string();
+                        println!("{}",game_state.menu_type);
                     },
                     3 => {
                         println!("CLICKED 3");
@@ -174,6 +174,7 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
             }
         }
     }
+    
     // // Default game frame
     // // viewport, x = 0, y = 0, width, height.
     // let game_frame = Camera2D {
@@ -210,18 +211,42 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     //     ..Default::default()
     // };
 
+    
     //Scale the game map to fit a 1:1 aspect ratio and draw the game map
     let game_window_dimensions = ((screen_width * 0.7) as i32, screen_height as i32);
 
-    let map_size = min(game_window_dimensions.0, game_window_dimensions.1);
+    let texture = textures.get("Test1").unwrap();
+    let ratio = texture.width() / texture.height();
 
-    let map_x_pos = max(0, (game_window_dimensions.0 - map_size) / 2) as f32;
-    let map_y_pos = max(0, (game_window_dimensions.1 - map_size) / 2) as f32;
+    let map_size_x = min(game_window_dimensions.0, (game_window_dimensions.1 as f32 * ratio) as i32);
+    let map_size_y = map_size_x as f32 / ratio;
 
-    draw_texture_ex(textures.get("Test1").unwrap(), map_x_pos, map_y_pos, WHITE, DrawTextureParams {
-        dest_size: Some(Vec2::new(map_size as f32, map_size as f32)),
+    let map_x_pos = max(0, (game_window_dimensions.0 - map_size_x) / 2) as f32;
+    let map_y_pos = max(0, (game_window_dimensions.1 - map_size_y as i32) / 2) as f32;
+
+    draw_texture_ex(texture, map_x_pos, map_y_pos, WHITE, DrawTextureParams {
+        dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
         ..Default::default()
     });
+
+    // Iterating through owned buildings.
+    for building in &game_state.owned_buildings {
+        let building_name = building.name;
+        if let Some(texture) = textures.get(building_name) {
+            draw_texture_ex(
+                texture,
+                map_x_pos,
+                map_y_pos,
+                WHITE,
+                DrawTextureParams {
+                    dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
+                    ..Default::default()
+                }
+            );
+        } else {
+            println!("Texture for building '{}' not found!", building_name);
+        }
+    }
 
     // Draw the buy frame
     set_camera(&buy_frame);
@@ -263,10 +288,3 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     notification_manager.update(get_frame_time());
     notification_manager.draw();
 }
-
-fn update_menu(mut menu: String, module: String) -> String{
-    menu = module;
-    menu
-}
-
-
