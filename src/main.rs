@@ -179,6 +179,8 @@ pub async fn main() {
     .await
     .unwrap();
 
+
+
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
@@ -191,6 +193,8 @@ pub async fn main() {
 
         let screen_height = screen_height();
         let screen_width = screen_width();
+        let font_size = dynamic_font_size(100);
+
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
             let (mouse_x, mouse_y) = mouse_position();
@@ -204,9 +208,9 @@ pub async fn main() {
             }
         }
 
-        gui::build_textdraw(Some(&font));
-        gui::perks_textdraw(Some(&font));
-        gui::stars_textdraw(Some(&font));
+        gui::build_textdraw(Some(&font), font_size);
+        gui::perks_textdraw(Some(&font), font_size);
+        gui::stats_textdraw(Some(&font), font_size);
 
 
         next_frame().await;
@@ -301,3 +305,20 @@ fn update_money(mut score: Score) -> Score{
     score
 }
 
+fn dynamic_font_size(base_font_size: u16) -> u16 {
+    let reference_width: u16 = 1920;
+    let reference_height: u16 = 1080;
+
+    let screen_width = screen_width() as u16;
+    let screen_height = screen_height() as u16;
+
+    // Calculate scaling factors for width and height
+    let width_scale = screen_width / reference_width;
+    let height_scale = screen_height / reference_height;
+
+    // Use the smaller scale to maintain aspect ratio
+    let scale_factor = width_scale.min(height_scale);
+
+    let size = base_font_size * scale_factor;
+    size
+}
