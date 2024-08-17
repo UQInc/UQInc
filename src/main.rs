@@ -108,8 +108,7 @@ fn window_conf() -> Conf {
 pub async fn main() {
     
     // Use these variables for checking click.
-    let screen_height = screen_height();
-    let screen_width = screen_width();
+
     let sounds = setup_sounds();
     // for (key, value) in sounds {
     //     let _sound_handle = std::thread::spawn(move || {
@@ -134,6 +133,8 @@ pub async fn main() {
         
         gui::gui(&mut notification_manager, &textures, &game_state);
 
+        let screen_height = screen_height();
+        let screen_width = screen_width();
         // Mouse button press function
         if is_mouse_button_pressed(MouseButton::Left) {
             let (mouse_x, mouse_y) = mouse_position();
