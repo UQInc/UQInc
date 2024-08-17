@@ -6,6 +6,7 @@ mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
 use std::collections::{hash_map, HashMap};
+use std::env::set_current_dir;
 use std::hash::Hash;
 use std::path::{Path, PathBuf};
 use std::thread::{current, spawn};
@@ -211,7 +212,7 @@ pub async fn main() {
     let mut time_el = Instant::now();
     let time_req = Duration::from_secs(1);
     let mut last_event_time = Instant::now();
-    let mut current_event: Option<Event> = get_event_from_rand(0, &game_state);
+    let mut current_event: Option<Event> = None;
 
     // Seed random based on system time
     rand::srand(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
@@ -266,15 +267,16 @@ pub async fn main() {
             println!("Rolling for event");
 
             last_event_time = Instant::now();
-
-            let event = get_event_from_rand(rand::gen_range(0, 30), &game_state);
-
-            if event.is_some() {
-                println!("Event Added");
-                current_event = event;
-
-                if current_event.as_ref().unwrap().event_type == "AddStudents" {
-                    game_state.score.curr_students += current_event.as_ref().unwrap().students_awarded as f64;
+            if !current_event.as_ref().is_some() {
+                let event = get_event_from_rand(rand::gen_range(0, 30), &game_state);
+                if event.is_some() {
+                    println!("New Event Added");
+                    current_event = event;
+                    
+    
+                    if current_event.as_ref().unwrap().event_type == "AddStudents" {
+                        game_state.score.curr_students += current_event.as_ref().unwrap().students_awarded as f64;
+                    }
                 }
             }
         }

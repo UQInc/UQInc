@@ -272,8 +272,6 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     let currency_height = if currency_pos == 10. {34} else {10} as f32;
     let widget_height = if currency_pos == 10. {65} else {50} as f32;
 
-
-
     //Draw currency widget
     root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
         ui.label(Vec2::new(10., 10.), "Total Students:");
