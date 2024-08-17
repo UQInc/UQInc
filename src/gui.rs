@@ -64,6 +64,20 @@ pub fn gui(notification_manager: &mut NotificationManager) {
         ..Default::default()
     };
 
+    let buy_frame_width = (screen_width * 0.7) / 2 as f32;
+
+    let stat_frame = Camera2D {
+        target: vec2(0.0, 0.0),
+        zoom: vec2(1.0, 1.0),
+        viewport: Some((
+            (buy_frame_width * -0.5) as i32,
+            (screen_height * 0.85) as i32,
+            (screen_width * 0.7) as i32,
+            (screen_height * 0.3) as i32,
+        )),
+        ..Default::default()
+    };
+
     // Draw the game frame
     set_camera(&game_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.7, screen_height, GRAY);
@@ -71,6 +85,37 @@ pub fn gui(notification_manager: &mut NotificationManager) {
     // Draw the buy frame
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, LIGHTGRAY);
+    // Draw smaller rectangles inside the buy frame
+    draw_rectangle(-1.0, 0.0, 2.0, 0.2, GREEN);
+    draw_rectangle(-1.0, 0.21, 2.0, 0.2, RED);
+    draw_rectangle(-1.0, 0.42, 2.0, 0.2, RED);
+    draw_rectangle(-1.0, 0.63, 2.0, 0.2, RED);
+    draw_rectangle(-1.0, 0.84, 2.0, 0.2, RED);
+
+    // Reset to default camera for text drawing
+    set_default_camera();
+
+    // Slightly increase text width by scaling it horizontally
+    let text = "Hello, Macroquad!";
+    let font_size = 40.0;
+    let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
+    let x_pos = (screen_width * 0.7) + ((screen_width * 0.3 - text_dimensions.width * 1.2) / 2.0);
+    let y_pos = (screen_height * 0.63) + (text_dimensions.height / 2.0);
+    draw_text_ex(
+        text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size as u16,
+            font_scale: 1.2,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 1.0, // Keep the vertical scaling unchanged
+            color: BLACK,
+            ..Default::default()
+        },
+    );
+
+    set_camera(&stat_frame);
+    draw_rectangle(0.0, 0.0, screen_width * 0.3, screen_height * 0.2, WHITE);
 
     // Reset to default camera
     set_default_camera();
