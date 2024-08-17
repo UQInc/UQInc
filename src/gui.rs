@@ -48,6 +48,69 @@ impl NotificationManager {
     pub fn draw(&self) {}
 }
 
+pub fn build_textdraw() {
+    let text = "Build";
+    let font_size = 40.0;
+    let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
+    let x_pos = (screen_width() * 0.1);
+    let y_pos = (screen_height() * 0.535);
+    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
+    draw_text_ex(
+        text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size as u16,
+            font_scale: 1.2,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 1.2, // Match the font scale to maintain proportions
+            color: BLACK,
+            ..Default::default()
+        },
+    );
+}
+
+pub fn perks_textdraw() {
+    let text = "Perks";
+    let font_size = 40.0;
+    let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
+    let x_pos = (screen_width() * 0.45);
+    let y_pos = (screen_height() * 0.535);
+    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
+    draw_text_ex(
+        text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size as u16,
+            font_scale: 1.2,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 1.2, // Match the font scale to maintain proportions
+            color: BLACK,
+            ..Default::default()
+        },
+    );
+}
+
+pub fn stars_textdraw() {
+    let text = "Stars";
+    let font_size = 40.0;
+    let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
+    let x_pos = (screen_width() * 0.8);
+    let y_pos = (screen_height() * 0.535);
+    //let y_pos = (screen_height() * 0.63) + (text_dimensions.height / 2.0);
+    draw_text_ex(
+        text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size as u16,
+            font_scale: 1.2,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 1.2, // Match the font scale to maintain proportions
+            color: BLACK,
+            ..Default::default()
+        },
+    );
+}
+
 pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &GameState) {
     
     let screen_height = screen_height();
@@ -158,10 +221,10 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, LIGHTGRAY);
 
     // Draw smaller rectangles inside the buy frame
-    draw_rectangle(-1.0, 0.0, 2.0, 0.1, GREEN); // Top rectangle, holds Build | Perks | Stats
+    draw_rectangle(-1.0, 0.0, 2.0, 0.1, BLACK); // Top rectangle, holds Build | Perks | Stats
     draw_rectangle(-1.0, 0.0, 0.66, 0.09, BLUE); // Stats
-    draw_rectangle(-0.33, 0.0, 0.66, 0.09, BLACK); // Build
-    draw_rectangle(0.34, 0.0, 0.66, 0.09, YELLOW); // Perks
+    draw_rectangle(-0.33, 0.0, 0.66, 0.09, GREEN); // Build
+    draw_rectangle(0.34, 0.0, 0.66, 0.09, ORANGE); // Perks
 
     draw_rectangle(-1.0, 0.18, 2.0, 0.16, RED);
     draw_rectangle(-1.0, 0.36, 2.0, 0.16, RED);
@@ -169,9 +232,6 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     draw_rectangle(-1.0, 0.72, 2.0, 0.16, RED);
     draw_rectangle(-1.0, 0.9, 2.0, 0.16, RED);
 
-
-    
-  
     let widget_width = ((screen_width * 0.64) /2.) as f32;
 
     widgets::Window::new(hash!(), vec2(widget_width, 0.), vec2(550., 50.))
@@ -185,7 +245,9 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         });
     // Reset to default camera
     set_default_camera();
-
+    build_textdraw();
+    perks_textdraw();
+    stars_textdraw();
 
     notification_manager.update(get_frame_time());
     notification_manager.draw();
