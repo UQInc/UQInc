@@ -1,9 +1,9 @@
 
-use rodio::{source::Source, Decoder, OutputStream, Sink};
+use rodio::{source::Source, Decoder, OutputStream};
 use std::fs::File;
 use std::io::BufReader;
 use std::time::Duration;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 // Play theme music
 pub fn music() {
@@ -32,10 +32,10 @@ pub fn music() {
 }
 
 // Play sounds effect at given path for given length
-pub fn sound_effect(filePath: PathBuf, len: u64) {
+pub fn sound_effect(file_path: PathBuf, len: u64) {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
 
-    let file = File::open(filePath).unwrap();
+    let file = File::open(file_path).unwrap();
     let source = Decoder::new(BufReader::new(file)).unwrap();
     stream_handle.play_raw(source.convert_samples()).unwrap();
     std::thread::sleep(Duration::from_secs(len));
