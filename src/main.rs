@@ -220,7 +220,7 @@ pub async fn main() {
 
         next_frame().await;
         let duration = time_el.elapsed();
-        if (duration >= time_req){
+        if duration >= time_req {
             game_state.score = update_money(game_state.score);
             time_el = Instant::now();
         };
@@ -306,7 +306,7 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
 }
 
 fn update_money(mut score: Score) -> Score{
-    if(score.curr_students>0){
+    if score.curr_students>0 {
         score.dollars += score.curr_students as i32;
     }
     
