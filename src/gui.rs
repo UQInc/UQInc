@@ -239,7 +239,7 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
                 map_y_pos,
                 WHITE,
                 DrawTextureParams {
-                    dest_size: Some(Vec2::new(map_size as f32, map_size as f32)),
+                    dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
                     ..Default::default()
                 }
             );
