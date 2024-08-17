@@ -107,6 +107,11 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 pub async fn main() {
+    let sounds = setup_sounds();
+    // Use these variables for checking click.
+    let screen_height = screen_height();
+    let screen_width = screen_width();
+    
     let mut buildings: Vec<&'static Building> = Vec::new();
     buildings.push(&FORGANSMITH);
     buildings.push(&HARTLEY_TEAK);
@@ -148,7 +153,6 @@ pub async fn main() {
     buildings.push(&KATHLEENLAMBOURNE);
     // Use these variables for checking click.
 
-    let sounds = setup_sounds();
     // for (key, value) in sounds {
     //     let _sound_handle = std::thread::spawn(move || {
     //         music::sound_effect(value, 1)
@@ -181,6 +185,7 @@ pub async fn main() {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
                 println!("Game clicked! {} {}", mouse_x, mouse_y);
                 game_state.score = clicked(game_state.score);
+                sound_effects(String::from("click"), &sounds);
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
             }
@@ -200,6 +205,15 @@ pub async fn main() {
 fn clicked(mut score: Score) -> Score {
     score.curr_students += 1;
     score
+}
+fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
+    if sound == "click" {
+        if let Some(path) = sounds.get("click").cloned() {
+            std::thread::spawn(move || {
+                music::sound_effect(path, 1);
+            });
+        }
+    }
 }
 
 fn start_game() -> GameState {
