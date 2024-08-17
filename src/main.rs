@@ -8,8 +8,8 @@ use music::{music, sound_effect};
 use std::collections::{hash_map, HashMap};
 use std::hash::Hash;
 use std::path::{Path, PathBuf};
-use std::thread::spawn;
-use std::time::{Duration, Instant};
+use std::thread::{current, spawn};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use std::{default, vec};
 
 struct Building {
@@ -21,9 +21,9 @@ struct Building {
 }
 
 struct Score {
-    curr_students: i32, // Current number of available students
+    curr_students: f64, // Current number of available students
     dps: f32,           // Dollars per second value, what is being earned
-    dollars: i32,       // Currency in the bank that can be spent
+    dollars: f64,       // Currency in the bank that can be spent
     student_rate: f32,  // The ratio of students/dollar (e.g., 1 student = $2/dps)
     perk_points: i32, // Number of available perk points
 }
@@ -55,9 +55,9 @@ struct Statistics {
 impl Score {
     fn init() -> Self {
         Score {
-            curr_students: 0,
+            curr_students: 0.,
             dps: 1.0,
-            dollars: 0,
+            dollars: 0.,
             student_rate: 1.0,
             perk_points: 0,
 
@@ -196,8 +196,6 @@ pub async fn main() {
     .await
     .unwrap();
 
-
-
     // Initializes GameState struct
     let mut game_state = start_game();
     let mut notification_manager = gui::NotificationManager::new();
@@ -205,7 +203,11 @@ pub async fn main() {
     let mut time_el = Instant::now();
     let time_req = Duration::from_secs(1);
     let mut last_event_time = Instant::now();
-    let mut current_event: Option<Event> = None;
+    let mut current_event: Option<Event> = get_event_from_rand(0, &game_state);
+
+    // Seed random based on system time
+    rand::srand(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
+
     loop {
         
         gui::gui(&mut notification_manager, &textures, &mut game_state);
@@ -219,7 +221,7 @@ pub async fn main() {
             let (mouse_x, mouse_y) = mouse_position();
             if mouse_x < screen_width * 0.7 {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
-                game_state.score = clicked(game_state.score);
+                game_state.score = clicked(game_state.score, current_event.as_ref());
                 sound_effects(String::from("click"), &sounds);
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
@@ -234,20 +236,32 @@ pub async fn main() {
         next_frame().await;
         let duration = time_el.elapsed();
         if (duration >= time_req){
-            game_state.score = update_money(game_state.score);
+            game_state.score = update_money(game_state.score, current_event.as_ref());
             time_el = Instant::now();
         };
 
         // Check if ready for an event roll, if ready, roll for an event and add the new event.
-        if last_event_time.elapsed() >= Duration::from_secs(2) {
-            println!("EVENT TIME");
+        if last_event_time.elapsed() >= Duration::from_secs(60) {
+            println!("Rolling for event");
+
             last_event_time = Instant::now();
 
             let event = get_event_from_rand(rand::gen_range(0, 30), &game_state);
 
             if event.is_some() {
-                println!("GOT EVENT");
+                println!("Event Added");
                 current_event = event;
+
+                if current_event.as_ref().unwrap().event_type == "AddStudents" {
+                    game_state.score.curr_students += current_event.as_ref().unwrap().students_awarded as f64;
+                }
+            }
+        }
+
+        if current_event.as_ref().is_some() {
+            if last_event_time.elapsed() >= current_event.as_ref().unwrap().duration {
+                current_event = None;
+                println!("Removing Event");
             }
         }
     }
@@ -307,10 +321,16 @@ fn get_event_from_rand(num: i32, state: &GameState) -> Option<Event>{
     return None;
 }
 
-fn clicked(mut score: Score) -> Score {
-    score.curr_students += 1;
+fn clicked(mut score: Score, event: Option<&Event>) -> Score {
+    // Get the current event multiplier
+    let mut mult = 1.;
+    if event.is_some() {
+        mult = event.unwrap().spc_modifier;
+    }
+    score.curr_students += (1. * mult) as f64;
     score
 }
+
 fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
     if sound == "click" {
         if let Some(path) = sounds.get("click").cloned() {
@@ -382,9 +402,15 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
     sounds
 }
 
-fn update_money(mut score: Score) -> Score{
-    if(score.curr_students>0){
-        score.dollars += score.curr_students as i32;
+fn update_money(mut score: Score, event: Option<&Event>) -> Score{
+    // Get the current event multiplier
+    let mut mult = 1.;
+    if event.is_some() {
+        mult = event.unwrap().dps_modifier as f64;
+    }
+
+    if score.curr_students > 0. {
+        score.dollars += score.curr_students * mult;
     }
     
     score
