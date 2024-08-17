@@ -357,6 +357,7 @@ pub static ADVENG: Building = Building{
     name: "Advanced Engineering",
     students: 2850000,
     perk_points: 0,
+    description: "Building 49: The Advanced Engineering Building houses various workshops, labs, offices and UQ's largest lecture theatre the GHD Auditorium. ",
     price: 2500000000,
 };
 
