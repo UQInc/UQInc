@@ -16,7 +16,6 @@ struct Building {
     name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
     perk_points: i32,// Number of perk points awarded by purchasing this building
-    description: &'static str,
     price: i64, // Price to purchase building
 }
 
@@ -40,7 +39,8 @@ struct GameState {
     buildings: Vec<Building>, // Active/purchased buildings
     events: Vec<Event>,       // Active events
     start_time: Instant,      // When the game was launched
-    stats: Statistics,        // Gameplay stats
+    stats: Statistics,
+    menu_type: String,        // Gameplay stats
 }
 
 struct Statistics {
@@ -190,7 +190,7 @@ pub async fn main() {
     let time_req = Duration::from_secs(1);
     loop {
         
-        gui::gui(&mut notification_manager, &textures, &game_state);
+        gui::gui(&mut notification_manager, &textures, &mut game_state);
 
         let screen_height = screen_height();
         let screen_width = screen_width();
@@ -245,12 +245,14 @@ fn start_game() -> GameState {
     let events: Vec<Event> = Vec::new();
     let start_time = Instant::now();
     let stats: Statistics = Statistics::init();
+    let menu_type: String = "build".to_string();
     GameState {
         score,
         buildings,
         events,
         start_time,
         stats,
+        menu_type,
     }
 }
 
@@ -262,7 +264,6 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     textures
 }
 
-// test pull
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
