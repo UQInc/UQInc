@@ -124,11 +124,11 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         Rect::new(screen_width - buy_frame_width, 0.0, 0.33 * buy_frame_width, 0.09 * screen_height),  // Stats
         Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 1.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Build
         Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 2.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Perks
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.18, buy_frame_width, screen_height * 0.16),  // Other red rectangles
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.36, buy_frame_width, screen_height * 0.16),
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.54, buy_frame_width, screen_height * 0.16),
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.72, buy_frame_width, screen_height * 0.16),
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.9, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.1, buy_frame_width, screen_height * 0.16),  // Other red rectangles
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.27, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.44, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.61, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.78, buy_frame_width, screen_height * 0.16),
     ];
 
     // Handle click events
@@ -271,7 +271,6 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     let currency_pos = if widget_width / 2. < 150. {students_pos} else {widget_width / 2.};
     let currency_height = if currency_pos == 10. {34} else {10} as f32;
     let widget_height = if currency_pos == 10. {65} else {50} as f32;
-
 
 
     //Draw currency widget
