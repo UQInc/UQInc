@@ -1,5 +1,7 @@
 use macroquad;
 mod gui;
+mod music;
+mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
 use std::collections::{hash_map, HashMap};
@@ -8,10 +10,9 @@ use std::path::{Path, PathBuf};
 use std::thread::spawn;
 use std::time::{Duration, Instant};
 use std::vec;
-mod music;
 
 struct Building {
-    name: String, // The type of building
+    name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
     perk_points: i32,// Number of perk points awarded by purchasing this building
     price: i32, // Price to purchase building
@@ -69,7 +70,7 @@ impl Score {
 }
 
 impl Building {
-    fn build_building(
+    const fn build_building(
         name: String,
         students: i32,
         perk_points: i32,
