@@ -242,7 +242,11 @@ pub async fn main() {
             if mouse_x < screen_width * 0.7 {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
                 game_state.score = clicked(game_state.score, current_event.as_ref());
-                sound_effects(String::from("click"), &sounds);
+                if let Some(path) = sounds.get("click").cloned() {
+                    std::thread::spawn(move || {
+                        music::sound_effect(path, 1);
+                    });
+                }
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
             }
@@ -369,16 +373,6 @@ fn clicked(mut score: Score, event: Option<&Event>) -> Score {
     }
     score.curr_students += (1. * mult) as f64;
     score
-}
-
-fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
-    if sound == "click" {
-        if let Some(path) = sounds.get("click").cloned() {
-            std::thread::spawn(move || {
-                music::sound_effect(path, 1);
-            });
-        }
-    }
 }
 
 fn start_game(unown: Vec<&'static Building>,
