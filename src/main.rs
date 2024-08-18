@@ -134,6 +134,9 @@ pub async fn main() {
     //Vector containing all buildings
     let sounds = setup_sounds();
     // Use these variables for checking click.
+    let _music_handle = std::thread::spawn(|| {
+        music::music();
+    });
     
     let mut buildings: Vec<&'static Building> = Vec::new();
     buildings.push(&FORGANSMITH);
@@ -532,7 +535,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     textures
 }
 
-fn setup_sounds() -> HashMap<String, PathBuf> {
+pub fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
 
     let mut protest = PathBuf::from("media");
@@ -560,9 +563,7 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
     cash.push("cash.mp3");
     sounds.insert(String::from("cash"), cash);
 
-    let _music_handle = std::thread::spawn(|| {
-        music::music();
-    });
+
 
     sounds
 }
