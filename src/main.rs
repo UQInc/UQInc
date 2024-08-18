@@ -250,17 +250,21 @@ pub async fn main() {
 
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
-        gui::stats_textdraw(Some(&font), font_size);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 0);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 1);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 2);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 3);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 4);
-        gui::buymenu_description(Some(&font), font_size, String::from("This is a big line of code to check."), 0);
-        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 1);
-        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 2);
-        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 3);
-        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 4);
+        gui::buymenu_price(Some(&font), font_size, 5000000000, 0);
+        gui::buymenu_price(Some(&font), font_size, 500, 1);
+        gui::buymenu_price(Some(&font), font_size, 5000, 2);
+        gui::buymenu_price(Some(&font), font_size, 100, 3);
+        gui::buymenu_price(Some(&font), font_size, 10, 4);
+        gui::buymenu_description(Some(&font), font_size, String::from("Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation."), 0);
+        gui::buymenu_description(Some(&font), font_size, String::from("Building 12: Home of the central library of UQ, connected with Duhig Tower. Hosts a variety of learning spaces and is popular amongst students."), 1);
+        gui::buymenu_description(Some(&font), font_size, String::from("Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation."), 2);
+        gui::buymenu_description(Some(&font), font_size, String::from("Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation."), 3);
+        gui::buymenu_description(Some(&font), font_size, String::from("Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation."), 4);
 
 
         next_frame().await;
