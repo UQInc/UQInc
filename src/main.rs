@@ -141,7 +141,6 @@ pub async fn main() {
     buildings.push(&STEELEBUILDING);
     buildings.push(&EZMART);
     buildings.push(&CENTRALLIBRARY);
-    buildings.push(&PRENTICE);
     buildings.push(&PRIESTLY);
     buildings.push(&LEARNINGINNOVATION);
     buildings.push(&JOHNHINES);
@@ -149,7 +148,6 @@ pub async fn main() {
     buildings.push(&MCELWAIN);
     buildings.push(&CHAMBERLAIN);
     buildings.push(&ARTMUSEUM);
-    buildings.push(&OTTO);
     buildings.push(&MOLECULARBIOSCIENCE);
     buildings.push(&JDSTORY);
     buildings.push(&HARTLEY_TEAK);
@@ -177,8 +175,8 @@ pub async fn main() {
     buildings.push(&SCHONELLTHEATRE);
     buildings.push(&PSYCHOLOGY);
     buildings.push(&KATHLEENLAMBOURNE);
-    buildings.push(&LIVERIS);
     buildings.push(&ADVENG);
+    buildings.push(&LIVERIS);
 
 
     let mut owned_buildings: Vec<&'static Building> = Vec::new();
@@ -392,28 +390,27 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("Steele Building", "media/images/STEELEBUILDING.png"),
         ("EZ Mart", "media/images/EZMART.png"),
         ("Central Library", "media/images/CENTRALLIBRARY.png"),
-        // MISSING
-        ("Prentice Building", "media/images/RICHARDS.png"),
+        ("Priestly Building", "media/images/PRIESTLY.png"),
         ("Learning Innovation Building", "media/images/LEARNINGINNOVATION.png"),
         ("John Hines Building", "media/images/JOHNHINES.png"),
         ("UQ Union and Food Court", "media/images/UNIONFOODCOURT.png"),
         ("McElwain Building", "media/images/MCELWAIN.png"),
         ("Chamberlain Building", "media/images/CHAMBERLAIN.png"),
         ("Art Museum", "media/images/ARTMUSEUM.png"),
-        // Missing
         ("Otto Hirschfeld Building", "media/images/RICHARDS.png"),
         ("Molecular BioScience Building", "media/images/MOLECULARBIOSCIENCE.png"),
         ("JD Story Administration Building", "media/images/JDSTORY.png"),
         ("Hartley Teak", "media/images/HARTLEY_TEAK.png"),
-        ("Biological Science Library", "media/images/BIO_SCIENCE_LIBRARY.png"),
+        ("Biological Sciences Library", "media/images/BIO_SCIENCE_LIBRARY.png"),
         ("Brain Institution", "media/images/BRAININSTITUTE.png"),
-        ("Center for Water and Environmental Biotechnology", "media/images/WATERANDENVIRO.png"),
+        ("Centre for Water and Environmental Biotechnology", "media/images/WATERANDENVIRO.png"),
         ("Chemistry Building", "media/images/CHEM.png"),
         ("Mansergh Shaw Building", "media/images/MANSERGHSHAW.png"),
         ("Hawken Engineering", "media/images/HAWKEN.png"),
+        ("Sir James Foot Building", "media/images/JAMESFOOT.png"),
         ("Don Nicklin Building", "media/images/DONNICKLIN.png"),
         ("Bioengineering Institute", "media/images/BIOENG.png"),
-        // CANT FIND
+        // NEED ("Advanced Imaging Centre", "media/")
         ("Advanced Imaging Centre", "media/images/RICHARDS.png"),
         ("General Purpose South", "media/images/GPSOUTH.png"),
         ("General Purpose North", "media/images/GPNORTH.png"),
@@ -443,8 +440,6 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     // textures.insert("Steele Building".to_string(), load_texture("media/images/STEELEBUILDING.png").await.unwrap());
     // textures.insert("EZ Mart".to_string(), load_texture("media/images/ezmart.png").await.unwrap());
     // textures.insert("Central Library".to_string(), load_texture("media/images/CENTRALLIBRARY.png").await.unwrap());
-    // // NOT BEEN ADDED.
-    // textures.insert("Prentice Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // textures.insert("Learning Innovation Building".to_string(), load_texture("media/images/LEARNINGINNOVATION.png").await.unwrap());
     // textures.insert("John Hines Building".to_string(), load_texture("media/images/JOHNHINES.png").await.unwrap());
     // // NOT BEEN ADDED
@@ -454,8 +449,6 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     // // NOT BEEN ADDED
     // textures.insert("Chamberlain Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // textures.insert("Art Museum".to_string(), load_texture("media/images/ARTMUSEUM.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Otto Hirschfeld Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
     // textures.insert("Molecular BioScience Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // textures.insert("JD Story Administration Building".to_string(), load_texture("media/images/JDSTORY.png").await.unwrap());
