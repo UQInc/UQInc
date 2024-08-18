@@ -242,7 +242,11 @@ pub async fn main() {
             if mouse_x < screen_width * 0.7 {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
                 game_state.score = clicked(game_state.score, current_event.as_ref());
-                sound_effects(String::from("click"), &sounds);
+                if let Some(path) = sounds.get("click").cloned() {
+                    std::thread::spawn(move || {
+                        music::sound_effect(path, 1);
+                    });
+                }
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
             }
@@ -250,16 +254,35 @@ pub async fn main() {
 
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 0);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 1);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 2);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 3);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 4);
-        gui::buymenu_description(Some(&font), font_size, String::from("This is a big line of code to check."), 0);
-        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 1);
-        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 2);
-        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 3);
-        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 4);
+
+        if let Some(current_building_0) = game_state.buildings.get(0) {
+            gui::buymenu_font(Some(&font), font_size, current_building_0.name.to_string(), 0);
+            gui::buymenu_price(Some(&font), font_size, current_building_0.price, 0);
+            gui::buymenu_description(Some(&font), font_size, current_building_0.description.to_string(), 0);
+        }
+        if let Some(current_building_1) = game_state.buildings.get(1) {
+            gui::buymenu_font(Some(&font), font_size, current_building_1.name.to_string(), 1);
+            gui::buymenu_price(Some(&font), font_size, current_building_1.price, 1);
+            gui::buymenu_description(Some(&font), font_size, current_building_1.description.to_string(), 1);
+        }
+
+        if let Some(current_building_2) = game_state.buildings.get(2) {
+            gui::buymenu_font(Some(&font), font_size, current_building_2.name.to_string(), 2);
+            gui::buymenu_price(Some(&font), font_size, current_building_2.price, 2);
+            gui::buymenu_description(Some(&font), font_size, current_building_2.description.to_string(), 2);
+        }
+
+        if let Some(current_building_3) = game_state.buildings.get(3) {
+            gui::buymenu_font(Some(&font), font_size, current_building_3.name.to_string(), 3);
+            gui::buymenu_price(Some(&font), font_size, current_building_3.price, 3);
+            gui::buymenu_description(Some(&font), font_size, current_building_3.description.to_string(), 3);
+        }
+
+        if let Some(current_building_4) = game_state.buildings.get(4) {
+            gui::buymenu_font(Some(&font), font_size, current_building_4.name.to_string(), 4);
+            gui::buymenu_price(Some(&font), font_size, current_building_4.price, 4);
+            gui::buymenu_description(Some(&font), font_size, current_building_4.description.to_string(), 4);
+        }
 
 
         next_frame().await;
@@ -364,16 +387,6 @@ fn clicked(mut score: Score, event: Option<&Event>) -> Score {
     }
     score.curr_students += (1. * mult) as f64;
     score
-}
-
-fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
-    if sound == "click" {
-        if let Some(path) = sounds.get("click").cloned() {
-            std::thread::spawn(move || {
-                music::sound_effect(path, 1);
-            });
-        }
-    }
 }
 
 fn start_game(unown: Vec<&'static Building>,

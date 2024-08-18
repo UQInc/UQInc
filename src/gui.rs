@@ -103,6 +103,34 @@ pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_numbe
     );
 }
 
+pub fn buymenu_price(font: Option<&Font>, font_size: u16, price: i64, box_number: usize) {
+    let box_coords: [[f32; 2]; 5] = [
+        [0.6, 0.575],
+        [0.6, 0.66],
+        [0.6, 0.745],
+        [0.6, 0.83],
+        [0.6, 0.915],
+    ];
+    // Define the dimensions and positions of the rectangles
+    let x_pos = screen_width() * box_coords[box_number][0];
+    // bigger for further
+    let y_pos = screen_height() * box_coords[box_number][1];
+    let price_str = format!("${}", price);
+    draw_text_ex(
+        &price_str,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size,
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            color: BLACK,
+            font: font,
+            ..Default::default()
+        },
+    );
+}
+
 pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
     // Define the coordinates for the text box
     let box_coords: [[f32; 2]; 5] = [
@@ -170,6 +198,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(0) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(0);
@@ -186,6 +215,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(1) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(1);
@@ -201,6 +231,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(2) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(2);
@@ -216,6 +247,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(3) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(3);
@@ -231,6 +263,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(4) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(4);
@@ -257,7 +290,7 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     // Define the dimensions and positions of the rectangles
     let rects = [
         Rect::new(screen_width - buy_frame_width, 0.0, 0.5 * buy_frame_width, 0.09 * screen_height), 
-        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 2.0 * 1.0), 0.0, 0.5 * buy_frame_width, 0.09 * screen_height),
+        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 2.0), 0.0, 0.5 * buy_frame_width, 0.09 * screen_height),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.1, buy_frame_width, screen_height * 0.16),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.27, buy_frame_width, screen_height * 0.16),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.44, buy_frame_width, screen_height * 0.16),
@@ -284,26 +317,25 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
                         game_state.menu_type = "perks".to_string();
                         println!("{}",game_state.menu_type);
                     },
-                    2 => { // Stats
-                        println!("CLICKED 2");
-                        game_state.menu_type = "stats".to_string();
-                        println!("{}",game_state.menu_type);
-                    },
-                    3 => {
+                    2 => {
                         println!("CLICKED 3");
                         buy_building(game_state,0);
                     },
-                    4 => {
+                    3 => {
                         println!("CLICKED 4");
+                        buy_building(game_state,1);
+                    },
+                    4 => {
+                        println!("CLICKED 5");
+                        buy_building(game_state,2);
                     },
                     5 => {
-                        println!("CLICKED 5");
+                        println!("CLICKED 6");
+                        buy_building(game_state,3);
                     },
                     6 => {
-                        println!("CLICKED 6");
-                    },
-                    7 => {
                         println!("CLICKED 7");
+                        buy_building(game_state,4);
                     },
                     _ => {}
                 }
@@ -445,9 +477,79 @@ pub fn draw_event_gui(event: &Event) -> bool {
     let screen_width = screen_width();
     let mut outcome = true;
 
+    let mut heading = "".to_string();
+    let mut description = "".to_string();
+    let mut duration = "".to_string();
+    let mut effect = "".to_string();
+
+    if (*event).event_type == "CashProduction" {
+        if (*event).dps_modifier == 2. {
+            heading = "\"Inflation\"".to_string();
+            description = "Due to an increase in student fees, UQ's cash production per student is doubled".to_string();
+            effect = "Student cash producion: 2x".to_string();
+            duration.push_str("Duration: ");
+            duration.push_str(&(*event).duration.as_secs().to_string());
+            duration.push_str("s");
+        } else if (*event).dps_modifier == 0.5 {
+            heading = "International politics".to_string();
+            description = "Changes in international immigration policy have reduced UQ's income from international students".to_string();
+            effect = "Student cash producion: 0.5x".to_string();
+            duration.push_str("Duration: ");
+            duration.push_str(&(*event).duration.as_secs().to_string());
+            duration.push_str("s");
+        }
+    } else if (*event).event_type == "AddStudents" {
+        if (*event).students_awarded >= 0 {
+            heading = "Positive Media Attention".to_string();
+            description = "The ABC has written a glowing piece on UQ. You gain 5% to your total students".to_string();
+            effect = "Students gained: ".to_string();
+            effect.push_str(&(*event).students_awarded.to_string());
+        } else if (*event).students_awarded >= 0 {
+            heading = "Negative Media Attention".to_string();
+            description = "UQ has been involved in a major scandal! You lose 5% of your total students".to_string();
+            effect = "Students gained: ".to_string();
+            effect.push_str(&(*event).students_awarded.to_string());
+        }
+    } else if (*event).event_type == "StudentsPerClick" {
+        if (*event).spc_modifier == 2. {
+            heading = "University Ranking Increased".to_string();
+            description = "Global university rankings have been released. UQ's rank inceased from last year. Student gain per click is doubled".to_string();
+            effect = "Student gain per click: 2x".to_string();
+            duration.push_str("Duration: ");
+            duration.push_str(&(*event).duration.as_secs().to_string());
+            duration.push_str("s");
+        } else if (*event).spc_modifier == 0.5 {
+            heading = "University Ranking Decreased".to_string();
+            description = "Global university rankings have been released. UQ's rank decreased from last year. Student gain per click is halved".to_string();
+            effect = "Student gain per click: 0.5x".to_string();
+            duration.push_str("Duration: ");
+            duration.push_str(&(*event).duration.as_secs().to_string());
+            duration.push_str("s");
+        }
+    }
+
+    let len = description.len();
+    let widget_width = 500.;
+    let widget_height = 400.;
+
+    let pixels_per_char = 7.5;
+    let num_rows = ((len as f64 * pixels_per_char) / widget_width) as i32 + 1;
+
+    let chars_per_line: i32 = (widget_width / pixels_per_char) as i32;
+
+
     root_ui().window(2, vec2((screen_width / 2.) - 250., (screen_height / 2.) - 200.), vec2(500., 400.), |ui| {
-        ui.label(Vec2::new(10., 10.), "EVENT!!!");
-        if ui.button(Vec2::new(100., 100.), "Close") {
+        ui.label(Vec2::new(10., 10.), &heading);
+
+        let mut shift = 20.;
+        for n in 0..num_rows {
+            ui.label(Vec2::new(10., 10. + shift), &description[(n * chars_per_line) as usize..min(((n + 1) * (chars_per_line)) as usize, len)]);
+            shift += 20.;
+        }
+        
+        ui.label(Vec2::new(10., 10. + shift), &effect);
+        ui.label(Vec2::new(10., 30. + shift), &duration);
+        if ui.button(Vec2::new(225., 300.), "Close") {
             outcome = false;
         }
     });
