@@ -162,12 +162,85 @@ pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, bo
 }
 
 
-fn buy_building(game_state: &mut GameState){
+fn buy_building(game_state: &mut GameState, index: i32){
     if !game_state.buildings.is_empty() {
-        // Remove the building from index 0 and append it directly to owned_buildings
-        let building = game_state.buildings.remove(0);
-        game_state.owned_buildings.push(building);
-        game_state.score.curr_students += building.students;
+        if (index == 0) {
+            
+            if let Some(building) = game_state.buildings.get(0) {
+                let building_name = building.name;
+                let building_price = building.price;
+                if (game_state.score.dollars>= building.price as f64){
+            // Remove the building from index 0 and append it directly to owned_buildings
+                    let building = game_state.buildings.remove(0);
+                    game_state.owned_buildings.push(building);
+                    game_state.score.curr_students += building.students;
+                    game_state.score.dollars -= building.price as f64;
+                }
+            }
+            
+            
+        }
+        if (index == 1) {
+            
+            if let Some(building) = game_state.buildings.get(1) {
+                let building_name = building.name;
+                let building_price = building.price;
+                if (game_state.score.dollars>= building.price as f64){
+            // Remove the building from index 0 and append it directly to owned_buildings
+                    let building = game_state.buildings.remove(1);
+                    game_state.owned_buildings.push(building);
+                    game_state.score.curr_students += building.students;
+                    game_state.score.dollars -= building.price as f64;
+                }
+            }
+            
+        }
+        if (index == 2) {
+            
+            if let Some(building) = game_state.buildings.get(2) {
+                let building_name = building.name;
+                let building_price = building.price;
+                if (game_state.score.dollars>= building.price as f64){
+            // Remove the building from index 0 and append it directly to owned_buildings
+                    let building = game_state.buildings.remove(2);
+                    game_state.owned_buildings.push(building);
+                    game_state.score.curr_students += building.students;
+                    game_state.score.dollars -= building.price as f64;
+                }
+            }
+            
+        }
+        if (index == 3) {
+            
+            if let Some(building) = game_state.buildings.get(3) {
+                let building_name = building.name;
+                let building_price = building.price;
+                if (game_state.score.dollars>= building.price as f64){
+            // Remove the building from index 0 and append it directly to owned_buildings
+                    let building = game_state.buildings.remove(3);
+                    game_state.owned_buildings.push(building);
+                    game_state.score.curr_students += building.students;
+                    game_state.score.dollars -= building.price as f64;
+                }
+            }
+            
+        }
+        if (index == 4) {
+            
+            if let Some(building) = game_state.buildings.get(4) {
+                let building_name = building.name;
+                let building_price = building.price;
+                if (game_state.score.dollars>= building.price as f64){
+            // Remove the building from index 0 and append it directly to owned_buildings
+                    let building = game_state.buildings.remove(4);
+                    game_state.owned_buildings.push(building);
+                    game_state.score.curr_students += building.students;
+                    game_state.score.dollars -= building.price as f64;
+                }
+            }
+            
+        }
+        
     }
     
     // for building in &game_state.buildings {
@@ -218,7 +291,7 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
                     },
                     3 => {
                         println!("CLICKED 3");
-                        buy_building(game_state);
+                        buy_building(game_state,0);
                     },
                     4 => {
                         println!("CLICKED 4");
