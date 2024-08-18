@@ -307,6 +307,13 @@ pub fn draw_event_gui(event: &Event) -> bool {
     let screen_width = screen_width();
     let mut outcome = true;
 
+    let widget_width = 500.;
+    let widget_height = 400.;
+
+    let title = "New Event!";
+    let mut heading = "";
+    let mut description = "";
+
     root_ui().window(2, vec2((screen_width / 2.) - 250., (screen_height / 2.) - 200.), vec2(500., 400.), |ui| {
         ui.label(Vec2::new(10., 10.), "EVENT!!!");
         if ui.button(Vec2::new(100., 100.), "Close") {
