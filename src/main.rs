@@ -3,6 +3,7 @@ use gui::draw_event_gui;
 use macroquad;
 mod gui;
 mod music;
+mod perks;
 mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
