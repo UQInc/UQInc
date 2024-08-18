@@ -78,11 +78,11 @@ pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
 
 pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
     let box_coords: [[f32; 2]; 5] = [
-        [0.35 , 0.575],
-        [0.35 , 0.66],
-        [0.35 , 0.745],
-        [0.35 , 0.83],
-        [0.35 , 0.915],
+        [0.1 , 0.575],
+        [0.1 , 0.66],
+        [0.1 , 0.745],
+        [0.1 , 0.83],
+        [0.1 , 0.915],
     ];
     // 27 char limit
     // Define the dimensions and positions of the rectangles
@@ -123,8 +123,8 @@ pub fn buymenu_price(font: Option<&Font>, font_size: u16, price: i64, box_number
         y_pos,
         TextParams {
             font_size: font_size,
-            font_scale: 0.7,        // Slight horizontal scale to make the text wider
-            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            font_scale: 0.4,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 5.0, // Match the font scale to maintain proportions
             color: BLACK,
             font: font,
             ..Default::default()
@@ -135,11 +135,11 @@ pub fn buymenu_price(font: Option<&Font>, font_size: u16, price: i64, box_number
 pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
     // Define the coordinates for the text box
     let box_coords: [[f32; 2]; 5] = [
-        [0.35 , 0.59],
-        [0.35 , 0.675],
-        [0.35 , 0.76],
-        [0.35 , 0.845],
-        [0.35 , 0.93],
+        [0.1 , 0.59],
+        [0.1 , 0.675],
+        [0.1 , 0.76],
+        [0.1 , 0.845],
+        [0.1 , 0.93],
     ];
     
     // Set the maximum number of characters per line
@@ -438,7 +438,7 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     // root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
     //     ui.label(Vec2::new(10., 10.), "Total Students:");
     //     ui.label(Vec2::new(130., 10.), &(game_state.score.curr_students as i32).to_string());
-    //     ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
+    //     ui.label(Vec2::çnew(currency_pos, currency_height), "Currency $: ");
     //     ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
     // });
     // Iterating through owned buildings.
