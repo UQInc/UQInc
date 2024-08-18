@@ -98,7 +98,7 @@ pub static MCELWAIN: Building = Building{
 
 pub static CHAMBERLAIN: Building = Building{
     name: "Chamberlain Building",
-    students: 12000.0,
+    students: 15000.0,
     perk_points: 0,
     description: "Building 35: School of Earth and Environmental Sciences and the School of Nursing, Midwifery and Social Work.",
     price: 400000,
@@ -106,7 +106,7 @@ pub static CHAMBERLAIN: Building = Building{
 
 pub static ARTMUSEUM: Building = Building{
     name: "Art Museum",
-    students: 15000.0,
+    students: 19500.0,
     perk_points: 0,
     description: "Showcase of Queensland's finest artwork.",
     price: 750000,
@@ -114,7 +114,7 @@ pub static ARTMUSEUM: Building = Building{
 
 pub static MOLECULARBIOSCIENCE: Building = Building{
     name: "Molecular BioScience Building",
-    students: 25000.0,
+    students: 28000.0,
     perk_points: 0,
     description: "Building 76: Houses the school of Chemistry & Molecular Biosciences, Australian Infectious Diseases Research Centre.",
     price: 1500000,
@@ -122,7 +122,7 @@ pub static MOLECULARBIOSCIENCE: Building = Building{
 
 pub static JDSTORY: Building = Building{
     name: "JD Story Administration Building",
-    students: 33000.0,
+    students: 35000.0,
     perk_points: 0,
     description: "Building 61: Offices and the Australian Post Office on campus.",
     price: 2250000,
@@ -130,7 +130,7 @@ pub static JDSTORY: Building = Building{
 
 pub static HARTLEY_TEAK: Building = Building{
     name: "Hartley Teak",
-    students: 40000.0,
+    students: 44000.0,
     perk_points: 0,
     description: "Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation.",
     price: 2600000,
@@ -138,7 +138,7 @@ pub static HARTLEY_TEAK: Building = Building{
 
 pub static BIO_SCIENCE_LIBRARY: Building = Building{
     name: "Biological Sciences Library",
-    students: 50000.0,
+    students: 60000.0,
     perk_points: 0,
     description: "Building 94: 24 Hour library",
     price: 3000000,
@@ -146,7 +146,7 @@ pub static BIO_SCIENCE_LIBRARY: Building = Building{
 
 pub static BRAININSTITUTE: Building = Building{
     name: "Brain Institution",
-    students: 64232.0,
+    students: 70000.0,
     perk_points: 0,
     description: "Test",
     price: 4230000,
@@ -154,7 +154,7 @@ pub static BRAININSTITUTE: Building = Building{
 
 pub static WATERANDENVIRO: Building = Building{
     name: "Centre for Water and Environmental Biotechnology",
-    students: 70000.0,
+    students: 85000.0,
     perk_points: 0,
     description: "Building 60: World leading centre in water research and an emerging leader in environmental biotechnology.",
     price: 4800000,
@@ -162,7 +162,7 @@ pub static WATERANDENVIRO: Building = Building{
 
 pub static CHEM: Building = Building{
     name: "Chemistry Building",
-    students: 88888.0,
+    students: 95000.0,
     perk_points: 0,
     description: "Building 68: Contains the School of Chemistry and Molecular Biosciences, Faculty of Science Workshops and Central Teaching rooms.",
     price: 5555555,
@@ -170,7 +170,7 @@ pub static CHEM: Building = Building{
 
 pub static MANSERGHSHAW: Building = Building{
     name: "Mansergh Shaw Building",
-    students: 100000.0,
+    students: 120000.0,
     perk_points: 0,
     description: "Building 45: The School of Mechanical & Mining Engineering as well as the makerspace of UQ Innovate",
     price: 6200000,
@@ -178,7 +178,7 @@ pub static MANSERGHSHAW: Building = Building{
 
 pub static HAWKEN: Building = Building{
     name: "Hawken Engineering",
-    students: 120000.0,
+    students: 150000.0,
     perk_points: 0,
     description: "Building 50: Home of engineering and sciences students and for popular research labs such as Boeing.",
     price: 7000000,
@@ -186,14 +186,14 @@ pub static HAWKEN: Building = Building{
 
 pub static JAMESFOOT: Building = Building{
     name: "Sir James Foot Building",
-    students: 150000.0,
+    students: 200000.0,
     perk_points: 0,
     description: "Building 47A: Home to the Sustainable Minerals Institute",
     price: 8300000,};
 
 pub static DONNICKLIN: Building = Building{
     name: "Don Nicklin Building",
-    students: 190000.0,
+    students: 250000.0,
     perk_points: 0,
     description: "Building 74: The Don Nicklin Building houses the School of Chemical Engineering.",
     price: 10000000,
@@ -201,7 +201,7 @@ pub static DONNICKLIN: Building = Building{
 
 pub static BIOENG: Building = Building{
     name: "Bioengineering Institute",
-    students: 222222.0,
+    students: 299999.0,
     perk_points: 0,
     description: "Building 75: The University of Queensland's Australian Institute for Bioengineering and Nanotechnology was established in 2003.",
     price: 20000000,
@@ -209,7 +209,7 @@ pub static BIOENG: Building = Building{
 
 pub static IMAGINGCENTRE: Building = Building{
     name: "Advanced Imaging Centre",
-    students: 280000.0,
+    students: 350000.0,
     perk_points: 0,
     description: "Building 57: State of the art research imaging.",
     price: 26000000,
@@ -217,7 +217,7 @@ pub static IMAGINGCENTRE: Building = Building{
 
 pub static GPSOUTH: Building = Building{
     name: "General Purpose South",
-    students: 325000.0,
+    students: 425000.0,
     perk_points: 0,
     description: "Building 78: UniQuest Pty Ltd, School of Information Technology & Electrical Engineering.",
     price: 32000000,
@@ -225,7 +225,7 @@ pub static GPSOUTH: Building = Building{
 
 pub static GPNORTH: Building = Building{
     name: "General Purpose North",
-    students: 400000.0,
+    students: 500000.0,
     perk_points: 0,
     description: "Building 39A: Faculty of Business, Economics Law and School of Business, School of Political Science and International Studies.",
     price: 40000000,
@@ -233,7 +233,7 @@ pub static GPNORTH: Building = Building{
 
 pub static UQBUSINESS: Building = Building{
     name: "UQ Business School",
-    students: 50000.0,
+    students: 555555.0,
     perk_points: 0,
     description: "The University of Queensland Business School is the business school of the University of Queensland.",
     price: 55000000,
@@ -241,7 +241,7 @@ pub static UQBUSINESS: Building = Building{
 
 pub static ZELMANCOWEN: Building = Building{
     name: "Zelman Cowen Building",
-    students: 65000.0,
+    students: 620000.0,
     perk_points: 0,
     description: "Building 51: School of Architecture, School of Music and the Architecture and Music Library.",
     price: 99000000,
@@ -249,7 +249,7 @@ pub static ZELMANCOWEN: Building = Building{
 
 pub static BUILDING41: Building = Building{
     name: "Building 41",
-    students: 95000.0,
+    students: 700000.0,
     perk_points: 0,
     description: "Building 41: UQ staff, graduates club and the Bank of Australia.",
     price: 150000000,
@@ -257,7 +257,7 @@ pub static BUILDING41: Building = Building{
 
 pub static FUNNYNUMBER: Building = Building{
     name: "23, 38, 31A",
-    students: 125000.0,
+    students: 800000.0,
     perk_points: 0,
     description: "Building 72: Contains the Integrity and Investigations unit, the Faculty of Health Sciences administration.",
     price: 233831233,
@@ -265,7 +265,7 @@ pub static FUNNYNUMBER: Building = Building{
 
 pub static CUMBRAESTEWART: Building = Building{
     name: "Cumbrae-Stewart Building",
-    students: 185000.0,
+    students: 950000.0,
     perk_points: 0,
     description: "Lecture Theatres.",
     price: 395000000,
@@ -273,7 +273,7 @@ pub static CUMBRAESTEWART: Building = Building{
 
 pub static OCONNELL: Building = Building{
     name: "O'Connell Building",
-    students: 250000.0,
+    students: 1111111.0,
     perk_points: 0,
     description: "Building 26: Connell building contains the School of Human Movement Studies and the Connell Gymnasium.",
     price: 500000000,
@@ -281,7 +281,7 @@ pub static OCONNELL: Building = Building{
 
 pub static GORDONGREENWOOD: Building = Building{
     name: "Gordon Greenwood Building",
-    students: 330000.0,
+    students: 1500000.0,
     perk_points: 0,
     description: "Building 32: School of languages and cultures and the University health service.",
     price: 600000000,
@@ -289,7 +289,7 @@ pub static GORDONGREENWOOD: Building = Building{
 
 pub static UQCENTRE: Building = Building{
     name: "UQ Centre",
-    students: 450000.0,
+    students: 2100000.0,
     perk_points: 0,
     description: "Building 27A: Home of graduation ceremonies, final exams and exhibitions. ",
     price: 750000000,
@@ -297,7 +297,7 @@ pub static UQCENTRE: Building = Building{
 
 pub static BUILDING33: Building = Building{
     name: "Building 33",
-    students: 600000.0,
+    students: 2500000.0,
     perk_points: 0,
     description: "Building 33: Viewpoint, used by UQsport.",
     price: 895000000,
@@ -305,7 +305,7 @@ pub static BUILDING33: Building = Building{
 
 pub static SCHONELLTHEATRE: Building = Building{
     name: "Schonell Theatre",
-    students: 750000.0,
+    students: 3100000.0,
     perk_points: 0,
     description: "Venue for theatre, special events and cinema screenings.",
     price: 1000000000,
@@ -313,7 +313,7 @@ pub static SCHONELLTHEATRE: Building = Building{
 
 pub static PSYCHOLOGY: Building = Building{
     name: "Psychology Building",
-    students: 1500000.0,
+    students: 3600000.0,
     perk_points: 0,
     description: "24A: School of Psychology.",
     price: 1550000000,
@@ -321,7 +321,7 @@ pub static PSYCHOLOGY: Building = Building{
 
 pub static KATHLEENLAMBOURNE: Building = Building{
     name: "Kathleen Lambourne Building",
-    students: 2000000.0,
+    students: 4000000.0,
     perk_points: 0,
     description: "Building 82F: UQ College.",
     price: 1950000000
@@ -329,7 +329,7 @@ pub static KATHLEENLAMBOURNE: Building = Building{
 
 pub static ADVENG: Building = Building{
     name: "Advanced Engineering",
-    students: 2850000.0,
+    students: 4600000.0,
     perk_points: 0,
     description: "Building 49: The Advanced Engineering Building houses various workshops, labs, offices and UQ's largest lecture theatre the GHD Auditorium. ",
     price: 2500000000,
@@ -337,7 +337,7 @@ pub static ADVENG: Building = Building{
 
 pub static LIVERIS: Building = Building{
     name: "Andrew N. Liveris Building",
-    students: 5000000.0,
+    students: 999999999.0,
     perk_points: 0,
     description: "Building 46: At 11 storeys high, the building is the tallest building on campus. The home for the School of Chemical Engineering. It acts as a vibrant hub for industry.",
     price: 5000000000,
