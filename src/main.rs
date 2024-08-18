@@ -124,7 +124,7 @@ impl Statistics {
 fn window_conf() -> Conf {
     Conf {
         window_title: "UQ, Inc.".to_owned(),
-        fullscreen: true,
+        fullscreen: false,
         ..Default::default()
     }
 }
@@ -420,8 +420,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("Sir James Foot Building", "media/images/JAMESFOOT.png"),
         ("Don Nicklin Building", "media/images/DONNICKLIN.png"),
         ("Bioengineering Institute", "media/images/BIOENG.png"),
-        // NEED ("Advanced Imaging Centre", "media/")
-        ("Advanced Imaging Centre", "media/images/RICHARDS.png"),
+        ("Advanced Imaging Centre", "media/images/IMAGINGCENTRE.png"),
         ("General Purpose South", "media/images/GPSOUTH.png"),
         ("General Purpose North", "media/images/GPNORTH.png"),
         ("UQ Business School", "media/images/UQBUSINESS.png"),
