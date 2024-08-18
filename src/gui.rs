@@ -103,6 +103,34 @@ pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_numbe
     );
 }
 
+pub fn buymenu_price(font: Option<&Font>, font_size: u16, price: i64, box_number: usize) {
+    let box_coords: [[f32; 2]; 5] = [
+        [0.6, 0.575],
+        [0.6, 0.66],
+        [0.6, 0.745],
+        [0.6, 0.83],
+        [0.6, 0.915],
+    ];
+    // Define the dimensions and positions of the rectangles
+    let x_pos = screen_width() * box_coords[box_number][0];
+    // bigger for further
+    let y_pos = screen_height() * box_coords[box_number][1];
+    let price_str = format!("${}", price);
+    draw_text_ex(
+        &price_str,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size,
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            color: BLACK,
+            font: font,
+            ..Default::default()
+        },
+    );
+}
+
 pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
     // Define the coordinates for the text box
     let box_coords: [[f32; 2]; 5] = [
