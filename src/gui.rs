@@ -95,7 +95,7 @@ pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
 }
 
 pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
-    let text = "Stars";
+    let text = "Stats";
     let x_pos = screen_width() * 0.8;
     let y_pos = screen_height() * 0.535;
     draw_text_ex(
@@ -113,6 +113,34 @@ pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
     );
 }
 
+pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
+    let box_coords: [[f32; 2]; 5] = [
+        [0.35 , 0.575],
+        [0.35 , 0.66],
+        [0.35 , 0.745],
+        [0.35 , 0.83],
+        [0.35 , 0.915],
+    ];
+    // 27 char limit
+    // Define the dimensions and positions of the rectangles
+    let x_pos = screen_width() * box_coords[box_number][0];
+    // bigger for further
+    let y_pos = screen_height() * box_coords[box_number][1];
+    println!("{}, {}", x_pos, y_pos);
+    draw_text_ex(
+        &text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size,
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            color: BLACK,
+            font: font,
+            ..Default::default()
+        },
+    );
+}
 
 pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState) {
     
@@ -124,11 +152,11 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         Rect::new(screen_width - buy_frame_width, 0.0, 0.33 * buy_frame_width, 0.09 * screen_height),  // Stats
         Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 1.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Build
         Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 2.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Perks
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.18, buy_frame_width, screen_height * 0.16),  // Other red rectangles
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.36, buy_frame_width, screen_height * 0.16),
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.54, buy_frame_width, screen_height * 0.16),
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.72, buy_frame_width, screen_height * 0.16),
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.9, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.1, buy_frame_width, screen_height * 0.16),  // Other red rectangles
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.27, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.44, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.61, buy_frame_width, screen_height * 0.16),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.78, buy_frame_width, screen_height * 0.16),
     ];
 
     // Handle click events
