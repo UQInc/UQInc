@@ -492,7 +492,7 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
         ui.label(Vec2::new(10., 10.), "Total Students:");
         ui.label(Vec2::new(130., 10.), &(game_state.score.curr_students as i32).to_string());
         ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
-        ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
+        ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i64).to_string());
     });
 
 
