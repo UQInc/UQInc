@@ -126,7 +126,6 @@ pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_numbe
     let x_pos = screen_width() * box_coords[box_number][0];
     // bigger for further
     let y_pos = screen_height() * box_coords[box_number][1];
-    println!("{}, {}", x_pos, y_pos);
     draw_text_ex(
         &text,
         x_pos,
@@ -156,7 +155,8 @@ fn buy_building(game_state: &mut GameState){
     //     println!("{}",building_name);
     // }
 }
-    
+pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState, font: Option<&Font>) {
+   
     let screen_height = screen_height();
     let screen_width = screen_width();
     let buy_frame_width = (screen_width * 0.7) / 2 as f32;
