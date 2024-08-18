@@ -20,7 +20,7 @@ use macroquad::ui::{
 };
 struct Building {
     name: &'static str, // The type of building
-    students: i32,    // Students per Second that this building generates
+    students: f64,    // Students per Second that this building generates
     perk_points: i32,// Number of perk points awarded by purchasing this building
     price: i64, // Price to purchase building
     description: &'static str,
@@ -124,7 +124,7 @@ impl Statistics {
 fn window_conf() -> Conf {
     Conf {
         window_title: "UQ, Inc.".to_owned(),
-        fullscreen: true,
+        fullscreen: false,
         ..Default::default()
     }
 }
@@ -251,7 +251,16 @@ pub async fn main() {
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
         gui::stats_textdraw(Some(&font), font_size);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 0);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 1);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 2);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 3);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 4);
+        gui::buymenu_description(Some(&font), font_size, String::from("This is a big line of code to check."), 0);
+        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 1);
+        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 2);
+        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 3);
+        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 4);
 
 
         next_frame().await;
@@ -419,8 +428,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("Sir James Foot Building", "media/images/JAMESFOOT.png"),
         ("Don Nicklin Building", "media/images/DONNICKLIN.png"),
         ("Bioengineering Institute", "media/images/BIOENG.png"),
-        // NEED ("Advanced Imaging Centre", "media/")
-        ("Advanced Imaging Centre", "media/images/RICHARDS.png"),
+        ("Advanced Imaging Centre", "media/images/IMAGINGCENTRE.png"),
         ("General Purpose South", "media/images/GPSOUTH.png"),
         ("General Purpose North", "media/images/GPNORTH.png"),
         ("UQ Business School", "media/images/UQBUSINESS.png"),
