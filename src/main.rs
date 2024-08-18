@@ -44,12 +44,12 @@ pub struct Event {
 
 struct GameState {
     score: Score,
-    buildings: Vec<Building>, // Active/purchased buildings
+    buildings: Vec<&'static Building>, // Active/purchased buildings
     events: Vec<Event>,       // Active events
     start_time: Instant,      // When the game was launched
     stats: Statistics,
     menu_type: String,        // Gameplay stats
-    owned_buildings: Vec<Building>,
+    owned_buildings: Vec<&'static Building>,
 }
 
 struct Statistics {
@@ -177,7 +177,6 @@ pub async fn main() {
     buildings.push(&UQCENTRE);
     buildings.push(&BUILDING33);
     buildings.push(&SCHONELLTHEATRE);
-    buildings.push(&BRIDGE);
     buildings.push(&PSYCHOLOGY);
     buildings.push(&KATHLEENLAMBOURNE);
     buildings.push(&LIVERIS);
@@ -185,7 +184,7 @@ pub async fn main() {
 
 
     let mut owned_buildings: Vec<&'static Building> = Vec::new();
-
+    
     // Use these variables for checking click.
 
     // for (key, value) in sounds {
@@ -206,8 +205,7 @@ pub async fn main() {
     .unwrap();
 
     // Initializes GameState struct
-    let mut game_state = start_game();
-    let mut notification_manager = gui::NotificationManager::new();
+    let mut game_state = start_game(buildings, owned_buildings);
 
     let textures = load_textures().await;
     let mut time_el = Instant::now();
@@ -234,7 +232,7 @@ pub async fn main() {
     root_ui().push_skin(&currency_skin);
     loop {
         
-        gui::gui(&mut notification_manager, &textures, &mut game_state, Some(&font));
+        gui::gui(&textures, &mut game_state, Some(&font));
 
         let screen_height = screen_height();
         let screen_width = screen_width();
@@ -255,6 +253,7 @@ pub async fn main() {
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
         gui::stats_textdraw(Some(&font), font_size);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 1);
 
 
         next_frame().await;
@@ -372,14 +371,16 @@ fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
     }
 }
 
-fn start_game() -> GameState {
+fn start_game(unown: Vec<&'static Building>,
+    owned: Vec<&'static Building>) -> GameState {
     let score: Score = Score::init();
-    let buildings: Vec<Building> = Vec::new();
+    let buildings = unown;
+    let owned_buildings: Vec<&Building> = owned;
     let events: Vec<Event> = Vec::new();
     let start_time = Instant::now();
     let stats: Statistics = Statistics::init();
     let menu_type: String = "build".to_string();
-    let owned_buildings: Vec<Building> = Vec::new();
+    
     GameState {
         score,
         buildings,
@@ -504,8 +505,6 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     // // NOT BEEN ADDED
     // textures.insert("Schonell Theatre".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
-    // textures.insert("Eleanor Schonell Bridge".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
     // textures.insert("Psychology Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
     // textures.insert("Kathleen Lambourne Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
@@ -513,15 +512,12 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     // textures.insert("Advanced Engineering".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
     // textures.insert("Andrew N. Liveris Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-
     for (name, path) in &buildings {
         textures.insert(name.to_string(), load_texture(path).await.unwrap());
     }
 
     textures
 }
-
-
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
