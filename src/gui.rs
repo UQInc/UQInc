@@ -10,7 +10,7 @@ use std::collections::HashMap;
 use std::default;
 use std::thread::sleep;
 
-use crate::GameState;
+use crate::{Event, GameState};
 
 static light_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 0.77); // Normalized values
 static middle_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 0.86); // Normalized values
@@ -286,13 +286,13 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     
     
 
+
     //If screen width has changed, move the window to new position
     root_ui().move_window(1, Vec2::new(window_position_x, 0.));
 
     // Reset to default camera
     set_default_camera();
     
-
     //Draw currency widget
     root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
         ui.label(Vec2::new(10., 10.), "Total Students:");
@@ -301,3 +301,21 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
         ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
     });
 }
+
+pub fn draw_event_gui(event: &Event) -> bool {
+    let screen_height = screen_height();
+    let screen_width = screen_width();
+    let mut outcome = true;
+
+    root_ui().window(2, vec2((screen_width / 2.) - 250., (screen_height / 2.) - 200.), vec2(500., 400.), |ui| {
+        ui.label(Vec2::new(10., 10.), "EVENT!!!");
+        if ui.button(Vec2::new(100., 100.), "Close") {
+            outcome = false;
+        }
+    });
+
+    return outcome;
+
+    //If screen width has changed, move the window to new position
+    // root_ui().move_window(1, Vec2::new(window_position_x, 0.));
+} 

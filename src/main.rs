@@ -1,4 +1,5 @@
 use buildings::*;
+use gui::draw_event_gui;
 use macroquad;
 mod gui;
 mod music;
@@ -6,6 +7,7 @@ mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
 use std::collections::{hash_map, HashMap};
+use std::env::set_current_dir;
 use std::hash::Hash;
 use std::path::{Path, PathBuf};
 use std::thread::{current, spawn};
@@ -32,7 +34,7 @@ struct Score {
     perk_points: i32, // Number of available perk points
 }
 
-struct Event {
+pub struct Event {
     students_awarded: i32, // Number of students this event gives (can be negative)
     event_type: String,    // Type/Name of event
     duration: Duration,    // How long the event lasts (seconds)
@@ -209,7 +211,8 @@ pub async fn main() {
     let mut time_el = Instant::now();
     let time_req = Duration::from_secs(1);
     let mut last_event_time = Instant::now();
-    let mut current_event: Option<Event> = get_event_from_rand(0, &game_state);
+    let mut current_event: Option<Event> = None;
+    let mut draw_event_popup: bool = false;
 
     // Seed random based on system time
     rand::srand(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
@@ -260,20 +263,27 @@ pub async fn main() {
             time_el = Instant::now();
         };
 
+        if draw_event_popup {
+            println!("DRAW");
+            draw_event_popup = draw_event_gui(current_event.as_ref().unwrap());
+        }
+
         // Check if ready for an event roll, if ready, roll for an event and add the new event.
-        if last_event_time.elapsed() >= Duration::from_secs(60) {
+        if last_event_time.elapsed() >= Duration::from_secs(10) {
             println!("Rolling for event");
 
             last_event_time = Instant::now();
+            if !current_event.as_ref().is_some() {
+                let event = get_event_from_rand(rand::gen_range(0, 6), &game_state);
+                if event.is_some() {
+                    println!("New Event Added");
+                    current_event = event;
 
-            let event = get_event_from_rand(rand::gen_range(0, 30), &game_state);
-
-            if event.is_some() {
-                println!("Event Added");
-                current_event = event;
-
-                if current_event.as_ref().unwrap().event_type == "AddStudents" {
-                    game_state.score.curr_students += current_event.as_ref().unwrap().students_awarded as f64;
+                    draw_event_popup = gui::draw_event_gui(current_event.as_ref().unwrap());
+    
+                    if current_event.as_ref().unwrap().event_type == "AddStudents" {
+                        game_state.score.curr_students += current_event.as_ref().unwrap().students_awarded as f64;
+                    }
                 }
             }
         }
