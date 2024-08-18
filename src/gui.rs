@@ -10,49 +10,11 @@ use std::collections::HashMap;
 use std::default;
 use std::thread::sleep;
 
-use crate::GameState;
+use crate::{Event, GameState};
 
 static light_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 0.77); // Normalized values
 static middle_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 0.86); // Normalized values
 static dark_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 1.0); // Normalized values
-
-
-// Score implementations
-pub fn score() {}
-
-pub struct Notification {
-    text: String,
-    timer: f32, // How long the notification should be displayed
-}
-
-pub struct NotificationManager {
-    notifications: Vec<Notification>,
-}
-
-impl NotificationManager {
-    pub fn new() -> Self {
-        Self {
-            notifications: Vec::new(),
-        }
-    }
-
-    pub fn add_notification(&mut self, text: String, duration: f32) {
-        self.notifications.push(Notification {
-            text,
-            timer: duration,
-        });
-    }
-
-    pub fn update(&mut self, delta_time: f32) {
-        // Update timers and remove expired notifications
-        self.notifications.retain_mut(|notification| {
-            notification.timer -= delta_time;
-            notification.timer > 0.0
-        });
-    }
-
-    pub fn draw(&self) {}
-}
 
 pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Build";
@@ -201,12 +163,11 @@ pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, bo
 
 
 fn buy_building(game_state: &mut GameState){
-    println!("Test");
-    
     if !game_state.buildings.is_empty() {
         // Remove the building from index 0 and append it directly to owned_buildings
         let building = game_state.buildings.remove(0);
         game_state.owned_buildings.push(building);
+        game_state.score.curr_students += building.students;
     }
     
     // for building in &game_state.buildings {
@@ -214,7 +175,7 @@ fn buy_building(game_state: &mut GameState){
     //     println!("{}",building_name);
     // }
 }
-pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState, font: Option<&Font>) {
+pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, font: Option<&Font>) {
    
     let screen_height = screen_height();
     let screen_width = screen_width();
@@ -317,8 +278,9 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     //Scale the game map to fit a 1:1 aspect ratio and draw the game map
     let game_window_dimensions = ((screen_width * 0.7) as i32, screen_height as i32);
 
-    let texture = textures.get("Test1").unwrap();
-    let ratio = texture.width() / texture.height();
+    let background_texture = textures.get("Background").unwrap();
+    let foreground_texture = textures.get("Foreground").unwrap();
+    let ratio = background_texture.width() / background_texture.height();
 
     let map_size_x = min(game_window_dimensions.0, (game_window_dimensions.1 as f32 * ratio) as i32);
     let map_size_y = map_size_x as f32 / ratio;
@@ -326,10 +288,12 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
     let map_x_pos = max(0, (game_window_dimensions.0 - map_size_x) / 2) as f32;
     let map_y_pos = max(0, (game_window_dimensions.1 - map_size_y as i32) / 2) as f32;
 
-    draw_texture_ex(texture, map_x_pos, map_y_pos, WHITE, DrawTextureParams {
+    draw_texture_ex(background_texture, map_x_pos, map_y_pos, WHITE, DrawTextureParams {
         dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
         ..Default::default()
     });
+
+
 
     let widget_width = min(500, game_window_dimensions.0) as f32;
     let window_position_x = (game_window_dimensions.0 as f32 - widget_width) / 2.;
@@ -363,6 +327,11 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         }
     }
 
+    draw_texture_ex(foreground_texture, map_x_pos, map_y_pos, WHITE, DrawTextureParams {
+        dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
+        ..Default::default()
+    });
+
     // Draw the buy frame
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, BLACK);
@@ -381,17 +350,13 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
   
     //Positioning variables for currency widget
     
-    
 
     //If screen width has changed, move the window to new position
     root_ui().move_window(1, Vec2::new(window_position_x, 0.));
 
     // Reset to default camera
     set_default_camera();
-    notification_manager.update(get_frame_time());
-    notification_manager.draw();
     
-
     //Draw currency widget
     root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
         ui.label(Vec2::new(10., 10.), "Total Students:");
@@ -399,4 +364,24 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
         ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
         ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
     });
+
+
 }
+
+pub fn draw_event_gui(event: &Event) -> bool {
+    let screen_height = screen_height();
+    let screen_width = screen_width();
+    let mut outcome = true;
+
+    root_ui().window(2, vec2((screen_width / 2.) - 250., (screen_height / 2.) - 200.), vec2(500., 400.), |ui| {
+        ui.label(Vec2::new(10., 10.), "EVENT!!!");
+        if ui.button(Vec2::new(100., 100.), "Close") {
+            outcome = false;
+        }
+    });
+
+    return outcome;
+
+    //If screen width has changed, move the window to new position
+    // root_ui().move_window(1, Vec2::new(window_position_x, 0.));
+} 
