@@ -52,7 +52,7 @@ pub static CENTRALLIBRARY: Building = Building{
     name: "Central Library",
     students: 1750.0,
     perk_points: 0,
-    description: "Building 12: Home of the central library of UQ and is connected with Duhig Tower. It offers a variety of learning spaces and is popular amongst students for studying.",
+    description: "Building 12: Home of the central library of UQ. It offers a variety of learning spaces and is popular amongst students for studying.",
     price: 25000,
 };
 
@@ -65,7 +65,7 @@ pub static PRIESTLY: Building = Building{
 };
 
 pub static LEARNINGINNOVATION: Building = Building{
-    name: "Learning Innovation Building",
+    name: "Learning Innovation",
     students: 4000.0,
     perk_points: 0,
     description: "Building 17: Houses the Institute for Teaching and Learning Innovation.",
@@ -81,7 +81,7 @@ pub static JOHNHINES: Building = Building{
 };
 
 pub static UNIONFOODCOURT: Building = Building{
-    name: "UQ Union and Food Court",
+    name: "UQ Union Food Court",
     students: 7500.0,
     perk_points: 0,
     description: "Food. Food. Food!",
@@ -113,7 +113,7 @@ pub static ARTMUSEUM: Building = Building{
 };
 
 pub static MOLECULARBIOSCIENCE: Building = Building{
-    name: "Molecular BioScience Building",
+    name: "Molecular BioScience",
     students: 28000.0,
     perk_points: 0,
     description: "Building 76: Houses the school of Chemistry & Molecular Biosciences, Australian Infectious Diseases Research Centre.",
@@ -121,7 +121,7 @@ pub static MOLECULARBIOSCIENCE: Building = Building{
 };
 
 pub static JDSTORY: Building = Building{
-    name: "JD Story Administration Building",
+    name: "JD Story Admin",
     students: 35000.0,
     perk_points: 0,
     description: "Building 61: Offices and the Australian Post Office on campus.",
@@ -137,7 +137,7 @@ pub static HARTLEY_TEAK: Building = Building{
 };
 
 pub static BIO_SCIENCE_LIBRARY: Building = Building{
-    name: "Biological Sciences Library",
+    name: "Biological Library",
     students: 60000.0,
     perk_points: 0,
     description: "Building 94: 24 Hour library",
@@ -148,12 +148,12 @@ pub static BRAININSTITUTE: Building = Building{
     name: "Brain Institution",
     students: 70000.0,
     perk_points: 0,
-    description: "Test",
+    description: "We work on brains!",
     price: 4230000,
 };
 
 pub static WATERANDENVIRO: Building = Building{
-    name: "Centre for Water and Environmental Biotechnology",
+    name: "Environmental Biotechnology",
     students: 85000.0,
     perk_points: 0,
     description: "Building 60: World leading centre in water research and an emerging leader in environmental biotechnology.",
@@ -169,7 +169,7 @@ pub static CHEM: Building = Building{
 };
 
 pub static MANSERGHSHAW: Building = Building{
-    name: "Mansergh Shaw Building",
+    name: "M. Shaw Building",
     students: 120000.0,
     perk_points: 0,
     description: "Building 45: The School of Mechanical & Mining Engineering as well as the makerspace of UQ Innovate",
@@ -185,14 +185,14 @@ pub static HAWKEN: Building = Building{
 };
 
 pub static JAMESFOOT: Building = Building{
-    name: "Sir James Foot Building",
+    name: "Sir J. Foot Building",
     students: 200000.0,
     perk_points: 0,
     description: "Building 47A: Home to the Sustainable Minerals Institute",
     price: 8300000,};
 
 pub static DONNICKLIN: Building = Building{
-    name: "Don Nicklin Building",
+    name: "D. Nicklin Building",
     students: 250000.0,
     perk_points: 0,
     description: "Building 74: The Don Nicklin Building houses the School of Chemical Engineering.",
@@ -200,7 +200,7 @@ pub static DONNICKLIN: Building = Building{
 };
 
 pub static BIOENG: Building = Building{
-    name: "Bioengineering Institute",
+    name: "Bioeng Institute",
     students: 299999.0,
     perk_points: 0,
     description: "Building 75: The University of Queensland's Australian Institute for Bioengineering and Nanotechnology was established in 2003.",
@@ -208,7 +208,7 @@ pub static BIOENG: Building = Building{
 };
 
 pub static IMAGINGCENTRE: Building = Building{
-    name: "Advanced Imaging Centre",
+    name: "Imaging Centre",
     students: 350000.0,
     perk_points: 0,
     description: "Building 57: State of the art research imaging.",
@@ -264,7 +264,7 @@ pub static FUNNYNUMBER: Building = Building{
 };
 
 pub static CUMBRAESTEWART: Building = Building{
-    name: "Cumbrae-Stewart Building",
+    name: "Cumbrae-Stewart",
     students: 950000.0,
     perk_points: 0,
     description: "Lecture Theatres.",
@@ -280,7 +280,7 @@ pub static OCONNELL: Building = Building{
 };
 
 pub static GORDONGREENWOOD: Building = Building{
-    name: "Gordon Greenwood Building",
+    name: "G. Greenwood Building",
     students: 1500000.0,
     perk_points: 0,
     description: "Building 32: School of languages and cultures and the University health service.",
@@ -320,7 +320,7 @@ pub static PSYCHOLOGY: Building = Building{
 };
 
 pub static KATHLEENLAMBOURNE: Building = Building{
-    name: "Kathleen Lambourne Building",
+    name: "K. Lambourne Building",
     students: 4000000.0,
     perk_points: 0,
     description: "Building 82F: UQ College.",
@@ -336,7 +336,7 @@ pub static ADVENG: Building = Building{
 };
 
 pub static LIVERIS: Building = Building{
-    name: "Andrew N. Liveris Building",
+    name: "Andrew N. Liveris",
     students: 999999999.0,
     perk_points: 0,
     description: "Building 46: At 11 storeys high, the building is the tallest building on campus. The home for the School of Chemical Engineering. It acts as a vibrant hub for industry.",
