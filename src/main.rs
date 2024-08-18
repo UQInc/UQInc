@@ -262,7 +262,6 @@ pub async fn main() {
         };
 
         if draw_event_popup {
-            println!("DRAW");
             draw_event_popup = draw_event_gui(current_event.as_ref().unwrap());
         }
 
@@ -392,7 +391,7 @@ fn start_game(unown: Vec<&'static Building>,
 
 async fn load_textures() -> HashMap<String, Texture2D> {
     let buildings = [
-        ("Test1", "media/images/BACKGROUND.png"),
+        ("Background", "media/images/BACKGROUND.png"),
         ("Forgan Smith", "media/images/FORGANSMITH.png"),
         ("Goddard Building", "media/images/GODDARD.png"),
         ("Parnell Building", "media/images/PARNELL.png"),
@@ -438,6 +437,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("Kathleen Lambourne Building", "media/images/KATHLEENLAMBOURNE.png"),
         ("Advanced Engineering", "media/images/ADVENG.png"),
         ("Andrew N. Liveris Building", "media/images/LIVERIS.png"),
+        ("Foreground", "media/images/FOREGROUND.png"),
     ];
 
     let mut textures = HashMap::new();
