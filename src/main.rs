@@ -134,6 +134,9 @@ pub async fn main() {
     //Vector containing all buildings
     let sounds = setup_sounds();
     // Use these variables for checking click.
+    let _music_handle = std::thread::spawn(|| {
+        music::music();
+    });
     
     let mut buildings: Vec<&'static Building> = Vec::new();
     buildings.push(&FORGANSMITH);
@@ -242,7 +245,11 @@ pub async fn main() {
             if mouse_x < screen_width * 0.7 {
                 // ImpClick events added for some of the buy menu rectangles.lement functions for the game.
                 game_state.score = clicked(game_state.score, current_event.as_ref());
-                sound_effects(String::from("click"), &sounds);
+                if let Some(path) = sounds.get("click").cloned() {
+                    std::thread::spawn(move || {
+                        music::sound_effect(path, 1);
+                    });
+                }
             } else if mouse_x > screen_width * 0.7 {
                 // Implement function for buy module.
             }
@@ -250,21 +257,35 @@ pub async fn main() {
 
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 0);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 1);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 2);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 3);
-        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 4);
-        gui::buymenu_price(Some(&font), font_size, 5000000000, 0);
-        gui::buymenu_price(Some(&font), font_size, 500, 1);
-        gui::buymenu_price(Some(&font), font_size, 5000, 2);
-        gui::buymenu_price(Some(&font), font_size, 100, 3);
-        gui::buymenu_price(Some(&font), font_size, 10, 4);
-        gui::buymenu_description(Some(&font), font_size, String::from("Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation."), 0);
-        gui::buymenu_description(Some(&font), font_size, String::from("Building 12: Home of the central library of UQ, connected with Duhig Tower. Hosts a variety of learning spaces and is popular amongst students."), 1);
-        gui::buymenu_description(Some(&font), font_size, String::from("Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation."), 2);
-        gui::buymenu_description(Some(&font), font_size, String::from("Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation."), 3);
-        gui::buymenu_description(Some(&font), font_size, String::from("Building 81: School of Architecture & Food Science, Centre for Nutrition & Food Sciences, Queensland Alliance for Agriculture and Food Innovation."), 4);
+
+        if let Some(current_building_0) = game_state.buildings.get(0) {
+            gui::buymenu_font(Some(&font), font_size, current_building_0.name.to_string(), 0);
+            gui::buymenu_price(Some(&font), font_size, current_building_0.price, 0);
+            gui::buymenu_description(Some(&font), font_size, current_building_0.description.to_string(), 0);
+        }
+        if let Some(current_building_1) = game_state.buildings.get(1) {
+            gui::buymenu_font(Some(&font), font_size, current_building_1.name.to_string(), 1);
+            gui::buymenu_price(Some(&font), font_size, current_building_1.price, 1);
+            gui::buymenu_description(Some(&font), font_size, current_building_1.description.to_string(), 1);
+        }
+
+        if let Some(current_building_2) = game_state.buildings.get(2) {
+            gui::buymenu_font(Some(&font), font_size, current_building_2.name.to_string(), 2);
+            gui::buymenu_price(Some(&font), font_size, current_building_2.price, 2);
+            gui::buymenu_description(Some(&font), font_size, current_building_2.description.to_string(), 2);
+        }
+
+        if let Some(current_building_3) = game_state.buildings.get(3) {
+            gui::buymenu_font(Some(&font), font_size, current_building_3.name.to_string(), 3);
+            gui::buymenu_price(Some(&font), font_size, current_building_3.price, 3);
+            gui::buymenu_description(Some(&font), font_size, current_building_3.description.to_string(), 3);
+        }
+
+        if let Some(current_building_4) = game_state.buildings.get(4) {
+            gui::buymenu_font(Some(&font), font_size, current_building_4.name.to_string(), 4);
+            gui::buymenu_price(Some(&font), font_size, current_building_4.price, 4);
+            gui::buymenu_description(Some(&font), font_size, current_building_4.description.to_string(), 4);
+        }
 
 
         next_frame().await;
@@ -375,16 +396,6 @@ fn clicked(mut score: Score, event: Option<&Event>) -> Score {
     score
 }
 
-fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
-    if sound == "click" {
-        if let Some(path) = sounds.get("click").cloned() {
-            std::thread::spawn(move || {
-                music::sound_effect(path, 1);
-            });
-        }
-    }
-}
-
 fn start_game(unown: Vec<&'static Building>,
     owned: Vec<&'static Building>) -> GameState {
     let score: Score = Score::init();
@@ -454,6 +465,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("Advanced Engineering", "media/images/ADVENG.png"),
         ("Andrew N. Liveris Building", "media/images/LIVERIS.png"),
         ("Foreground", "media/images/FOREGROUND.png"),
+        ("BuyIcon", "media/images/BUILDINGICON.png"),
     ];
 
     let mut textures = HashMap::new();
@@ -528,7 +540,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     textures
 }
 
-fn setup_sounds() -> HashMap<String, PathBuf> {
+pub fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
 
     let mut protest = PathBuf::from("media");
@@ -556,9 +568,7 @@ fn setup_sounds() -> HashMap<String, PathBuf> {
     cash.push("cash.mp3");
     sounds.insert(String::from("cash"), cash);
 
-    let _music_handle = std::thread::spawn(|| {
-        music::music();
-    });
+
 
     sounds
 }

@@ -17,8 +17,12 @@ pub fn music() {
     let file = File::open(switch).unwrap();
     let source = Decoder::new(BufReader::new(file)).unwrap();
 
+    // Turn down volume of source
+    let lower_vol_source = source.amplify(0.2);
+
     // Loop source
-    let repeating_source = source.repeat_infinite();
+    let repeating_source = lower_vol_source.repeat_infinite();
+
 
     // Play loop
     stream_handle
