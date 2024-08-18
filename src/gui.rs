@@ -617,5 +617,5 @@ pub fn draw_event_timer(event: &Event) {
         }
     }
 
-    draw_text(&label, 10., screen_height - 20., 20., WHITE);
+    draw_text(&label, 10., screen_height - 12., 20., WHITE);
 }

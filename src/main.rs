@@ -357,16 +357,12 @@ pub async fn main() {
 
         // Check if ready for an event roll, if ready, roll for an event and add the new event.
         if last_event_time.elapsed() >= Duration::from_secs(5) {
-            println!("Rolling for event");
 
             last_event_time = Instant::now();
             if !current_event.as_ref().is_some() {
                 let event = get_event_from_rand(rand::gen_range(0, 20), &game_state);
                 if event.is_some() {
-                    println!("New Event Added");
                     current_event = event;
-
-                    println!("{}", current_event.as_ref().unwrap().event_type);
 
                     draw_event_popup = gui::draw_event_gui(current_event.as_ref().unwrap());
     
@@ -380,7 +376,6 @@ pub async fn main() {
         if current_event.as_ref().is_some() {
             if current_event.as_ref().unwrap().duration.as_secs() < current_event.as_ref().unwrap().start_time.elapsed().as_secs() {
                 current_event = None;
-                println!("Removing Event");
             }
         }
     }
