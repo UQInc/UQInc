@@ -141,6 +141,65 @@ pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_numbe
     );
 }
 
+pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
+    // Define the coordinates for the text box
+    let box_coords: [[f32; 2]; 5] = [
+        [0.35 , 0.59],
+        [0.35 , 0.675],
+        [0.35 , 0.76],
+        [0.35 , 0.845],
+        [0.35 , 0.93],
+    ];
+    
+    // Set the maximum number of characters per line
+    let char_limit = 43;
+    
+    // Split the text into lines based on the character limit
+    let mut lines = Vec::new();
+    let mut current_line = String::new();
+    
+    for word in text.split_whitespace() {
+        // Check if adding the next word exceeds the character limit
+        if current_line.len() + word.len() + 1 > char_limit {
+            lines.push(current_line);
+            current_line = String::new();
+        }
+        
+        if !current_line.is_empty() {
+            current_line.push(' ');
+        }
+        current_line.push_str(word);
+    }
+    
+    // Push the last line if it's not empty
+    if !current_line.is_empty() {
+        lines.push(current_line);
+    }
+    
+    // Draw each line of text at the appropriate position
+    let x_pos = screen_width() * box_coords[box_number][0];
+    let mut y_pos = screen_height() * box_coords[box_number][1];
+
+    for line in lines {
+        draw_text_ex(
+            &line,
+            x_pos,
+            y_pos,
+            TextParams {
+                font_size: font_size,
+                font_scale: 0.3,        // Slight horizontal scale to make the text wider
+                font_scale_aspect: 5.0, // Match the font scale to maintain proportions
+                color: BLACK,
+                font: font,
+                ..Default::default()
+            },
+        );
+        // Adjust the y-position for the next line
+        y_pos += font_size as f32 * 1.2; // Adjust this factor to control line spacing
+    }
+}
+
+
 fn buy_building(game_state: &mut GameState){
     println!("Test");
     
