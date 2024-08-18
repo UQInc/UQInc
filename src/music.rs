@@ -14,27 +14,26 @@ pub fn music() {
     switch.push("theme.mp3");
 
     // Get audio source
-    let file = File::open(switch).unwrap();  // Replace with your audio file path
+    let file = File::open(switch).unwrap();
     let source = Decoder::new(BufReader::new(file)).unwrap();
 
-    // Create a looping audio source
+    // Loop source
     let repeating_source = source.repeat_infinite();
 
-    // Play the looping audio in the background
+    // Play loop
     stream_handle
         .play_raw(repeating_source.convert_samples())
         .unwrap();
 
     // Keep the thread alive to prevent the audio from stopping
     loop {
-        std::thread::sleep(Duration::from_secs(10));
+        std::thread::sleep(Duration::from_secs(80));
     }
 }
 
-// Play sounds effect at given path for given length
+// Play sound effect at given path for given length
 pub fn sound_effect(file_path: PathBuf, len: u64) {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
-
     let file = File::open(file_path).unwrap();
     let source = Decoder::new(BufReader::new(file)).unwrap();
     stream_handle.play_raw(source.convert_samples()).unwrap();
