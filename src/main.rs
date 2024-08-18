@@ -262,7 +262,6 @@ pub async fn main() {
         };
 
         if draw_event_popup {
-            println!("DRAW");
             draw_event_popup = draw_event_gui(current_event.as_ref().unwrap());
         }
 
