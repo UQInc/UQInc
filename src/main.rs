@@ -318,31 +318,26 @@ pub async fn main() {
         } else {
             if let Some(current_perk_0) = game_state.available_perks.get(0) {
                 gui::buymenu_font(Some(&font), font_size, current_perk_0.name.to_string(), 0);
-                gui::buymenu_price(Some(&font), font_size, current_perk_0.price, 0);
                 gui::buymenu_description(Some(&font), font_size, current_perk_0.description.to_string(), 0);
             }
 
             if let Some(current_perk_1) = game_state.available_perks.get(1) {
                 gui::buymenu_font(Some(&font), font_size, current_perk_1.name.to_string(), 1);
-                gui::buymenu_price(Some(&font), font_size, current_perk_1.price, 1);
                 gui::buymenu_description(Some(&font), font_size, current_perk_1.description.to_string(), 1);
             }
 
             if let Some(current_perk_2) = game_state.available_perks.get(2) {
                 gui::buymenu_font(Some(&font), font_size, current_perk_2.name.to_string(), 2);
-                gui::buymenu_price(Some(&font), font_size, current_perk_2.price, 2);
                 gui::buymenu_description(Some(&font), font_size, current_perk_2.description.to_string(), 2);
             }
 
             if let Some(current_perk_3) = game_state.available_perks.get(3) {
                 gui::buymenu_font(Some(&font), font_size, current_perk_3.name.to_string(), 3);
-                gui::buymenu_price(Some(&font), font_size, current_perk_3.price, 3);
                 gui::buymenu_description(Some(&font), font_size, current_perk_3.description.to_string(), 3);
             }
 
             if let Some(current_perk_4) = game_state.available_perks.get(4) {
                 gui::buymenu_font(Some(&font), font_size, current_perk_4.name.to_string(), 4);
-                gui::buymenu_price(Some(&font), font_size, current_perk_4.price, 4);
                 gui::buymenu_description(Some(&font), font_size, current_perk_4.description.to_string(), 4);
             }
         }
