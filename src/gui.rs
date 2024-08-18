@@ -167,6 +167,7 @@ fn buy_building(game_state: &mut GameState){
         // Remove the building from index 0 and append it directly to owned_buildings
         let building = game_state.buildings.remove(0);
         game_state.owned_buildings.push(building);
+        game_state.score.curr_students += building.students;
     }
     
     // for building in &game_state.buildings {
