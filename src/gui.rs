@@ -19,7 +19,7 @@ static dark_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 1.
 pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Build";
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
-    let x_pos = screen_width() * 0.1;
+    let x_pos = screen_width() * 0.2;
     let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
@@ -39,7 +39,7 @@ pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
 pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Perks";
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
-    let x_pos = screen_width() * 0.45;
+    let x_pos = screen_width() * 0.7;
     let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
@@ -56,24 +56,24 @@ pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
     );
 }
 
-pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
-    let text = "Stats";
-    let x_pos = screen_width() * 0.8;
-    let y_pos = screen_height() * 0.535;
-    draw_text_ex(
-        text,
-        x_pos,
-        y_pos,
-        TextParams {
-            font_size: font_size,
-            font_scale: 0.7,        // Slight horizontal scale to make the text wider
-            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
-            color: BLACK,
-            font: font,
-            ..Default::default()
-        },
-    );
-}
+// pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
+//     let text = "Stats";
+//     let x_pos = screen_width() * 0.8;
+//     let y_pos = screen_height() * 0.535;
+//     draw_text_ex(
+//         text,
+//         x_pos,
+//         y_pos,
+//         TextParams {
+//             font_size: font_size,
+//             font_scale: 0.7,        // Slight horizontal scale to make the text wider
+//             font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+//             color: BLACK,
+//             font: font,
+//             ..Default::default()
+//         },
+//     );
+// }
 
 pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
     let box_coords: [[f32; 2]; 5] = [
@@ -256,10 +256,9 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     let buy_frame_width = (screen_width * 0.7) / 2 as f32;
     // Define the dimensions and positions of the rectangles
     let rects = [
-        Rect::new(screen_width - buy_frame_width, 0.0, 0.33 * buy_frame_width, 0.09 * screen_height),  // Stats
-        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 1.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Build
-        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 3.0 * 2.0), 0.0, 0.33 * buy_frame_width, 0.09 * screen_height), // Perks
-        Rect::new(screen_width - buy_frame_width, screen_height * 0.1, buy_frame_width, screen_height * 0.16),  // Other red rectangles
+        Rect::new(screen_width - buy_frame_width, 0.0, 0.5 * buy_frame_width, 0.09 * screen_height), 
+        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 2.0 * 1.0), 0.0, 0.5 * buy_frame_width, 0.09 * screen_height),
+        Rect::new(screen_width - buy_frame_width, screen_height * 0.1, buy_frame_width, screen_height * 0.16),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.27, buy_frame_width, screen_height * 0.16),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.44, buy_frame_width, screen_height * 0.16),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.61, buy_frame_width, screen_height * 0.16),
@@ -412,9 +411,8 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
 
     // Draw smaller rectangles inside the buy frame
     draw_rectangle(-1.0, 0.0, 2.0, 0.1, BLACK); // Top rectangle, holds Build | Perks | Stats
-    draw_rectangle(-0.33, 0.0, 0.66, 0.09, middle_blue); // Perks 
-    draw_rectangle(0.34, 0.0, 0.66, 0.09, dark_blue); // Stars
-    draw_rectangle(-1.0, 0.0, 0.66, 0.09, light_blue); // Build
+    draw_rectangle(-1.0, 0.0, 1.0, 0.09, middle_blue); 
+    draw_rectangle(0.0, 0.0, 1.0, 0.09, dark_blue); 
 
     draw_rectangle(-1.0, 0.1, 2.0, 0.16, LIGHTGRAY);
     draw_rectangle(-1.0, 0.27, 2.0, 0.16, LIGHTGRAY);

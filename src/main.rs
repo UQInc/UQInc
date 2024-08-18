@@ -250,7 +250,6 @@ pub async fn main() {
 
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
-        gui::stats_textdraw(Some(&font), font_size);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 0);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 1);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 2);
