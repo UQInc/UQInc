@@ -6,6 +6,7 @@ mod music;
 mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
+use rodio::cpal::available_hosts;
 use std::collections::{hash_map, HashMap};
 use std::env::set_current_dir;
 use std::hash::Hash;
@@ -50,12 +51,22 @@ struct GameState {
     stats: Statistics,
     menu_type: String,        // Gameplay stats
     owned_buildings: Vec<&'static Building>,
+    available_perks: Vec<&'static Perk>,
+    owned_perks: Vec<&'static Perk>,
 }
 
 struct Statistics {
     total_students: u64, // Number of students ever earned
     total_clicks: u64,   // Number of clicks ever registered
     total_events: u64,   // Number of events that have occurred
+}
+
+struct Perk {
+    dps_modifier: f32,
+    student_rate: f32,
+    name: &'static str,
+    price: i64,
+    description: &'static str,
 }
 
 // Implementations here:
@@ -184,7 +195,11 @@ pub async fn main() {
     buildings.push(&LIVERIS);
 
 
+    let mut perks: Vec<&'static Perk> = Vec::new();
+
+
     let mut owned_buildings: Vec<&'static Building> = Vec::new();
+    let mut owned_perks: Vec<&'static Perk> = Vec::new();
     
     // Use these variables for checking click.
 
@@ -206,7 +221,7 @@ pub async fn main() {
     .unwrap();
 
     // Initializes GameState struct
-    let mut game_state = start_game(buildings, owned_buildings);
+    let mut game_state = start_game(buildings, owned_buildings, owned_perks, perks);
 
     let textures = load_textures().await;
     let mut time_el = Instant::now();
@@ -258,34 +273,67 @@ pub async fn main() {
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
 
-        if let Some(current_building_0) = game_state.buildings.get(0) {
-            gui::buymenu_font(Some(&font), font_size, current_building_0.name.to_string(), 0);
-            gui::buymenu_price(Some(&font), font_size, current_building_0.price, 0);
-            gui::buymenu_description(Some(&font), font_size, current_building_0.description.to_string(), 0);
-        }
-        if let Some(current_building_1) = game_state.buildings.get(1) {
-            gui::buymenu_font(Some(&font), font_size, current_building_1.name.to_string(), 1);
-            gui::buymenu_price(Some(&font), font_size, current_building_1.price, 1);
-            gui::buymenu_description(Some(&font), font_size, current_building_1.description.to_string(), 1);
-        }
+        if (game_state.menu_type == "build") {
+            if let Some(current_building_0) = game_state.buildings.get(0) {
+                gui::buymenu_font(Some(&font), font_size, current_building_0.name.to_string(), 0);
+                gui::buymenu_price(Some(&font), font_size, current_building_0.price, 0);
+                gui::buymenu_description(Some(&font), font_size, current_building_0.description.to_string(), 0);
+            }
+            if let Some(current_building_1) = game_state.buildings.get(1) {
+                gui::buymenu_font(Some(&font), font_size, current_building_1.name.to_string(), 1);
+                gui::buymenu_price(Some(&font), font_size, current_building_1.price, 1);
+                gui::buymenu_description(Some(&font), font_size, current_building_1.description.to_string(), 1);
+            }
 
-        if let Some(current_building_2) = game_state.buildings.get(2) {
-            gui::buymenu_font(Some(&font), font_size, current_building_2.name.to_string(), 2);
-            gui::buymenu_price(Some(&font), font_size, current_building_2.price, 2);
-            gui::buymenu_description(Some(&font), font_size, current_building_2.description.to_string(), 2);
-        }
+            if let Some(current_building_2) = game_state.buildings.get(2) {
+                gui::buymenu_font(Some(&font), font_size, current_building_2.name.to_string(), 2);
+                gui::buymenu_price(Some(&font), font_size, current_building_2.price, 2);
+                gui::buymenu_description(Some(&font), font_size, current_building_2.description.to_string(), 2);
+            }
 
-        if let Some(current_building_3) = game_state.buildings.get(3) {
-            gui::buymenu_font(Some(&font), font_size, current_building_3.name.to_string(), 3);
-            gui::buymenu_price(Some(&font), font_size, current_building_3.price, 3);
-            gui::buymenu_description(Some(&font), font_size, current_building_3.description.to_string(), 3);
-        }
+            if let Some(current_building_3) = game_state.buildings.get(3) {
+                gui::buymenu_font(Some(&font), font_size, current_building_3.name.to_string(), 3);
+                gui::buymenu_price(Some(&font), font_size, current_building_3.price, 3);
+                gui::buymenu_description(Some(&font), font_size, current_building_3.description.to_string(), 3);
+            }
 
-        if let Some(current_building_4) = game_state.buildings.get(4) {
-            gui::buymenu_font(Some(&font), font_size, current_building_4.name.to_string(), 4);
-            gui::buymenu_price(Some(&font), font_size, current_building_4.price, 4);
-            gui::buymenu_description(Some(&font), font_size, current_building_4.description.to_string(), 4);
+            if let Some(current_building_4) = game_state.buildings.get(4) {
+                gui::buymenu_font(Some(&font), font_size, current_building_4.name.to_string(), 4);
+                gui::buymenu_price(Some(&font), font_size, current_building_4.price, 4);
+                gui::buymenu_description(Some(&font), font_size, current_building_4.description.to_string(), 4);
+            }
+        } else {
+            if let Some(current_perk_0) = game_state.available_perks.get(0) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_0.name.to_string(), 0);
+                gui::buymenu_price(Some(&font), font_size, current_perk_0.price, 0);
+                gui::buymenu_description(Some(&font), font_size, current_perk_0.description.to_string(), 0);
+            }
+
+            if let Some(current_perk_1) = game_state.available_perks.get(1) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_1.name.to_string(), 1);
+                gui::buymenu_price(Some(&font), font_size, current_perk_1.price, 1);
+                gui::buymenu_description(Some(&font), font_size, current_perk_1.description.to_string(), 1);
+            }
+
+            if let Some(current_perk_2) = game_state.available_perks.get(2) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_2.name.to_string(), 2);
+                gui::buymenu_price(Some(&font), font_size, current_perk_2.price, 2);
+                gui::buymenu_description(Some(&font), font_size, current_perk_2.description.to_string(), 2);
+            }
+
+            if let Some(current_perk_3) = game_state.available_perks.get(3) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_3.name.to_string(), 3);
+                gui::buymenu_price(Some(&font), font_size, current_perk_3.price, 3);
+                gui::buymenu_description(Some(&font), font_size, current_perk_3.description.to_string(), 3);
+            }
+
+            if let Some(current_perk_4) = game_state.available_perks.get(4) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_4.name.to_string(), 4);
+                gui::buymenu_price(Some(&font), font_size, current_perk_4.price, 4);
+                gui::buymenu_description(Some(&font), font_size, current_perk_4.description.to_string(), 4);
+            }
         }
+        
 
 
         next_frame().await;
@@ -397,7 +445,8 @@ fn clicked(mut score: Score, event: Option<&Event>) -> Score {
 }
 
 fn start_game(unown: Vec<&'static Building>,
-    owned: Vec<&'static Building>) -> GameState {
+    owned: Vec<&'static Building>, owned_perks: Vec<&'static Perk>, 
+    available_perks: Vec<&'static Perk>) -> GameState {
     let score: Score = Score::init();
     let buildings = unown;
     let owned_buildings: Vec<&Building> = owned;
@@ -405,6 +454,8 @@ fn start_game(unown: Vec<&'static Building>,
     let start_time = Instant::now();
     let stats: Statistics = Statistics::init();
     let menu_type: String = "build".to_string();
+    let owned_perks: Vec<&Perk> = owned_perks;
+    let available_perks: Vec<&'static Perk> = available_perks;
     
     GameState {
         score,
@@ -414,6 +465,8 @@ fn start_game(unown: Vec<&'static Building>,
         stats,
         menu_type,
         owned_buildings,
+        owned_perks,
+        available_perks,
     }
 }
 
@@ -428,111 +481,47 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("EZ Mart", "media/images/EZMART.png"),
         ("Central Library", "media/images/CENTRALLIBRARY.png"),
         ("Priestly Building", "media/images/PRIESTLY.png"),
-        ("Learning Innovation Building", "media/images/LEARNINGINNOVATION.png"),
+        ("Learning Innovation", "media/images/LEARNINGINNOVATION.png"),
         ("John Hines Building", "media/images/JOHNHINES.png"),
-        ("UQ Union and Food Court", "media/images/UNIONFOODCOURT.png"),
+        ("UQ Union Food Court", "media/images/UNIONFOODCOURT.png"),
         ("McElwain Building", "media/images/MCELWAIN.png"),
         ("Chamberlain Building", "media/images/CHAMBERLAIN.png"),
         ("Art Museum", "media/images/ARTMUSEUM.png"),
         ("Otto Hirschfeld Building", "media/images/RICHARDS.png"),
-        ("Molecular BioScience Building", "media/images/MOLECULARBIOSCIENCE.png"),
-        ("JD Story Administration Building", "media/images/JDSTORY.png"),
+        ("Molecular BioScience", "media/images/MOLECULARBIOSCIENCE.png"),
+        ("JD Story Admin", "media/images/JDSTORY.png"),
         ("Hartley Teak", "media/images/HARTLEY_TEAK.png"),
-        ("Biological Sciences Library", "media/images/BIO_SCIENCE_LIBRARY.png"),
+        ("Biological Library", "media/images/BIO_SCIENCE_LIBRARY.png"),
         ("Brain Institution", "media/images/BRAININSTITUTE.png"),
-        ("Centre for Water and Environmental Biotechnology", "media/images/WATERANDENVIRO.png"),
+        ("Environmental Biotechnology", "media/images/WATERANDENVIRO.png"),
         ("Chemistry Building", "media/images/CHEM.png"),
-        ("Mansergh Shaw Building", "media/images/MANSERGHSHAW.png"),
+        ("M. Shaw Building", "media/images/MANSERGHSHAW.png"),
         ("Hawken Engineering", "media/images/HAWKEN.png"),
-        ("Sir James Foot Building", "media/images/JAMESFOOT.png"),
-        ("Don Nicklin Building", "media/images/DONNICKLIN.png"),
-        ("Bioengineering Institute", "media/images/BIOENG.png"),
-        ("Advanced Imaging Centre", "media/images/IMAGINGCENTRE.png"),
+        ("Sir J. Foot Building", "media/images/JAMESFOOT.png"),
+        ("D. Nicklin Building", "media/images/DONNICKLIN.png"),
+        ("Bioeng Institute", "media/images/BIOENG.png"),
+        ("Imaging Centre", "media/images/IMAGINGCENTRE.png"),
         ("General Purpose South", "media/images/GPSOUTH.png"),
         ("General Purpose North", "media/images/GPNORTH.png"),
         ("UQ Business School", "media/images/UQBUSINESS.png"),
         ("Zelman Cowen Building", "media/images/ZELMANCOWEN.png"),
         ("Building 41", "media/images/BUILDING41.png"),
         ("23, 38, 31A", "media/images/FUNNYNUMBER.png"),
-        ("Cumbrae-Stewart Building", "media/images/CUMBRAESTEWART.png"),
+        ("Cumbrae-Stewart", "media/images/CUMBRAESTEWART.png"),
         ("O'Connell Building", "media/images/OCONNELL.png"),
-        ("Gordon Greenwood Building", "media/images/GORDONGREENWOOD.png"),
+        ("G. Greenwood Building", "media/images/GORDONGREENWOOD.png"),
         ("UQ Centre", "media/images/UQCENTRE.png"),
         ("Building 33", "media/images/BUILDING33.png"),
         ("Schonell Theatre", "media/images/SCHONELLTHEATRE.png"),
         ("Psychology Building", "media/images/PSYCHOLOGY.png"),
-        ("Kathleen Lambourne Building", "media/images/KATHLEENLAMBOURNE.png"),
+        ("K. Lambourne Building", "media/images/KATHLEENLAMBOURNE.png"),
         ("Advanced Engineering", "media/images/ADVENG.png"),
-        ("Andrew N. Liveris Building", "media/images/LIVERIS.png"),
+        ("Andrew N. Liveris", "media/images/LIVERIS.png"),
         ("Foreground", "media/images/FOREGROUND.png"),
         ("BuyIcon", "media/images/BUILDINGICON.png"),
     ];
 
     let mut textures = HashMap::new();
-    // textures.insert("Test1".to_string(), load_texture("media/images/background.png").await.unwrap());
-    // // Loading textures of all buildings
-    // textures.insert("Forgan Smith".to_string(), load_texture("media/images/FORGANSMITH.png").await.unwrap());
-    // textures.insert("Goddard Building".to_string(), load_texture("media/images/FORGANSMITH.png").await.unwrap());
-    // textures.insert("Parnell Building".to_string(), load_texture("media/images/parnell.png").await.unwrap());
-    // textures.insert("Richards Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // textures.insert("Steele Building".to_string(), load_texture("media/images/STEELEBUILDING.png").await.unwrap());
-    // textures.insert("EZ Mart".to_string(), load_texture("media/images/ezmart.png").await.unwrap());
-    // textures.insert("Central Library".to_string(), load_texture("media/images/CENTRALLIBRARY.png").await.unwrap());
-    // textures.insert("Learning Innovation Building".to_string(), load_texture("media/images/LEARNINGINNOVATION.png").await.unwrap());
-    // textures.insert("John Hines Building".to_string(), load_texture("media/images/JOHNHINES.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("UQ Union and Food Court".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("McElwain Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Chamberlain Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // textures.insert("Art Museum".to_string(), load_texture("media/images/ARTMUSEUM.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Molecular BioScience Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // textures.insert("JD Story Administration Building".to_string(), load_texture("media/images/JDSTORY.png").await.unwrap());
-    // textures.insert("Hartley Teak".to_string(), load_texture("media/images/HARTLEY_TEAK.png").await.unwrap());
-    // textures.insert("Biological Science Library".to_string(), load_texture("media/images/BIO_SCIENCE_LIBRARY.png").await.unwrap());
-    // textures.insert("Brain Institution".to_string(), load_texture("media/images/BRAININSTITUTE.png").await.unwrap());
-    // textures.insert("Center for Water and Environmental Biotechnology".to_string(), load_texture("media/images/WATERANDENVIRO.png").await.unwrap());
-    // textures.insert("Chemistry Building".to_string(), load_texture("media/images/CHEM.png").await.unwrap());
-    // textures.insert("Mansergh Shaw Building".to_string(), load_texture("media/images/MANSERGHSHAW.png").await.unwrap());
-    // textures.insert("Hawken Engineering".to_string(), load_texture("media/images/HAWKEN.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Don Nicklin Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // textures.insert("Bioengineering Institute".to_string(), load_texture("media/images/BIOENG.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Advanced Imaging Centre".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // textures.insert("General Purpose South".to_string(), load_texture("media/images/GPSOUTH.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("General Purpose North".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("UQ Business School".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED 
-    // textures.insert("Zelman Cowen Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED 
-    // textures.insert("Building 41".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("23, 38, 31A".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Cumbrae-Stewart Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("O'Connell Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Gordon Greenwood Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("UQ Centre" .to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Building 33".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Schonell Theatre".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Psychology Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Kathleen Lambourne Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Advanced Engineering".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Andrew N. Liveris Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     for (name, path) in &buildings {
         textures.insert(name.to_string(), load_texture(path).await.unwrap());
     }

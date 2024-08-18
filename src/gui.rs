@@ -78,11 +78,11 @@ pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
 
 pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
     let box_coords: [[f32; 2]; 5] = [
-        [0.35 , 0.575],
-        [0.35 , 0.66],
-        [0.35 , 0.745],
-        [0.35 , 0.83],
-        [0.35 , 0.915],
+        [0.1 , 0.575],
+        [0.1 , 0.66],
+        [0.1 , 0.745],
+        [0.1 , 0.83],
+        [0.1 , 0.915],
     ];
     // 27 char limit
     // Define the dimensions and positions of the rectangles
@@ -123,8 +123,8 @@ pub fn buymenu_price(font: Option<&Font>, font_size: u16, price: i64, box_number
         y_pos,
         TextParams {
             font_size: font_size,
-            font_scale: 0.7,        // Slight horizontal scale to make the text wider
-            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            font_scale: 0.4,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 5.0, // Match the font scale to maintain proportions
             color: BLACK,
             font: font,
             ..Default::default()
@@ -135,11 +135,11 @@ pub fn buymenu_price(font: Option<&Font>, font_size: u16, price: i64, box_number
 pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
     // Define the coordinates for the text box
     let box_coords: [[f32; 2]; 5] = [
-        [0.35 , 0.59],
-        [0.35 , 0.675],
-        [0.35 , 0.76],
-        [0.35 , 0.845],
-        [0.35 , 0.93],
+        [0.1 , 0.59],
+        [0.1 , 0.675],
+        [0.1 , 0.76],
+        [0.1 , 0.845],
+        [0.1 , 0.93],
     ];
     
     // Set the maximum number of characters per line
@@ -336,33 +336,24 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
                 // Trigger the corresponding event based on index
                 match index {
                     0 => { // Build Button
-                        println!("CLICKED 0");
                         game_state.menu_type = "build".to_string();
-                        println!("{}",game_state.menu_type);
                     },
                     1 => { // Perks Button
-                        println!("CLICKED 1");
                         game_state.menu_type = "perks".to_string();
-                        println!("{}",game_state.menu_type);
                     },
                     2 => {
-                        println!("CLICKED 3");
                         buy_building(game_state,0);
                     },
                     3 => {
-                        println!("CLICKED 4");
                         buy_building(game_state,1);
                     },
                     4 => {
-                        println!("CLICKED 5");
                         buy_building(game_state,2);
                     },
                     5 => {
-                        println!("CLICKED 6");
                         buy_building(game_state,3);
                     },
                     6 => {
-                        println!("CLICKED 7");
                         buy_building(game_state,4);
                     },
                     _ => {}
@@ -428,7 +419,6 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     });
 
 
-
     let widget_width = min(500, game_window_dimensions.0) as f32;
     let window_position_x = (game_window_dimensions.0 as f32 - widget_width) / 2.;
     let students_pos = 10.;
@@ -438,7 +428,7 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     // root_ui().window(1, vec2(window_position_x, 0.), vec2(widget_width, widget_height), |ui| {
     //     ui.label(Vec2::new(10., 10.), "Total Students:");
     //     ui.label(Vec2::new(130., 10.), &(game_state.score.curr_students as i32).to_string());
-    //     ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
+    //     ui.label(Vec2::çnew(currency_pos, currency_height), "Currency $: ");
     //     ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
     // });
     // Iterating through owned buildings.
@@ -466,12 +456,6 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
         ..Default::default()
     });
 
-    // Icon for buy map.
-
-    //let buy_x: f32 = 600.0;
-    let buy_x: f32 = screen_width * 0.67;
-    let buy_y: f32 = 86.0;
-
     // Draw the buy frame
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, BLACK);
@@ -482,16 +466,19 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     draw_rectangle(0.0, 0.0, 1.0, 0.09, dark_blue); 
 
     draw_rectangle(-1.0, 0.1, 2.0, 0.16, LIGHTGRAY);
+
     draw_rectangle(-1.0, 0.27, 2.0, 0.16, LIGHTGRAY);
     draw_rectangle(-1.0, 0.44, 2.0, 0.16, LIGHTGRAY);
     draw_rectangle(-1.0, 0.61, 2.0, 0.16, LIGHTGRAY);
     draw_rectangle(-1.0, 0.78, 2.0, 0.16, LIGHTGRAY);
 
-    //Positioning variables for currency widget
-    draw_texture_ex(buymenu_icon, buy_x, buy_y, WHITE, DrawTextureParams {
-        dest_size: Some(Vec2::new(80.0, 61.0)),
-        ..Default::default()
-    });
+
+
+    // //Positioning variables for currency widget
+    // draw_texture_ex(buymenu_icon, buy_x, buy_y, WHITE, DrawTextureParams {
+    //     dest_size: Some(Vec2::new(80.0, 61.0)),
+    //     ..Default::default()
+    // });
     
 
     //If screen width has changed, move the window to new position
