@@ -193,9 +193,8 @@ pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, bo
 
 
 fn buy_building(game_state: &mut GameState, index: i32){
-    if !game_state.buildings.is_empty() {
-        let sounds = crate::setup_sounds();
-
+    let sounds = crate::setup_sounds();
+    if (!game_state.buildings.is_empty() && game_state.menu_type == "build") {
         if (index == 0) {
             
             if let Some(building) = game_state.buildings.get(0) {
@@ -302,7 +301,119 @@ fn buy_building(game_state: &mut GameState, index: i32){
             }
             
         }
+
         
+    }
+    else {
+        if (index == 0) {
+
+            if let Some(perk) = game_state.available_perks.get(0) {
+                let perk_name = perk.name;
+                let perk_price = perk.price;
+                println!("{} {}", perk_name, perk_price);
+                if (game_state.score.dollars >= perk.price as f64) {
+                    // Remove the perk from index 0 and append it directly to owned_perks
+                    let perk = game_state.available_perks.remove(0);
+                    game_state.owned_perks.push(perk);
+                    game_state.score.perk_points -= perk.price as i32;
+                    game_state.score.student_rate *= perk.student_rate;
+                    game_state.score.dps *= perk.dps_modifier;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
+                }
+            }
+        }
+
+        if (index == 1) {
+
+            if let Some(perk) = game_state.available_perks.get(1) {
+                let perk_name = perk.name;
+                let perk_price = perk.price;
+                println!("{} {}", perk_name, perk_price);
+                if (game_state.score.dollars >= perk.price as f64) {
+                    // Remove the perk from index 1 and append it directly to owned_perks
+                    let perk = game_state.available_perks.remove(1);
+                    game_state.owned_perks.push(perk);
+                    game_state.score.perk_points -= perk.price as i32;
+                    game_state.score.student_rate *= perk.student_rate;
+                    game_state.score.dps *= perk.dps_modifier;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
+                }
+            }
+        }
+
+        if (index == 2) {
+
+            if let Some(perk) = game_state.available_perks.get(2) {
+                let perk_name = perk.name;
+                let perk_price = perk.price;
+                println!("{} {}", perk_name, perk_price);
+                if (game_state.score.dollars >= perk.price as f64) {
+                    // Remove the perk from index 2 and append it directly to owned_perks
+                    let perk = game_state.available_perks.remove(2);
+                    game_state.owned_perks.push(perk);
+                    game_state.score.perk_points -= perk.price as i32;
+                    game_state.score.student_rate *= perk.student_rate;
+                    game_state.score.dps *= perk.dps_modifier;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
+                }
+            }
+        }
+
+        if (index == 3) {
+
+            if let Some(perk) = game_state.available_perks.get(3) {
+                let perk_name = perk.name;
+                let perk_price = perk.price;
+                println!("{} {}", perk_name, perk_price);
+                if (game_state.score.dollars >= perk.price as f64) {
+                    // Remove the perk from index 3 and append it directly to owned_perks
+                    let perk = game_state.available_perks.remove(3);
+                    game_state.owned_perks.push(perk);
+                    game_state.score.perk_points -= perk.price as i32;
+                    game_state.score.student_rate *= perk.student_rate;
+                    game_state.score.dps *= perk.dps_modifier;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
+                }
+            }
+        }
+
+        if (index == 4) {
+
+            if let Some(perk) = game_state.available_perks.get(4) {
+                let perk_name = perk.name;
+                let perk_price = perk.price;
+                println!("{} {}", perk_name, perk_price);
+                if (game_state.score.dollars >= perk.price as f64) {
+                    // Remove the perk from index 4 and append it directly to owned_perks
+                    let perk = game_state.available_perks.remove(4);
+                    game_state.owned_perks.push(perk);
+                    game_state.score.perk_points -= perk.price as i32;
+                    game_state.score.student_rate *= perk.student_rate;
+                    game_state.score.dps *= perk.dps_modifier;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
+                }
+            }
+        }
     }
     
     // for building in &game_state.buildings {
