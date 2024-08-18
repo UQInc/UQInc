@@ -367,16 +367,12 @@ pub async fn main() {
 
         // Check if ready for an event roll, if ready, roll for an event and add the new event.
         if last_event_time.elapsed() >= Duration::from_secs(5) {
-            println!("Rolling for event");
 
             last_event_time = Instant::now();
             if !current_event.as_ref().is_some() {
                 let event = get_event_from_rand(rand::gen_range(0, 20), &game_state);
                 if event.is_some() {
-                    println!("New Event Added");
                     current_event = event;
-
-                    println!("{}", current_event.as_ref().unwrap().event_type);
 
                     draw_event_popup = gui::draw_event_gui(current_event.as_ref().unwrap());
     
@@ -390,7 +386,6 @@ pub async fn main() {
         if current_event.as_ref().is_some() {
             if current_event.as_ref().unwrap().duration.as_secs() < current_event.as_ref().unwrap().start_time.elapsed().as_secs() {
                 current_event = None;
-                println!("Removing Event");
             }
         }
     }
@@ -509,7 +504,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("Hartley Teak", "media/images/HARTLEY_TEAK.png"),
         ("Biological Library", "media/images/BIO_SCIENCE_LIBRARY.png"),
         ("Brain Institution", "media/images/BRAININSTITUTE.png"),
-        ("Environmental Biotechnology", "media/images/WATERANDENVIRO.png"),
+        ("Env Biotechnology", "media/images/WATERANDENVIRO.png"),
         ("Chemistry Building", "media/images/CHEM.png"),
         ("M. Shaw Building", "media/images/MANSERGHSHAW.png"),
         ("Hawken Engineering", "media/images/HAWKEN.png"),
@@ -517,10 +512,10 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("D. Nicklin Building", "media/images/DONNICKLIN.png"),
         ("Bioeng Institute", "media/images/BIOENG.png"),
         ("Imaging Centre", "media/images/IMAGINGCENTRE.png"),
-        ("General Purpose South", "media/images/GPSOUTH.png"),
-        ("General Purpose North", "media/images/GPNORTH.png"),
+        ("GP South", "media/images/GPSOUTH.png"),
+        ("GP North", "media/images/GPNORTH.png"),
         ("UQ Business School", "media/images/UQBUSINESS.png"),
-        ("Zelman Cowen Building", "media/images/ZELMANCOWEN.png"),
+        ("Z. Cowen Building", "media/images/ZELMANCOWEN.png"),
         ("Building 41", "media/images/BUILDING41.png"),
         ("23, 38, 31A", "media/images/FUNNYNUMBER.png"),
         ("Cumbrae-Stewart", "media/images/CUMBRAESTEWART.png"),

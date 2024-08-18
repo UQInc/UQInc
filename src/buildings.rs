@@ -153,7 +153,7 @@ pub static BRAININSTITUTE: Building = Building{
 };
 
 pub static WATERANDENVIRO: Building = Building{
-    name: "Environmental Biotechnology",
+    name: "Env Biotechnology",
     students: 85000.0,
     perk_points: 1,
     description: "Building 60: World leading centre in water research and an emerging leader in environmental biotechnology.",
@@ -216,7 +216,7 @@ pub static IMAGINGCENTRE: Building = Building{
 };
 
 pub static GPSOUTH: Building = Building{
-    name: "General Purpose South",
+    name: "GP South",
     students: 425000.0,
     perk_points: 1,
     description: "Building 78: UniQuest Pty Ltd, School of Information Technology & Electrical Engineering.",
@@ -224,7 +224,7 @@ pub static GPSOUTH: Building = Building{
 };
 
 pub static GPNORTH: Building = Building{
-    name: "General Purpose North",
+    name: "GP North",
     students: 500000.0,
     perk_points: 1,
     description: "Building 39A: Faculty of Business, Economics Law and School of Business, School of Political Science and International Studies.",
@@ -240,7 +240,7 @@ pub static UQBUSINESS: Building = Building{
 };
 
 pub static ZELMANCOWEN: Building = Building{
-    name: "Zelman Cowen Building",
+    name: "Z. Cowen Building",
     students: 620000.0,
     perk_points: 1,
     description: "Building 51: School of Architecture, School of Music and the Architecture and Music Library.",
