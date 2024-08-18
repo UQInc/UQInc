@@ -413,6 +413,7 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
 
     let background_texture = textures.get("Background").unwrap();
     let foreground_texture = textures.get("Foreground").unwrap();
+    let buymenu_icon = textures.get("BuyIcon").unwrap();
     let ratio = background_texture.width() / background_texture.height();
 
     let map_size_x = min(game_window_dimensions.0, (game_window_dimensions.1 as f32 * ratio) as i32);
@@ -465,6 +466,12 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
         ..Default::default()
     });
 
+    // Icon for buy map.
+
+    //let buy_x: f32 = 600.0;
+    let buy_x: f32 = screen_width * 0.67;
+    let buy_y: f32 = 86.0;
+
     // Draw the buy frame
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, BLACK);
@@ -479,8 +486,12 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     draw_rectangle(-1.0, 0.44, 2.0, 0.16, LIGHTGRAY);
     draw_rectangle(-1.0, 0.61, 2.0, 0.16, LIGHTGRAY);
     draw_rectangle(-1.0, 0.78, 2.0, 0.16, LIGHTGRAY);
-  
+
     //Positioning variables for currency widget
+    draw_texture_ex(buymenu_icon, buy_x, buy_y, WHITE, DrawTextureParams {
+        dest_size: Some(Vec2::new(80.0, 61.0)),
+        ..Default::default()
+    });
     
 
     //If screen width has changed, move the window to new position
