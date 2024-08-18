@@ -95,11 +95,40 @@ pub fn perks_textdraw(font: Option<&Font>, font_size: u16) {
 }
 
 pub fn stats_textdraw(font: Option<&Font>, font_size: u16) {
-    let text = "Stars";
+    let text = "Stats";
     let x_pos = screen_width() * 0.8;
     let y_pos = screen_height() * 0.535;
     draw_text_ex(
         text,
+        x_pos,
+        y_pos,
+        TextParams {
+            font_size: font_size,
+            font_scale: 0.7,        // Slight horizontal scale to make the text wider
+            font_scale_aspect: 3.0, // Match the font scale to maintain proportions
+            color: BLACK,
+            font: font,
+            ..Default::default()
+        },
+    );
+}
+
+pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_number: usize) {
+    let box_coords: [[f32; 2]; 5] = [
+        [0.35 , 0.575],
+        [0.35 , 0.66],
+        [0.35 , 0.745],
+        [0.35 , 0.83],
+        [0.35 , 0.915],
+    ];
+    // 27 char limit
+    // Define the dimensions and positions of the rectangles
+    let x_pos = screen_width() * box_coords[box_number][0];
+    // bigger for further
+    let y_pos = screen_height() * box_coords[box_number][1];
+    println!("{}, {}", x_pos, y_pos);
+    draw_text_ex(
+        &text,
         x_pos,
         y_pos,
         TextParams {
@@ -127,7 +156,6 @@ fn buy_building(game_state: &mut GameState){
     //     println!("{}",building_name);
     // }
 }
-pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState, font: Option<&Font>) {
     
     let screen_height = screen_height();
     let screen_width = screen_width();

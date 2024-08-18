@@ -251,6 +251,7 @@ pub async fn main() {
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
         gui::stats_textdraw(Some(&font), font_size);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 1);
 
 
         next_frame().await;
@@ -502,15 +503,12 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     // textures.insert("Advanced Engineering".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
     // textures.insert("Andrew N. Liveris Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-
     for (name, path) in &buildings {
         textures.insert(name.to_string(), load_texture(path).await.unwrap());
     }
 
     textures
 }
-
-
 
 fn setup_sounds() -> HashMap<String, PathBuf> {
     let mut sounds: HashMap<String, PathBuf> = HashMap::new();
