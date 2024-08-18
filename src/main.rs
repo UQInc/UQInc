@@ -296,7 +296,9 @@ pub async fn main() {
         };
 
         if draw_event_popup {
-            draw_event_popup = draw_event_gui(current_event.as_ref().unwrap());
+            if current_event.as_ref().is_some() {
+                draw_event_popup = draw_event_gui(current_event.as_ref().unwrap());
+            }
         }
 
         // Check if ready for an event roll, if ready, roll for an event and add the new event.
@@ -305,10 +307,12 @@ pub async fn main() {
 
             last_event_time = Instant::now();
             if !current_event.as_ref().is_some() {
-                let event = get_event_from_rand(rand::gen_range(0, 6), &game_state);
+                let event = get_event_from_rand(rand::gen_range(0, 20), &game_state);
                 if event.is_some() {
                     println!("New Event Added");
                     current_event = event;
+
+                    println!("{}", current_event.as_ref().unwrap().event_type);
 
                     draw_event_popup = gui::draw_event_gui(current_event.as_ref().unwrap());
     
@@ -364,7 +368,7 @@ fn get_event_from_rand(num: i32, state: &GameState) -> Option<Event>{
     } else if num == 4 {
         // Bad Press
         let out = Event {
-            students_awarded: (-state.score.curr_students as f32 * 0.05) as i32,
+            students_awarded: ((state.score.curr_students as f32 * 0.05) * -1.) as i32,
             event_type: "AddStudents".to_string(),
             ..Default::default()
         };

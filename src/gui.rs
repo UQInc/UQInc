@@ -524,14 +524,14 @@ pub fn draw_event_gui(event: &Event) -> bool {
     if (*event).event_type == "CashProduction" {
         if (*event).dps_modifier == 2. {
             heading = "\"Inflation\"".to_string();
-            description = "Due to an increase in student fees, UQ's cash production per student is doubled".to_string();
+            description = "Due to an increase in student fees, UQ's cash production per      student is doubled".to_string();
             effect = "Student cash producion: 2x".to_string();
             duration.push_str("Duration: ");
             duration.push_str(&(*event).duration.as_secs().to_string());
             duration.push_str("s");
         } else if (*event).dps_modifier == 0.5 {
             heading = "International politics".to_string();
-            description = "Changes in international immigration policy have reduced UQ's income from international students".to_string();
+            description = "Changes in international immigration policy have reduced UQ's     income from international students".to_string();
             effect = "Student cash producion: 0.5x".to_string();
             duration.push_str("Duration: ");
             duration.push_str(&(*event).duration.as_secs().to_string());
@@ -540,12 +540,12 @@ pub fn draw_event_gui(event: &Event) -> bool {
     } else if (*event).event_type == "AddStudents" {
         if (*event).students_awarded >= 0 {
             heading = "Positive Media Attention".to_string();
-            description = "The ABC has written a glowing piece on UQ. You gain 5% to your total students".to_string();
+            description = "The ABC has written a glowing piece on UQ. You gain 5% to your    total students".to_string();
             effect = "Students gained: ".to_string();
             effect.push_str(&(*event).students_awarded.to_string());
-        } else if (*event).students_awarded >= 0 {
+        } else if (*event).students_awarded < 0 {
             heading = "Negative Media Attention".to_string();
-            description = "UQ has been involved in a major scandal! You lose 5% of your total students".to_string();
+            description = "UQ has been involved in a major scandal! You lose 5% of your totalstudents".to_string();
             effect = "Students gained: ".to_string();
             effect.push_str(&(*event).students_awarded.to_string());
         }
@@ -569,7 +569,6 @@ pub fn draw_event_gui(event: &Event) -> bool {
 
     let len = description.len();
     let widget_width = 500.;
-    let widget_height = 400.;
 
     let pixels_per_char = 7.5;
     let num_rows = ((len as f64 * pixels_per_char) / widget_width) as i32 + 1;
