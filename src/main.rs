@@ -1,8 +1,9 @@
 use buildings::*;
-use gui::draw_event_gui;
+use gui::{draw_event_gui, draw_event_timer};
 use macroquad;
 mod gui;
 mod music;
+mod perks;
 mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
@@ -41,6 +42,7 @@ pub struct Event {
     duration: Duration,    // How long the event lasts (seconds)
     dps_modifier: f32,     // Multiplier that affects overall SPS rate
     spc_modifier: f32,
+    start_time: Instant,
 }
 
 struct GameState {
@@ -106,6 +108,7 @@ impl Event {
             duration,
             dps_modifier,
             spc_modifier,
+            start_time: Instant::now(),
         }
     }
 }
@@ -118,6 +121,7 @@ impl Default for Event {
             duration: Duration::from_secs(60),
             dps_modifier: 1.,
             spc_modifier: 1.,
+            start_time: Instant::now(),
         }
     }
 }
@@ -247,7 +251,7 @@ pub async fn main() {
     // Draw currency widget with custom font
     root_ui().push_skin(&currency_skin);
     loop {
-        
+
         gui::gui(&textures, &mut game_state, Some(&font));
 
         let screen_height = screen_height();
@@ -335,6 +339,7 @@ pub async fn main() {
         }
         
 
+        
 
         next_frame().await;
         let duration = time_el.elapsed();
@@ -343,6 +348,11 @@ pub async fn main() {
             time_el = Instant::now();
         };
 
+        //Draw event timer
+        if current_event.as_ref().is_some() {
+            draw_event_timer(current_event.as_ref().unwrap());
+        }
+
         if draw_event_popup {
             if current_event.as_ref().is_some() {
                 draw_event_popup = draw_event_gui(current_event.as_ref().unwrap());
@@ -350,7 +360,7 @@ pub async fn main() {
         }
 
         // Check if ready for an event roll, if ready, roll for an event and add the new event.
-        if last_event_time.elapsed() >= Duration::from_secs(10) {
+        if last_event_time.elapsed() >= Duration::from_secs(1) {
             println!("Rolling for event");
 
             last_event_time = Instant::now();

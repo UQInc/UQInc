@@ -1,4 +1,4 @@
-use macroquad::prelude::*;
+use macroquad::{prelude::*, ui};
 use macroquad::ui::widgets::Window;
 use macroquad::ui::{
     hash, root_ui,
@@ -512,14 +512,14 @@ pub fn draw_event_gui(event: &Event) -> bool {
         if (*event).dps_modifier == 2. {
             heading = "\"Inflation\"".to_string();
             description = "Due to an increase in student fees, UQ's cash production per      student is doubled".to_string();
-            effect = "Student cash producion: 2x".to_string();
+            effect = "Student cash production: 2x".to_string();
             duration.push_str("Duration: ");
             duration.push_str(&(*event).duration.as_secs().to_string());
             duration.push_str("s");
         } else if (*event).dps_modifier == 0.5 {
             heading = "International politics".to_string();
             description = "Changes in international immigration policy have reduced UQ's     income from international students".to_string();
-            effect = "Student cash producion: 0.5x".to_string();
+            effect = "Student cash production: 0.5x".to_string();
             duration.push_str("Duration: ");
             duration.push_str(&(*event).duration.as_secs().to_string());
             duration.push_str("s");
@@ -584,3 +584,38 @@ pub fn draw_event_gui(event: &Event) -> bool {
     //If screen width has changed, move the window to new position
     // root_ui().move_window(1, Vec2::new(window_position_x, 0.));
 } 
+
+pub fn draw_event_timer(event: &Event) {
+    let screen_height = screen_height();
+    let mut label = "".to_string();
+
+    if &(*event).duration.as_secs() < &(*event).start_time.elapsed().as_secs() {
+        return;
+    }
+
+    if (*event).event_type == "CashProduction" {
+        if (*event).dps_modifier == 2. {
+            label.push_str("Student cash production: 2x - ");
+            label.push_str(&(&(*event).duration.as_secs() - &(*event).start_time.elapsed().as_secs()).to_string());
+            label.push_str("s");
+        } else if (*event).dps_modifier == 0.5 {
+            label.push_str("Student cash production: 0.5x - ");
+            label.push_str(&(&(*event).duration.as_secs() - &(*event).start_time.elapsed().as_secs()).to_string());
+            label.push_str("s");
+        }
+    } else if (*event).event_type == "AddStudents" {
+        return;
+    } else if (*event).event_type == "StudentsPerClick" {
+        if (*event).spc_modifier == 2. {
+            label.push_str("Student gain per click: 2x - ");
+            label.push_str(&(&(*event).duration.as_secs() - &(*event).start_time.elapsed().as_secs()).to_string());
+            label.push_str("s");
+        } else if (*event).spc_modifier == 0.5 {
+            label.push_str("Student gain per click: 0.5x - ");
+            label.push_str(&(&(*event).duration.as_secs() - &(*event).start_time.elapsed().as_secs()).to_string());
+            label.push_str("s");
+        }
+    }
+
+    draw_text(&label, 10., screen_height - 20., 20., WHITE);
+}
