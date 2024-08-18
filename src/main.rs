@@ -175,7 +175,6 @@ pub async fn main() {
     buildings.push(&UQCENTRE);
     buildings.push(&BUILDING33);
     buildings.push(&SCHONELLTHEATRE);
-    buildings.push(&BRIDGE);
     buildings.push(&PSYCHOLOGY);
     buildings.push(&KATHLEENLAMBOURNE);
     buildings.push(&LIVERIS);
@@ -495,8 +494,6 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     // textures.insert("Building 33".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
     // textures.insert("Schonell Theatre".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Eleanor Schonell Bridge".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
     // textures.insert("Psychology Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
