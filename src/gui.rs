@@ -258,7 +258,7 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     // Define the dimensions and positions of the rectangles
     let rects = [
         Rect::new(screen_width - buy_frame_width, 0.0, 0.5 * buy_frame_width, 0.09 * screen_height), 
-        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 2.0 * 1.0), 0.0, 0.5 * buy_frame_width, 0.09 * screen_height),
+        Rect::new(screen_width - buy_frame_width + (buy_frame_width / 2.0), 0.0, 0.5 * buy_frame_width, 0.09 * screen_height),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.1, buy_frame_width, screen_height * 0.16),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.27, buy_frame_width, screen_height * 0.16),
         Rect::new(screen_width - buy_frame_width, screen_height * 0.44, buy_frame_width, screen_height * 0.16),
@@ -285,28 +285,23 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
                         game_state.menu_type = "perks".to_string();
                         println!("{}",game_state.menu_type);
                     },
-                    2 => { // Stats
-                        println!("CLICKED 2");
-                        game_state.menu_type = "stats".to_string();
-                        println!("{}",game_state.menu_type);
-                    },
-                    3 => {
+                    2 => {
                         println!("CLICKED 3");
                         buy_building(game_state,0);
                     },
-                    4 => {
+                    3 => {
                         println!("CLICKED 4");
                         buy_building(game_state,1);
                     },
-                    5 => {
+                    4 => {
                         println!("CLICKED 5");
                         buy_building(game_state,2);
                     },
-                    6 => {
+                    5 => {
                         println!("CLICKED 6");
                         buy_building(game_state,3);
                     },
-                    7 => {
+                    6 => {
                         println!("CLICKED 7");
                         buy_building(game_state,4);
                     },
