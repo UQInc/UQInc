@@ -117,7 +117,7 @@ impl Default for Event {
         Self {
             students_awarded: 0,
             event_type: "".to_string(),
-            duration: Duration::from_secs(60),
+            duration: Duration::from_secs(30),
             dps_modifier: 1.,
             spc_modifier: 1.,
             start_time: Instant::now(),
@@ -336,9 +336,6 @@ pub async fn main() {
                 gui::buymenu_description(Some(&font), font_size, current_perk_4.description.to_string(), 4);
             }
         }
-        
-
-        
 
         next_frame().await;
         let duration = time_el.elapsed();
@@ -359,7 +356,7 @@ pub async fn main() {
         }
 
         // Check if ready for an event roll, if ready, roll for an event and add the new event.
-        if last_event_time.elapsed() >= Duration::from_secs(1) {
+        if last_event_time.elapsed() >= Duration::from_secs(5) {
             println!("Rolling for event");
 
             last_event_time = Instant::now();
@@ -381,7 +378,7 @@ pub async fn main() {
         }
 
         if current_event.as_ref().is_some() {
-            if last_event_time.elapsed() >= current_event.as_ref().unwrap().duration {
+            if current_event.as_ref().unwrap().duration.as_secs() < current_event.as_ref().unwrap().start_time.elapsed().as_secs() {
                 current_event = None;
                 println!("Removing Event");
             }
