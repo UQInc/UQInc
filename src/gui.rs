@@ -152,7 +152,7 @@ pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, bo
     ];
     
     // Set the maximum number of characters per line
-    let char_limit = 43;
+    let char_limit = 40;
     
     // Split the text into lines based on the character limit
     let mut lines = Vec::new();
@@ -195,7 +195,7 @@ pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, bo
             },
         );
         // Adjust the y-position for the next line
-        y_pos += font_size as f32 * 1.2; // Adjust this factor to control line spacing
+        y_pos += font_size as f32 * 0.25; // Adjust this factor to control line spacing
     }
 }
 
