@@ -251,7 +251,16 @@ pub async fn main() {
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
         gui::stats_textdraw(Some(&font), font_size);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 0);
         gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 1);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 2);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 3);
+        gui::buymenu_font(Some(&font), font_size, String::from("Tester"), 4);
+        gui::buymenu_description(Some(&font), font_size, String::from("This is a big line of code to check."), 0);
+        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 1);
+        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 2);
+        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 3);
+        gui::buymenu_description(Some(&font), font_size, String::from("Tester"), 4);
 
 
         next_frame().await;
