@@ -6,6 +6,7 @@ mod music;
 mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
+use rodio::cpal::available_hosts;
 use std::collections::{hash_map, HashMap};
 use std::env::set_current_dir;
 use std::hash::Hash;
@@ -50,6 +51,8 @@ struct GameState {
     stats: Statistics,
     menu_type: String,        // Gameplay stats
     owned_buildings: Vec<&'static Building>,
+    available_perks: Vec<&'static Perk>,
+    owned_perks: Vec<&'static Perk>,
 }
 
 struct Statistics {
@@ -58,9 +61,12 @@ struct Statistics {
     total_events: u64,   // Number of events that have occurred
 }
 
-struct Perks {
+struct Perk {
     dps_modifier: f32,
     student_rate: f32,
+    name: &'static str,
+    price: i64,
+    description: &'static str,
 }
 
 // Implementations here:
@@ -189,7 +195,11 @@ pub async fn main() {
     buildings.push(&LIVERIS);
 
 
+    let mut perks: Vec<&'static Perk> = Vec::new();
+
+
     let mut owned_buildings: Vec<&'static Building> = Vec::new();
+    let mut owned_perks: Vec<&'static Perk> = Vec::new();
     
     // Use these variables for checking click.
 
@@ -211,7 +221,7 @@ pub async fn main() {
     .unwrap();
 
     // Initializes GameState struct
-    let mut game_state = start_game(buildings, owned_buildings);
+    let mut game_state = start_game(buildings, owned_buildings, owned_perks, perks);
 
     let textures = load_textures().await;
     let mut time_el = Instant::now();
@@ -293,7 +303,35 @@ pub async fn main() {
                 gui::buymenu_description(Some(&font), font_size, current_building_4.description.to_string(), 4);
             }
         } else {
-            // do perks
+            if let Some(current_perk_0) = game_state.available_perks.get(0) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_0.name.to_string(), 0);
+                gui::buymenu_price(Some(&font), font_size, current_perk_0.price, 0);
+                gui::buymenu_description(Some(&font), font_size, current_perk_0.description.to_string(), 0);
+            }
+
+            if let Some(current_perk_1) = game_state.available_perks.get(1) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_1.name.to_string(), 1);
+                gui::buymenu_price(Some(&font), font_size, current_perk_1.price, 1);
+                gui::buymenu_description(Some(&font), font_size, current_perk_1.description.to_string(), 1);
+            }
+
+            if let Some(current_perk_2) = game_state.available_perks.get(2) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_2.name.to_string(), 2);
+                gui::buymenu_price(Some(&font), font_size, current_perk_2.price, 2);
+                gui::buymenu_description(Some(&font), font_size, current_perk_2.description.to_string(), 2);
+            }
+
+            if let Some(current_perk_3) = game_state.available_perks.get(3) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_3.name.to_string(), 3);
+                gui::buymenu_price(Some(&font), font_size, current_perk_3.price, 3);
+                gui::buymenu_description(Some(&font), font_size, current_perk_3.description.to_string(), 3);
+            }
+
+            if let Some(current_perk_4) = game_state.available_perks.get(4) {
+                gui::buymenu_font(Some(&font), font_size, current_perk_4.name.to_string(), 4);
+                gui::buymenu_price(Some(&font), font_size, current_perk_4.price, 4);
+                gui::buymenu_description(Some(&font), font_size, current_perk_4.description.to_string(), 4);
+            }
         }
         
 
@@ -407,7 +445,8 @@ fn clicked(mut score: Score, event: Option<&Event>) -> Score {
 }
 
 fn start_game(unown: Vec<&'static Building>,
-    owned: Vec<&'static Building>) -> GameState {
+    owned: Vec<&'static Building>, owned_perks: Vec<&'static Perk>, 
+    available_perks: Vec<&'static Perk>) -> GameState {
     let score: Score = Score::init();
     let buildings = unown;
     let owned_buildings: Vec<&Building> = owned;
@@ -415,6 +454,8 @@ fn start_game(unown: Vec<&'static Building>,
     let start_time = Instant::now();
     let stats: Statistics = Statistics::init();
     let menu_type: String = "build".to_string();
+    let owned_perks: Vec<&Perk> = owned_perks;
+    let available_perks: Vec<&'static Perk> = available_perks;
     
     GameState {
         score,
@@ -424,6 +465,8 @@ fn start_game(unown: Vec<&'static Building>,
         stats,
         menu_type,
         owned_buildings,
+        owned_perks,
+        available_perks,
     }
 }
 
