@@ -104,8 +104,6 @@ pub fn buymenu_font(font: Option<&Font>, font_size: u16, text: String, box_numbe
 }
 
 fn buy_building(game_state: &mut GameState){
-    println!("Test");
-    
     if !game_state.buildings.is_empty() {
         // Remove the building from index 0 and append it directly to owned_buildings
         let building = game_state.buildings.remove(0);
@@ -220,8 +218,9 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     //Scale the game map to fit a 1:1 aspect ratio and draw the game map
     let game_window_dimensions = ((screen_width * 0.7) as i32, screen_height as i32);
 
-    let texture = textures.get("Test1").unwrap();
-    let ratio = texture.width() / texture.height();
+    let background_texture = textures.get("Background").unwrap();
+    let foreground_texture = textures.get("Foreground").unwrap();
+    let ratio = background_texture.width() / background_texture.height();
 
     let map_size_x = min(game_window_dimensions.0, (game_window_dimensions.1 as f32 * ratio) as i32);
     let map_size_y = map_size_x as f32 / ratio;
@@ -229,10 +228,12 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
     let map_x_pos = max(0, (game_window_dimensions.0 - map_size_x) / 2) as f32;
     let map_y_pos = max(0, (game_window_dimensions.1 - map_size_y as i32) / 2) as f32;
 
-    draw_texture_ex(texture, map_x_pos, map_y_pos, WHITE, DrawTextureParams {
+    draw_texture_ex(background_texture, map_x_pos, map_y_pos, WHITE, DrawTextureParams {
         dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
         ..Default::default()
     });
+
+
 
     let widget_width = min(500, game_window_dimensions.0) as f32;
     let window_position_x = (game_window_dimensions.0 as f32 - widget_width) / 2.;
@@ -266,6 +267,11 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
         }
     }
 
+    draw_texture_ex(foreground_texture, map_x_pos, map_y_pos, WHITE, DrawTextureParams {
+        dest_size: Some(Vec2::new(map_size_x as f32, map_size_y as f32)),
+        ..Default::default()
+    });
+
     // Draw the buy frame
     set_camera(&buy_frame);
     draw_rectangle(-1.0, 0.0, screen_width * 0.3, screen_height, BLACK);
@@ -284,8 +290,6 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
   
     //Positioning variables for currency widget
     
-    
-
 
     //If screen width has changed, move the window to new position
     root_ui().move_window(1, Vec2::new(window_position_x, 0.));
@@ -300,6 +304,8 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
         ui.label(Vec2::new(currency_pos, currency_height), "Currency $: ");
         ui.label(Vec2::new((currency_pos) + 95., currency_height - 2.), &(game_state.score.dollars as i32).to_string());
     });
+
+
 }
 
 pub fn draw_event_gui(event: &Event) -> bool {
