@@ -58,6 +58,11 @@ struct Statistics {
     total_events: u64,   // Number of events that have occurred
 }
 
+struct Perks {
+    dps_modifier: f32,
+    student_rate: f32,
+}
+
 // Implementations here:
 impl Score {
     fn init() -> Self {
@@ -258,34 +263,39 @@ pub async fn main() {
         gui::build_textdraw(Some(&font), font_size);
         gui::perks_textdraw(Some(&font), font_size);
 
-        if let Some(current_building_0) = game_state.buildings.get(0) {
-            gui::buymenu_font(Some(&font), font_size, current_building_0.name.to_string(), 0);
-            gui::buymenu_price(Some(&font), font_size, current_building_0.price, 0);
-            gui::buymenu_description(Some(&font), font_size, current_building_0.description.to_string(), 0);
-        }
-        if let Some(current_building_1) = game_state.buildings.get(1) {
-            gui::buymenu_font(Some(&font), font_size, current_building_1.name.to_string(), 1);
-            gui::buymenu_price(Some(&font), font_size, current_building_1.price, 1);
-            gui::buymenu_description(Some(&font), font_size, current_building_1.description.to_string(), 1);
-        }
+        if (game_state.menu_type == "build") {
+            if let Some(current_building_0) = game_state.buildings.get(0) {
+                gui::buymenu_font(Some(&font), font_size, current_building_0.name.to_string(), 0);
+                gui::buymenu_price(Some(&font), font_size, current_building_0.price, 0);
+                gui::buymenu_description(Some(&font), font_size, current_building_0.description.to_string(), 0);
+            }
+            if let Some(current_building_1) = game_state.buildings.get(1) {
+                gui::buymenu_font(Some(&font), font_size, current_building_1.name.to_string(), 1);
+                gui::buymenu_price(Some(&font), font_size, current_building_1.price, 1);
+                gui::buymenu_description(Some(&font), font_size, current_building_1.description.to_string(), 1);
+            }
 
-        if let Some(current_building_2) = game_state.buildings.get(2) {
-            gui::buymenu_font(Some(&font), font_size, current_building_2.name.to_string(), 2);
-            gui::buymenu_price(Some(&font), font_size, current_building_2.price, 2);
-            gui::buymenu_description(Some(&font), font_size, current_building_2.description.to_string(), 2);
-        }
+            if let Some(current_building_2) = game_state.buildings.get(2) {
+                gui::buymenu_font(Some(&font), font_size, current_building_2.name.to_string(), 2);
+                gui::buymenu_price(Some(&font), font_size, current_building_2.price, 2);
+                gui::buymenu_description(Some(&font), font_size, current_building_2.description.to_string(), 2);
+            }
 
-        if let Some(current_building_3) = game_state.buildings.get(3) {
-            gui::buymenu_font(Some(&font), font_size, current_building_3.name.to_string(), 3);
-            gui::buymenu_price(Some(&font), font_size, current_building_3.price, 3);
-            gui::buymenu_description(Some(&font), font_size, current_building_3.description.to_string(), 3);
-        }
+            if let Some(current_building_3) = game_state.buildings.get(3) {
+                gui::buymenu_font(Some(&font), font_size, current_building_3.name.to_string(), 3);
+                gui::buymenu_price(Some(&font), font_size, current_building_3.price, 3);
+                gui::buymenu_description(Some(&font), font_size, current_building_3.description.to_string(), 3);
+            }
 
-        if let Some(current_building_4) = game_state.buildings.get(4) {
-            gui::buymenu_font(Some(&font), font_size, current_building_4.name.to_string(), 4);
-            gui::buymenu_price(Some(&font), font_size, current_building_4.price, 4);
-            gui::buymenu_description(Some(&font), font_size, current_building_4.description.to_string(), 4);
+            if let Some(current_building_4) = game_state.buildings.get(4) {
+                gui::buymenu_font(Some(&font), font_size, current_building_4.name.to_string(), 4);
+                gui::buymenu_price(Some(&font), font_size, current_building_4.price, 4);
+                gui::buymenu_description(Some(&font), font_size, current_building_4.description.to_string(), 4);
+            }
+        } else {
+            // do perks
         }
+        
 
 
         next_frame().await;
