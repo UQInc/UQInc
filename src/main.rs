@@ -450,6 +450,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("Advanced Engineering", "media/images/ADVENG.png"),
         ("Andrew N. Liveris Building", "media/images/LIVERIS.png"),
         ("Foreground", "media/images/FOREGROUND.png"),
+        ("BuyIcon", "media/images/BUILDINGICON.png"),
     ];
 
     let mut textures = HashMap::new();
