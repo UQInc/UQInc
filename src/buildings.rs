@@ -116,7 +116,7 @@ pub static MOLECULARBIOSCIENCE: Building = Building{
     name: "Molecular BioScience Building",
     students: 25000.0,
     perk_points: 0,
-    description: "Building 76: Houses the school of Chemistry & Molecular Biosciences, Australian Infectious Diseases Research Centre and the Australian centre for Ecogenomics.",
+    description: "Building 76: Houses the school of Chemistry & Molecular Biosciences, Australian Infectious Diseases Research Centre.",
     price: 1500000,
 };
 
@@ -227,7 +227,7 @@ pub static GPNORTH: Building = Building{
     name: "General Purpose North",
     students: 400000.0,
     perk_points: 0,
-    description: "Building 39A: Offices of the Institute of Continuing and TESOL Education (ICTE), Faculty of Business, Economics Law and School of Business, Australian Centre for Business and Economics and the School of Political Science and International Studies, ",
+    description: "Building 39A: Faculty of Business, Economics Law and School of Business, School of Political Science and International Studies.",
     price: 40000000,
 };
 
@@ -339,6 +339,6 @@ pub static LIVERIS: Building = Building{
     name: "Andrew N. Liveris Building",
     students: 5000000.0,
     perk_points: 0,
-    description: "Building 46: At 11 storeys high, the building is the tallest building on UQ’s St Lucia campus, and the home for the School of Chemical Engineering. It acts as a vibrant hub for industry and interdisciplinary collaboration to address global challenges in areas such as energy, water and sustainable manufacturing.",
+    description: "Building 46: At 11 storeys high, the building is the tallest building on campus. The home for the School of Chemical Engineering. It acts as a vibrant hub for industry.",
     price: 5000000000,
 };
