@@ -198,6 +198,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(0) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(0);
@@ -230,6 +231,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(2) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(2);
@@ -245,6 +247,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(3) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(3);
@@ -260,6 +263,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(4) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(4);
