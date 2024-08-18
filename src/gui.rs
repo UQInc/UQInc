@@ -114,6 +114,7 @@ pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, bo
     ];
     
     // Set the maximum number of characters per line
+    // 148 description limit
     let char_limit = 40;
     
     // Split the text into lines based on the character limit
