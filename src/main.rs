@@ -7,6 +7,7 @@ mod perks;
 mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
+use perks::{INCREASEFEES1, INCREASEFEES2};
 use rodio::cpal::available_hosts;
 use std::collections::{hash_map, HashMap};
 use std::env::set_current_dir;
@@ -198,9 +199,17 @@ pub async fn main() {
     buildings.push(&ADVENG);
     buildings.push(&LIVERIS);
 
-
     let mut perks: Vec<&'static Perk> = Vec::new();
 
+    perks.push(&INCREASEFEES1);
+    perks.push(&INCREASEFEES2);
+    perks.push(&INCREASEFEES3);
+    perks.push(&INCREASEFEES4);
+    perks.push(&INCREASECLICKS1);
+    perks.push(&INCREASECLICKS2);
+    perks.push(&INCREASECLICKS3);
+    perks.push(&INCREASECLICKS4);
+    perks.push(&INCREASECLICKS5);
 
     let mut owned_buildings: Vec<&'static Building> = Vec::new();
     let mut owned_perks: Vec<&'static Perk> = Vec::new();
