@@ -9,6 +9,7 @@ use std::cmp::{max, min};
 use std::collections::HashMap;
 use std::default;
 use std::thread::sleep;
+use crate::music;
 
 use crate::{Event, GameState};
 
@@ -193,6 +194,8 @@ pub fn buymenu_description(font: Option<&Font>, font_size: u16, text: String, bo
 
 fn buy_building(game_state: &mut GameState, index: i32){
     if !game_state.buildings.is_empty() {
+        let sounds = crate::setup_sounds();
+
         if (index == 0) {
             
             if let Some(building) = game_state.buildings.get(0) {
@@ -205,6 +208,11 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.owned_buildings.push(building);
                     game_state.score.curr_students += building.students;
                     game_state.score.dollars -= building.price as f64;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
                 }
             }
             
@@ -222,6 +230,11 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.owned_buildings.push(building);
                     game_state.score.curr_students += building.students;
                     game_state.score.dollars -= building.price as f64;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
                 }
             }
             
@@ -238,6 +251,11 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.owned_buildings.push(building);
                     game_state.score.curr_students += building.students;
                     game_state.score.dollars -= building.price as f64;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
                 }
             }
             
@@ -254,6 +272,11 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.owned_buildings.push(building);
                     game_state.score.curr_students += building.students;
                     game_state.score.dollars -= building.price as f64;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
                 }
             }
             
@@ -270,6 +293,11 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.owned_buildings.push(building);
                     game_state.score.curr_students += building.students;
                     game_state.score.dollars -= building.price as f64;
+                    if let Some(path) = sounds.get("cash").cloned() {
+                        std::thread::spawn(move || {
+                            music::sound_effect(path, 2);
+                        });
+                    }
                 }
             }
             
