@@ -1,4 +1,5 @@
 use buildings::*;
+use perks::*;
 use gui::{draw_event_gui, draw_event_timer};
 use macroquad;
 mod gui;
@@ -7,7 +8,6 @@ mod perks;
 mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
-use perks::{INCREASEFEES1, INCREASEFEES2};
 use rodio::cpal::available_hosts;
 use std::collections::{hash_map, HashMap};
 use std::env::set_current_dir;
