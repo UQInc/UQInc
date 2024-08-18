@@ -16,44 +16,6 @@ static light_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 0
 static middle_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 0.86); // Normalized values
 static dark_blue:macroquad::color::Color = Color::new(0.0078, 0.4392, 0.9098, 1.0); // Normalized values
 
-
-// Score implementations
-pub fn score() {}
-
-pub struct Notification {
-    text: String,
-    timer: f32, // How long the notification should be displayed
-}
-
-pub struct NotificationManager {
-    notifications: Vec<Notification>,
-}
-
-impl NotificationManager {
-    pub fn new() -> Self {
-        Self {
-            notifications: Vec::new(),
-        }
-    }
-
-    pub fn add_notification(&mut self, text: String, duration: f32) {
-        self.notifications.push(Notification {
-            text,
-            timer: duration,
-        });
-    }
-
-    pub fn update(&mut self, delta_time: f32) {
-        // Update timers and remove expired notifications
-        self.notifications.retain_mut(|notification| {
-            notification.timer -= delta_time;
-            notification.timer > 0.0
-        });
-    }
-
-    pub fn draw(&self) {}
-}
-
 pub fn build_textdraw(font: Option<&Font>, font_size: u16) {
     let text = "Build";
     let text_dimensions = measure_text(text, None, font_size as u16, 1.0);
@@ -155,7 +117,7 @@ fn buy_building(game_state: &mut GameState){
     //     println!("{}",building_name);
     // }
 }
-pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<String, Texture2D>, game_state: &mut GameState, font: Option<&Font>) {
+pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, font: Option<&Font>) {
    
     let screen_height = screen_height();
     let screen_width = screen_width();
@@ -329,8 +291,6 @@ pub fn gui(notification_manager: &mut NotificationManager, textures: &HashMap<St
 
     // Reset to default camera
     set_default_camera();
-    notification_manager.update(get_frame_time());
-    notification_manager.draw();
     
 
     //Draw currency widget

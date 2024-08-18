@@ -204,7 +204,6 @@ pub async fn main() {
 
     // Initializes GameState struct
     let mut game_state = start_game(buildings, owned_buildings);
-    let mut notification_manager = gui::NotificationManager::new();
 
     let textures = load_textures().await;
     let mut time_el = Instant::now();
@@ -230,7 +229,7 @@ pub async fn main() {
     root_ui().push_skin(&currency_skin);
     loop {
         
-        gui::gui(&mut notification_manager, &textures, &mut game_state, Some(&font));
+        gui::gui(&textures, &mut game_state, Some(&font));
 
         let screen_height = screen_height();
         let screen_width = screen_width();
