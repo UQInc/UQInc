@@ -11,7 +11,11 @@ use std::path::{Path, PathBuf};
 use std::thread::{current, spawn};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use std::{default, vec};
-
+use macroquad::ui::{
+    hash, root_ui,
+    widgets::{self, Group},
+    Drag, Ui, Skin
+};
 struct Building {
     name: &'static str, // The type of building
     students: i32,    // Students per Second that this building generates
@@ -38,12 +42,12 @@ struct Event {
 
 struct GameState {
     score: Score,
-    buildings: Vec<Building>, // Active/purchased buildings
+    buildings: Vec<&'static Building>, // Active/purchased buildings
     events: Vec<Event>,       // Active events
     start_time: Instant,      // When the game was launched
     stats: Statistics,
     menu_type: String,        // Gameplay stats
-    owned_buildings: Vec<Building>,
+    owned_buildings: Vec<&'static Building>,
 }
 
 struct Statistics {
@@ -129,7 +133,6 @@ pub async fn main() {
     let sounds = setup_sounds();
     // Use these variables for checking click.
     
-    
     let mut buildings: Vec<&'static Building> = Vec::new();
     buildings.push(&FORGANSMITH);
     buildings.push(&GODDARD);
@@ -172,7 +175,6 @@ pub async fn main() {
     buildings.push(&UQCENTRE);
     buildings.push(&BUILDING33);
     buildings.push(&SCHONELLTHEATRE);
-    buildings.push(&BRIDGE);
     buildings.push(&PSYCHOLOGY);
     buildings.push(&KATHLEENLAMBOURNE);
     buildings.push(&LIVERIS);
@@ -180,7 +182,7 @@ pub async fn main() {
 
 
     let mut owned_buildings: Vec<&'static Building> = Vec::new();
-
+    
     // Use these variables for checking click.
 
     // for (key, value) in sounds {
@@ -201,7 +203,7 @@ pub async fn main() {
     .unwrap();
 
     // Initializes GameState struct
-    let mut game_state = start_game();
+    let mut game_state = start_game(buildings, owned_buildings);
     let mut notification_manager = gui::NotificationManager::new();
 
     let textures = load_textures().await;
@@ -212,10 +214,23 @@ pub async fn main() {
 
     // Seed random based on system time
     rand::srand(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
+    let label_style = root_ui()
+        .style_builder()
+        .font(include_bytes!("NewAmsterdam-Regular.ttf"))
+        .unwrap()
+        .font_size(20)
+        .build();
+    let currency_skin = 
+        Skin {
+            label_style,
+            ..root_ui().default_skin()
+        };
 
+    // Draw currency widget with custom font
+    root_ui().push_skin(&currency_skin);
     loop {
         
-        gui::gui(&mut notification_manager, &textures, &mut game_state);
+        gui::gui(&mut notification_manager, &textures, &mut game_state, Some(&font));
 
         let screen_height = screen_height();
         let screen_width = screen_width();
@@ -347,14 +362,16 @@ fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
     }
 }
 
-fn start_game() -> GameState {
+fn start_game(unown: Vec<&'static Building>,
+    owned: Vec<&'static Building>) -> GameState {
     let score: Score = Score::init();
-    let buildings: Vec<Building> = Vec::new();
+    let buildings = unown;
+    let owned_buildings: Vec<&Building> = owned;
     let events: Vec<Event> = Vec::new();
     let start_time = Instant::now();
     let stats: Statistics = Statistics::init();
     let menu_type: String = "build".to_string();
-    let owned_buildings: Vec<Building> = Vec::new();
+    
     GameState {
         score,
         buildings,
@@ -403,13 +420,13 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("General Purpose North", "media/images/GPNORTH.png"),
         ("UQ Business School", "media/images/UQBUSINESS.png"),
         ("Zelman Cowen Building", "media/images/ZELMANCOWEN.png"),
-        ("Building 41", "media/images/41.png"),
-        ("23, 38, 31A", "media/images/33.png"),
+        ("Building 41", "media/images/BUILDING41.png"),
+        ("23, 38, 31A", "media/images/FUNNYNUMBER.png"),
         ("Cumbrae-Stewart Building", "media/images/CUMBRAESTEWART.png"),
         ("O'Connell Building", "media/images/OCONNELL.png"),
         ("Gordon Greenwood Building", "media/images/GORDONGREENWOOD.png"),
         ("UQ Centre", "media/images/UQCENTRE.png"),
-        ("Building 33", "media/images/33.png"),
+        ("Building 33", "media/images/BUILDING33.png"),
         ("Schonell Theatre", "media/images/SCHONELLTHEATRE.png"),
         ("Psychology Building", "media/images/PSYCHOLOGY.png"),
         ("Kathleen Lambourne Building", "media/images/KATHLEENLAMBOURNE.png"),
@@ -418,6 +435,74 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     ];
 
     let mut textures = HashMap::new();
+    // textures.insert("Test1".to_string(), load_texture("media/images/background.png").await.unwrap());
+    // // Loading textures of all buildings
+    // textures.insert("Forgan Smith".to_string(), load_texture("media/images/FORGANSMITH.png").await.unwrap());
+    // textures.insert("Goddard Building".to_string(), load_texture("media/images/FORGANSMITH.png").await.unwrap());
+    // textures.insert("Parnell Building".to_string(), load_texture("media/images/parnell.png").await.unwrap());
+    // textures.insert("Richards Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // textures.insert("Steele Building".to_string(), load_texture("media/images/STEELEBUILDING.png").await.unwrap());
+    // textures.insert("EZ Mart".to_string(), load_texture("media/images/ezmart.png").await.unwrap());
+    // textures.insert("Central Library".to_string(), load_texture("media/images/CENTRALLIBRARY.png").await.unwrap());
+    // // NOT BEEN ADDED.
+    // textures.insert("Prentice Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // textures.insert("Learning Innovation Building".to_string(), load_texture("media/images/LEARNINGINNOVATION.png").await.unwrap());
+    // textures.insert("John Hines Building".to_string(), load_texture("media/images/JOHNHINES.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("UQ Union and Food Court".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("McElwain Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Chamberlain Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // textures.insert("Art Museum".to_string(), load_texture("media/images/ARTMUSEUM.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Otto Hirschfeld Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Molecular BioScience Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // textures.insert("JD Story Administration Building".to_string(), load_texture("media/images/JDSTORY.png").await.unwrap());
+    // textures.insert("Hartley Teak".to_string(), load_texture("media/images/HARTLEY_TEAK.png").await.unwrap());
+    // textures.insert("Biological Science Library".to_string(), load_texture("media/images/BIO_SCIENCE_LIBRARY.png").await.unwrap());
+    // textures.insert("Brain Institution".to_string(), load_texture("media/images/BRAININSTITUTE.png").await.unwrap());
+    // textures.insert("Center for Water and Environmental Biotechnology".to_string(), load_texture("media/images/WATERANDENVIRO.png").await.unwrap());
+    // textures.insert("Chemistry Building".to_string(), load_texture("media/images/CHEM.png").await.unwrap());
+    // textures.insert("Mansergh Shaw Building".to_string(), load_texture("media/images/MANSERGHSHAW.png").await.unwrap());
+    // textures.insert("Hawken Engineering".to_string(), load_texture("media/images/HAWKEN.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Don Nicklin Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // textures.insert("Bioengineering Institute".to_string(), load_texture("media/images/BIOENG.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Advanced Imaging Centre".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // textures.insert("General Purpose South".to_string(), load_texture("media/images/GPSOUTH.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("General Purpose North".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("UQ Business School".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED 
+    // textures.insert("Zelman Cowen Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED 
+    // textures.insert("Building 41".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("23, 38, 31A".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Cumbrae-Stewart Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("O'Connell Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Gordon Greenwood Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("UQ Centre" .to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Building 33".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Schonell Theatre".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Psychology Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Kathleen Lambourne Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Advanced Engineering".to_string(), load_texture("media/images/Richards.png").await.unwrap());
+    // // NOT BEEN ADDED
+    // textures.insert("Andrew N. Liveris Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     for (name, path) in &buildings {
         textures.insert(name.to_string(), load_texture(path).await.unwrap());
     }

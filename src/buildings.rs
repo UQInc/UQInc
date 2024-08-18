@@ -327,14 +327,6 @@ pub static SCHONELLTHEATRE: Building = Building{
     price: 1000000000,
 };
 
-pub static BRIDGE: Building = Building{
-    name: "Eleanor Schonell Bridge",
-    students: 1000000,
-    perk_points: 0,
-    description: "The Eleanor Schonell Bridge, better known as the Green Bridge, is a 390-metre-long cable-stayed bridge which crosses the Brisbane River between Dutton Park and the University of Queensland.",
-    price: 1200000000,
-};
-
 pub static PSYCHOLOGY: Building = Building{
     name: "Psychology Building",
     students: 1500000,
