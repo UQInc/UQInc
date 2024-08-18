@@ -56,14 +56,6 @@ pub static CENTRALLIBRARY: Building = Building{
     price: 25000,
 };
 
-pub static PRENTICE: Building = Building{
-    name: "Prentice Building",
-    students: 2200,
-    perk_points: 0,
-    description: "Building 42: Location of IT, security and facility divisions.",
-    price: 30000,
-};
-
 pub static PRIESTLY: Building = Building{
     name: "Priestly Building",
     students: 2999,
@@ -118,14 +110,6 @@ pub static ARTMUSEUM: Building = Building{
     perk_points: 0,
     description: "Showcase of Queensland's finest artwork.",
     price: 750000,
-};
-
-pub static OTTO: Building = Building{
-    name: "Otto Hirschfeld Building",
-    students: 20000,
-    perk_points: 0,
-    description: "Building 81: School of Biomedical Sciences and Anatomy & Developmental Biology.",
-    price: 1200000,
 };
 
 pub static MOLECULARBIOSCIENCE: Building = Building{
