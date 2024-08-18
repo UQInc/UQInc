@@ -186,6 +186,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
             if let Some(building) = game_state.buildings.get(1) {
                 let building_name = building.name;
                 let building_price = building.price;
+                println!("{} {}",building_name, building_price);
                 if (game_state.score.dollars>= building.price as f64){
             // Remove the building from index 0 and append it directly to owned_buildings
                     let building = game_state.buildings.remove(1);
@@ -296,15 +297,19 @@ pub fn gui(textures: &HashMap<String, Texture2D>, game_state: &mut GameState, fo
                     },
                     4 => {
                         println!("CLICKED 4");
+                        buy_building(game_state,1);
                     },
                     5 => {
                         println!("CLICKED 5");
+                        buy_building(game_state,2);
                     },
                     6 => {
                         println!("CLICKED 6");
+                        buy_building(game_state,3);
                     },
                     7 => {
                         println!("CLICKED 7");
+                        buy_building(game_state,4);
                     },
                     _ => {}
                 }
