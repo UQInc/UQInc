@@ -373,9 +373,6 @@ pub fn draw_event_gui(event: &Event) -> bool {
     let screen_width = screen_width();
     let mut outcome = true;
 
-    let widget_width = 500.;
-    let widget_height = 400.;
-
     let mut heading = "".to_string();
     let mut description = "".to_string();
     let mut duration = "".to_string();
@@ -400,7 +397,7 @@ pub fn draw_event_gui(event: &Event) -> bool {
     } else if (*event).event_type == "AddStudents" {
         if (*event).students_awarded >= 0 {
             heading = "Positive Media Attention".to_string();
-            description = "The ABC written a glowing piece on UQ. You gain 5% to your total students".to_string();
+            description = "The ABC has written a glowing piece on UQ. You gain 5% to your total students".to_string();
             effect = "Students gained: ".to_string();
             effect.push_str(&(*event).students_awarded.to_string());
         } else if (*event).students_awarded >= 0 {
@@ -427,12 +424,28 @@ pub fn draw_event_gui(event: &Event) -> bool {
         }
     }
 
+    let len = description.len();
+    let widget_width = 500.;
+    let widget_height = 400.;
+
+    let pixels_per_char = 7.5;
+    let num_rows = ((len as f64 * pixels_per_char) / widget_width) as i32 + 1;
+
+    let chars_per_line: i32 = (widget_width / pixels_per_char) as i32;
+
+
     root_ui().window(2, vec2((screen_width / 2.) - 250., (screen_height / 2.) - 200.), vec2(500., 400.), |ui| {
         ui.label(Vec2::new(10., 10.), &heading);
-        ui.label(Vec2::new(10., 30.), &description);
-        ui.label(Vec2::new(10., 50.), &effect);
-        ui.label(Vec2::new(10., 70.), &duration);
-        if ui.button(Vec2::new(200., 300.), "Close") {
+
+        let mut shift = 20.;
+        for n in 0..num_rows {
+            ui.label(Vec2::new(10., 10. + shift), &description[(n * chars_per_line) as usize..min(((n + 1) * (chars_per_line)) as usize, len)]);
+            shift += 20.;
+        }
+        
+        ui.label(Vec2::new(10., 10. + shift), &effect);
+        ui.label(Vec2::new(10., 30. + shift), &duration);
+        if ui.button(Vec2::new(225., 300.), "Close") {
             outcome = false;
         }
     });
