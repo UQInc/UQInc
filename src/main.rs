@@ -42,12 +42,12 @@ struct Event {
 
 struct GameState {
     score: Score,
-    buildings: Vec<Building>, // Active/purchased buildings
+    buildings: Vec<&'static Building>, // Active/purchased buildings
     events: Vec<Event>,       // Active events
     start_time: Instant,      // When the game was launched
     stats: Statistics,
     menu_type: String,        // Gameplay stats
-    owned_buildings: Vec<Building>,
+    owned_buildings: Vec<&'static Building>,
 }
 
 struct Statistics {
@@ -175,7 +175,6 @@ pub async fn main() {
     buildings.push(&UQCENTRE);
     buildings.push(&BUILDING33);
     buildings.push(&SCHONELLTHEATRE);
-    buildings.push(&BRIDGE);
     buildings.push(&PSYCHOLOGY);
     buildings.push(&KATHLEENLAMBOURNE);
     buildings.push(&LIVERIS);
@@ -183,7 +182,7 @@ pub async fn main() {
 
 
     let mut owned_buildings: Vec<&'static Building> = Vec::new();
-
+    
     // Use these variables for checking click.
 
     // for (key, value) in sounds {
@@ -204,7 +203,7 @@ pub async fn main() {
     .unwrap();
 
     // Initializes GameState struct
-    let mut game_state = start_game();
+    let mut game_state = start_game(buildings, owned_buildings);
     let mut notification_manager = gui::NotificationManager::new();
 
     let textures = load_textures().await;
@@ -362,14 +361,16 @@ fn sound_effects(sound: String, sounds: &HashMap<String, PathBuf>) {
     }
 }
 
-fn start_game() -> GameState {
+fn start_game(unown: Vec<&'static Building>,
+    owned: Vec<&'static Building>) -> GameState {
     let score: Score = Score::init();
-    let buildings: Vec<Building> = Vec::new();
+    let buildings = unown;
+    let owned_buildings: Vec<&Building> = owned;
     let events: Vec<Event> = Vec::new();
     let start_time = Instant::now();
     let stats: Statistics = Statistics::init();
     let menu_type: String = "build".to_string();
-    let owned_buildings: Vec<Building> = Vec::new();
+    
     GameState {
         score,
         buildings,
@@ -493,8 +494,6 @@ async fn load_textures() -> HashMap<String, Texture2D> {
     // textures.insert("Building 33".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
     // textures.insert("Schonell Theatre".to_string(), load_texture("media/images/Richards.png").await.unwrap());
-    // // NOT BEEN ADDED
-    // textures.insert("Eleanor Schonell Bridge".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
     // textures.insert("Psychology Building".to_string(), load_texture("media/images/Richards.png").await.unwrap());
     // // NOT BEEN ADDED
