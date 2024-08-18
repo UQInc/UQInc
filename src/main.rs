@@ -3,6 +3,7 @@ use gui::{draw_event_gui, draw_event_timer};
 use macroquad;
 mod gui;
 mod music;
+mod perks;
 mod buildings;
 use macroquad::prelude::*;
 use music::{music, sound_effect};
@@ -494,7 +495,7 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("Hartley Teak", "media/images/HARTLEY_TEAK.png"),
         ("Biological Library", "media/images/BIO_SCIENCE_LIBRARY.png"),
         ("Brain Institution", "media/images/BRAININSTITUTE.png"),
-        ("Environmental Biotechnology", "media/images/WATERANDENVIRO.png"),
+        ("Env Biotechnology", "media/images/WATERANDENVIRO.png"),
         ("Chemistry Building", "media/images/CHEM.png"),
         ("M. Shaw Building", "media/images/MANSERGHSHAW.png"),
         ("Hawken Engineering", "media/images/HAWKEN.png"),
@@ -502,10 +503,10 @@ async fn load_textures() -> HashMap<String, Texture2D> {
         ("D. Nicklin Building", "media/images/DONNICKLIN.png"),
         ("Bioeng Institute", "media/images/BIOENG.png"),
         ("Imaging Centre", "media/images/IMAGINGCENTRE.png"),
-        ("General Purpose South", "media/images/GPSOUTH.png"),
-        ("General Purpose North", "media/images/GPNORTH.png"),
+        ("GP South", "media/images/GPSOUTH.png"),
+        ("GP North", "media/images/GPNORTH.png"),
         ("UQ Business School", "media/images/UQBUSINESS.png"),
-        ("Zelman Cowen Building", "media/images/ZELMANCOWEN.png"),
+        ("Z. Cowen Building", "media/images/ZELMANCOWEN.png"),
         ("Building 41", "media/images/BUILDING41.png"),
         ("23, 38, 31A", "media/images/FUNNYNUMBER.png"),
         ("Cumbrae-Stewart", "media/images/CUMBRAESTEWART.png"),
