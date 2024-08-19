@@ -21,3 +21,7 @@ Made using the macroquad library.
 Images were self-made.
 Audio: royality free, with neccesary licenses in the ./media/license folder.
 Font: NewAmsterdam, referenced in ./media/license
+
+
+<img width="1512" alt="Screenshot 2024-08-19 at 8 30 16 PM" src="https://github.com/user-attachments/assets/b303e165-8429-4f51-894b-8c503239c046">
+
