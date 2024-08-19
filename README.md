@@ -13,7 +13,6 @@ number of students per click and the amount of money you get per student.
 
 # AI Usage
 We used AI to aid in the creation of our project, ChatGPT and Co-pilot.
-Refer to AI files in the same directory as README.md, labeled: "{name}AI.txt".
 
 # GUI
 Made using the macroquad library. 
