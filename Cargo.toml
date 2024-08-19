@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 macroquad = "0.4.12"
 rodio = "0.19"
+rust-embed = "8.5.0"

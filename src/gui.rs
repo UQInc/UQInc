@@ -209,7 +209,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.perk_points += 1;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -231,7 +231,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.perk_points += 1;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -252,7 +252,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.perk_points += 1;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -273,7 +273,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.perk_points += 1;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -295,7 +295,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.perk_points += 1;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -321,7 +321,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.dps *= perk.dps_modifier;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -343,7 +343,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.dps *= perk.dps_modifier;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -365,7 +365,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.dps *= perk.dps_modifier;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -387,7 +387,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.dps *= perk.dps_modifier;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
@@ -409,7 +409,7 @@ fn buy_building(game_state: &mut GameState, index: i32){
                     game_state.score.dps *= perk.dps_modifier;
                     if let Some(path) = sounds.get("cash").cloned() {
                         std::thread::spawn(move || {
-                            music::sound_effect(path, 2);
+                            music::sound_effect_from_bytes(path, 2);
                         });
                     }
                 }
