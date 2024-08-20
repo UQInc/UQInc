@@ -1,10 +1,23 @@
 # UQInc
-An idle clicker game where you can live your dream of building the University of Queensland. Brought to you in Rust.
+An idle clicker game where you can live your dream of building the University of Queensland. Brought to you in Rust. 
+
+Written in <48 Hours for the UQCS 2024 Hackathon, by a team who had never developed collaboratively or writtten in Rust.
+
+<img width="1512" alt="Screenshot 2024-08-19 at 8 30 16 PM" src="https://github.com/user-attachments/assets/b303e165-8429-4f51-894b-8c503239c046">
 
 # How to Run
+### From Source
 UQInc requires rust and cargo in order to run. 
 To start, in the terminal run:
-    cargo run
+```
+git clone https://github.com/UQInc/UQInc.git
+cd UQInc
+cargo run
+```
+### From Pre-Built Executables
+Pick the executable for your platform [here](https://github.com/UQInc/UQInc/releases/)!
+
+
 
 From there the game will open and you can begin clicking and buying upgrades to play.
 Upon completion the buildings menu on the right hand side will be empty and the map will be complete.
@@ -21,7 +34,3 @@ Made using the macroquad library.
 Images were self-made.
 Audio: royality free, with neccesary licenses in the ./media/license folder.
 Font: NewAmsterdam, referenced in ./media/license
-
-
-<img width="1512" alt="Screenshot 2024-08-19 at 8 30 16 PM" src="https://github.com/user-attachments/assets/b303e165-8429-4f51-894b-8c503239c046">
-
