@@ -1,4 +1,7 @@
 # UQInc
+[![Github All Releases](https://img.shields.io/github/downloads/UQInc/UQInc/total.svg)]()
+[![Github All Releases](https://img.shields.io/badge/version%201.1-eb6434)]()
+
 An idle clicker game where you can live your dream of building the University of Queensland. Brought to you in Rust. 
 
 Written in <48 Hours for the UQCS 2024 Hackathon, by a team who had never developed collaboratively or writtten in Rust.
